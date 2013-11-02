@@ -1,0 +1,21 @@
+[
+{
+  "modid": "EFM",
+  "name": "Energy From Matter",
+  "description": "Use EMC for other things than transmutation!",
+  "version": "@VERSION@",
+  "url": "",
+  "updateUrl": "",
+  "authorList": [
+    "RedmenNL"
+  ],
+  "credits": "By RedmenNL, using Pahimars EE3.",
+  "logoFile": "",
+  "screenshots": [
+  ],
+  "parent":"",
+  "dependencies": [
+	"EE3"
+  ]
+}
+]
