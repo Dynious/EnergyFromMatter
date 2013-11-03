@@ -115,11 +115,11 @@ public class TileEmcCapacitor extends TileEntity implements IInventory
             ticksSinceUpdate++;
             if (wantUpdate && ticksSinceUpdate >= 10)
             {
-                for (EntityPlayer player: playersUsingInv)
+                for (EntityPlayer player : playersUsingInv)
                 {
                     PacketDispatcher.sendPacketToPlayer(PacketTypeHandler
-                            .populatePacket(new PacketEmcValue(storedEmc, xCoord,
-                                    yCoord, zCoord)), (Player) player);
+                            .populatePacket(new PacketEmcValue(storedEmc,
+                                    xCoord, yCoord, zCoord)), (Player) player);
                 }
                 wantUpdate = false;
                 ticksSinceUpdate = 0;

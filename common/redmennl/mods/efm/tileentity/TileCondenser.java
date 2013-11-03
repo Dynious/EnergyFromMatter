@@ -47,7 +47,10 @@ public class TileCondenser extends TileEmc implements IInventory,
                 if (getStackInSlot(0) != null
                         && EmcRegistry.hasEmcValue(getStackInSlot(0))
                         && EmcRegistry.getEmcValue(getStackInSlot(0))
-                                .getValue() != 0F)
+                                .getValue() != 0F
+                        // TODO delete this if Pahimar added it to list
+                        && !getStackInSlot(0).getUnlocalizedName().contains(
+                                "ore"))
                 {
                     if (getEmcCapacitor().hasEmc(
                             EmcRegistry.getEmcValue(getStackInSlot(0))))
