@@ -2,18 +2,24 @@ package redmennl.mods.efm.tileentity;
 
 import ic2.api.energy.tile.IEnergyEmitter;
 import ic2.api.energy.tile.IEnergySink;
-
-import com.pahimar.ee3.core.helper.LogHelper;
-import com.pahimar.ee3.emc.EmcType;
-import com.pahimar.ee3.emc.EmcValue;
-
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
+import redmennl.mods.efm.EnergyFromMatter;
 import buildcraft.api.power.IPowerEmitter;
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler.PowerReceiver;
 import buildcraft.api.power.PowerHandler.Type;
 
+import com.pahimar.ee3.emc.EmcType;
+import com.pahimar.ee3.emc.EmcValue;
+
+import cpw.mods.fml.common.Optional.Interface;
+import cpw.mods.fml.common.Optional.InterfaceList;
+import cpw.mods.fml.common.Optional.Method;
+
+@InterfaceList(value = {
+        @Interface(iface = "buildcraft.api.power.IPowerEmitter", modid = "BuildCraft|Energy"),
+        @Interface(iface = "ic2.api.energy.tile.IEnergyEmitter", modid = "IC2") })
 public class TilePowerLink extends TileEmc implements IPowerEmitter,
         IEnergyEmitter
 {
@@ -39,7 +45,8 @@ public class TilePowerLink extends TileEmc implements IPowerEmitter,
                 TileEntity tile = tiles[i];
                 if (tile != null)
                 {
-                    if (tile instanceof IPowerReceptor)
+                    if (EnergyFromMatter.hasBC
+                            && tile instanceof IPowerReceptor)
                     {
                         PowerReceiver reciever = ((IPowerReceptor) tile)
                                 .getPowerReceiver(ForgeDirection
@@ -70,10 +77,9 @@ public class TilePowerLink extends TileEmc implements IPowerEmitter,
                                             ForgeDirection.getOrientation(i));
                                 }
                             }
-                            break;
                         }
-                    }
-                    if (tile instanceof IEnergySink)
+                    } else if (EnergyFromMatter.hasIC2
+                            && tile instanceof IEnergySink)
                     {
                         IEnergySink sink = (IEnergySink) tile;
                         if (sink != null
@@ -97,7 +103,6 @@ public class TilePowerLink extends TileEmc implements IPowerEmitter,
                             {
                                 usedEU = sink.getMaxSafeInput();
                             }
-                            LogHelper.debug(usedEU);
                             if (usedEU != 0.0F)
                             {
                                 if (getEmcCapacitor().useEmc(
@@ -110,7 +115,6 @@ public class TilePowerLink extends TileEmc implements IPowerEmitter,
                                             usedEU);
                                 }
                             }
-                            break;
                         }
                     }
                 }
@@ -161,12 +165,14 @@ public class TilePowerLink extends TileEmc implements IPowerEmitter,
         }
     }
     
+    @Method(modid = "BuildCraft|Energy")
     @Override
     public boolean canEmitPowerFrom(ForgeDirection side)
     {
         return true;
     }
     
+    @Method(modid = "IC2")
     @Override
     public boolean emitsEnergyTo(TileEntity tile, ForgeDirection direction)
     {

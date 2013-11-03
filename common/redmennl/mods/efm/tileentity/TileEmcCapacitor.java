@@ -1,5 +1,13 @@
 package redmennl.mods.efm.tileentity;
 
+import java.util.ArrayList;
+
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
 import redmennl.mods.efm.network.PacketTypeHandler;
 import redmennl.mods.efm.network.packet.PacketEmcValue;
 
@@ -8,12 +16,7 @@ import com.pahimar.ee3.emc.EmcType;
 import com.pahimar.ee3.emc.EmcValue;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
+import cpw.mods.fml.common.network.Player;
 
 public class TileEmcCapacitor extends TileEntity implements IInventory
 {
@@ -29,6 +32,12 @@ public class TileEmcCapacitor extends TileEntity implements IInventory
      */
     public float maxStoredEmc = 81920F;
     
+    private ArrayList<EntityPlayer> playersUsingInv;
+    
+    private int ticksSinceUpdate;
+    
+    private boolean wantUpdate = false;
+    
     private ItemStack[] inventory;
     
     public TileEmcCapacitor()
@@ -36,6 +45,7 @@ public class TileEmcCapacitor extends TileEntity implements IInventory
         super();
         storedEmc = new float[EmcType.values().length];
         inventory = new ItemStack[INVENTORY_SIZE];
+        playersUsingInv = new ArrayList<EntityPlayer>();
     }
     
     public boolean addEmc(EmcValue emcValue)
@@ -51,10 +61,7 @@ public class TileEmcCapacitor extends TileEntity implements IInventory
         {
             storedEmc[i] += emcValue.components[i];
         }
-        PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 15D,
-                worldObj.provider.dimensionId, PacketTypeHandler
-                        .populatePacket(new PacketEmcValue(storedEmc, xCoord,
-                                yCoord, zCoord)));
+        wantUpdate = true;
         return true;
     }
     
@@ -68,10 +75,7 @@ public class TileEmcCapacitor extends TileEntity implements IInventory
         {
             storedEmc[i] -= emcValue.components[i];
         }
-        PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 15D,
-                worldObj.provider.dimensionId, PacketTypeHandler
-                        .populatePacket(new PacketEmcValue(storedEmc, xCoord,
-                                yCoord, zCoord)));
+        wantUpdate = true;
         return true;
     }
     
@@ -90,6 +94,37 @@ public class TileEmcCapacitor extends TileEntity implements IInventory
     public float getStoredEmc(EmcType type)
     {
         return storedEmc[type.ordinal()];
+    }
+    
+    public void addPlayerUsingInv(EntityPlayer player)
+    {
+        playersUsingInv.add(player);
+    }
+    
+    public void removePlayerUsingInv(EntityPlayer player)
+    {
+        playersUsingInv.remove(player);
+    }
+    
+    @Override
+    public void updateEntity()
+    {
+        super.updateEntity();
+        if (!worldObj.isRemote)
+        {
+            ticksSinceUpdate++;
+            if (wantUpdate && ticksSinceUpdate >= 10)
+            {
+                for (EntityPlayer player: playersUsingInv)
+                {
+                    PacketDispatcher.sendPacketToPlayer(PacketTypeHandler
+                            .populatePacket(new PacketEmcValue(storedEmc, xCoord,
+                                    yCoord, zCoord)), (Player) player);
+                }
+                wantUpdate = false;
+                ticksSinceUpdate = 0;
+            }
+        }
     }
     
     @Override

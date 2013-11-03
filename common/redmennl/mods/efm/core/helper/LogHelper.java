@@ -3,8 +3,7 @@ package redmennl.mods.efm.core.helper;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.pahimar.ee3.lib.Reference;
-
+import redmennl.mods.efm.lib.Reference;
 import cpw.mods.fml.common.FMLLog;
 
 public class LogHelper

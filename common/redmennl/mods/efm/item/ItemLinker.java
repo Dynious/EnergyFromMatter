@@ -30,7 +30,7 @@ public class ItemLinker extends ItemEFM
             int x = stack.getTagCompound().getInteger("tileX");
             int y = stack.getTagCompound().getInteger("tileY");
             int z = stack.getTagCompound().getInteger("tileZ");
-            list.add("Storage position: " + x + ", " + y + ", " + z);
+            list.add("EMC Capacitor position: " + x + ", " + y + ", " + z);
         }
     }
     

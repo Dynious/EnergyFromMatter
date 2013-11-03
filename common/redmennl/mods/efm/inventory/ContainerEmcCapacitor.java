@@ -10,7 +10,7 @@ import redmennl.mods.efm.tileentity.TileEmcCapacitor;
 
 public class ContainerEmcCapacitor extends Container
 {
-    TileEmcCapacitor tile;
+    public TileEmcCapacitor tile;
     private final int PLAYER_INVENTORY_ROWS = 3;
     private final int PLAYER_INVENTORY_COLUMNS = 9;
     
@@ -38,6 +38,14 @@ public class ContainerEmcCapacitor extends Container
             this.addSlotToContainer(new Slot(inventoryPlayer,
                     actionBarSlotIndex, 8 + actionBarSlotIndex * 18, 142));
         }
+        tile.addPlayerUsingInv(inventoryPlayer.player);
+    }
+    
+    @Override
+    public void onContainerClosed(EntityPlayer par1EntityPlayer)
+    {
+        tile.removePlayerUsingInv(par1EntityPlayer);
+        super.onContainerClosed(par1EntityPlayer);
     }
     
     @Override

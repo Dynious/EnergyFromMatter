@@ -49,7 +49,8 @@ public class GuiEnergyCondenser extends GuiContainer
         int yStart = (height - ySize) / 2;
         this.drawTexturedModalRect(xStart, yStart, 0, 0, xSize, ySize);
         this.drawTexturedModalRect(xStart + 40, yStart + 5, 0, 195,
-                (int) (tileEnergyCondenser.storedEMC / TileEnergyCondenser.maxEMC * 123), 18);
+                (int) (tileEnergyCondenser.storedEMC
+                        / TileEnergyCondenser.maxEMC * 123), 18);
         this.drawTexturedModalRect(xStart + 40, yStart + 5, 0, 213, 123, 20);
     }
 }

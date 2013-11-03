@@ -11,6 +11,7 @@ import redmennl.mods.efm.item.ModItems;
 import redmennl.mods.efm.lib.Reference;
 import redmennl.mods.efm.lib.Strings;
 import redmennl.mods.efm.network.PacketHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -32,6 +33,9 @@ public class EnergyFromMatter
     public static CreativeTabs tabEFM = new CreativeTabEFM(
             CreativeTabs.getNextID(), Reference.MOD_ID);
     
+    public static boolean hasBC;
+    public static boolean hasIC2;
+    
     @EventHandler
     public void invalidFingerprint(FMLFingerprintViolationEvent event)
     {
@@ -49,6 +53,10 @@ public class EnergyFromMatter
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
+        // Checks if IC2 and Buildcraft are present
+        hasBC = Loader.isModLoaded("BuildCraft|Energy");
+        hasIC2 = Loader.isModLoaded("IC2");
+        
         // Initialize the log helper
         LogHelper.init();
         

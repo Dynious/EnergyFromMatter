@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import redmennl.mods.efm.item.ModItems;
@@ -46,16 +47,35 @@ public abstract class BlockEmc extends BlockContainer
                                 stack.getTagCompound().getInteger("tileX"),
                                 stack.getTagCompound().getInteger("tileY"),
                                 stack.getTagCompound().getInteger("tileZ"));
+                        player.sendChatToPlayer(new ChatMessageComponent()
+                                .addText("This "
+                                        + tile.getBlockType()
+                                                .getLocalizedName()
+                                        + " is now linked with the EMC Capacitor at: "
+                                        + stack.getTagCompound().getInteger(
+                                                "tileX")
+                                        + ", "
+                                        + stack.getTagCompound().getInteger(
+                                                "tileY")
+                                        + ", "
+                                        + stack.getTagCompound().getInteger(
+                                                "tileZ")));
                         return true;
                     }
                 }
-                openGui(player, world, x, y, z);
+                if (openGui(player, world, x, y, z))
+                {
+                    return true;
+                } else
+                {
+                    return false;
+                }
             }
             return true;
         }
     }
     
-    public abstract void openGui(EntityPlayer player, World world, int x,
+    public abstract boolean openGui(EntityPlayer player, World world, int x,
             int y, int z);
     
     @Override
@@ -95,5 +115,11 @@ public abstract class BlockEmc extends BlockContainer
             default:
                 return icons[1];
         }
+    }
+    
+    @Override
+    public int damageDropped(int par1)
+    {
+        return super.damageDropped(par1);
     }
 }

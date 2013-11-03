@@ -2,6 +2,7 @@ package redmennl.mods.efm.core.proxy;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import redmennl.mods.efm.EnergyFromMatter;
 import redmennl.mods.efm.client.gui.inventory.GuiCondenser;
 import redmennl.mods.efm.client.gui.inventory.GuiCropRipener;
 import redmennl.mods.efm.client.gui.inventory.GuiEmcCapacitor;
@@ -36,8 +37,12 @@ public class CommonProxy implements IGuiHandler
                 "matterDistillery");
         GameRegistry.registerTileEntity(TileEmcCapacitor.class, "emcCapacitor");
         GameRegistry.registerTileEntity(TileCropRipener.class, "cropRipener");
-        GameRegistry.registerTileEntity(TilePowerLink.class, "powerLink");
         GameRegistry.registerTileEntity(TileCondenser.class, "condenser");
+        
+        if (EnergyFromMatter.hasBC || EnergyFromMatter.hasIC2)
+        {
+            GameRegistry.registerTileEntity(TilePowerLink.class, "powerLink");
+        }
     }
     
     public void initEntities()

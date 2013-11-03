@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.world.World;
 import redmennl.mods.efm.EnergyFromMatter;
 import redmennl.mods.efm.item.ModItems;
@@ -58,6 +59,9 @@ public class BlockEmcCapacitor extends BlockContainer
                         stack.getTagCompound().setInteger("tileX", x);
                         stack.getTagCompound().setInteger("tileY", y);
                         stack.getTagCompound().setInteger("tileZ", z);
+                        player.sendChatToPlayer(new ChatMessageComponent()
+                                .addText("Linker set to EMC Capacitor at: " + x
+                                        + ", " + y + ", " + z));
                         return true;
                     }
                 }

@@ -249,8 +249,8 @@ public class TileEnergyCondenser extends TileEntity implements IInventory
     {
         PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 15D,
                 worldObj.provider.dimensionId, PacketTypeHandler
-                        .populatePacket(new PacketEnergyCondenser(storedEMC, xCoord,
-                                yCoord, zCoord)));
+                        .populatePacket(new PacketEnergyCondenser(storedEMC,
+                                xCoord, yCoord, zCoord)));
         updateTime = 10;
         shouldUpdate = false;
     }
@@ -341,7 +341,7 @@ public class TileEnergyCondenser extends TileEntity implements IInventory
     {
         return true;
     }
-
+    
     @Override
     public boolean isUseableByPlayer(EntityPlayer entityplayer)
     {
