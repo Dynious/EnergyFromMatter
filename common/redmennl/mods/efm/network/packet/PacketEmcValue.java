@@ -10,6 +10,7 @@ import redmennl.mods.efm.network.PacketTypeHandler;
 import redmennl.mods.efm.tileentity.TileEmcCapacitor;
 
 import com.pahimar.ee3.emc.EmcType;
+import com.pahimar.ee3.emc.EmcValue;
 
 import cpw.mods.fml.common.network.Player;
 
@@ -65,7 +66,7 @@ public class PacketEmcValue extends PacketEFM
                 .getBlockTileEntity(x, y, z);
         if (tile != null)
         {
-            tile.storedEmc = emcValues;
+            tile.setEmc(new EmcValue(emcValues));
         }
     }
 }

@@ -28,51 +28,52 @@ public abstract class BlockEmc extends BlockContainer
     public boolean onBlockActivated(World world, int x, int y, int z,
             EntityPlayer player, int par6, float par7, float par8, float par9)
     {
-        if (world.isRemote)
-            return true;
-        else
+        TileEmc tile = (TileEmc) world.getBlockTileEntity(x, y, z);
+        if (tile != null)
         {
-            TileEmc tile = (TileEmc) world.getBlockTileEntity(x, y, z);
-            if (tile != null)
+            ItemStack stack = player.getCurrentEquippedItem();
+            if (stack != null && stack.getItem() == ModItems.linker
+                    && stack.hasTagCompound())
             {
-                ItemStack stack = player.getCurrentEquippedItem();
-                if (stack != null && stack.getItem() == ModItems.linker
-                        && stack.hasTagCompound())
+                int tileX = stack.getTagCompound().getInteger("tileX");
+                int tileY = stack.getTagCompound().getInteger("tileY");
+                int tileZ = stack.getTagCompound().getInteger("tileZ");
+                if (!(tileX == tile.emcCapX && tileY == tile.emcCapY && tileZ == tile.emcCapZ))
                 {
-                    if (!(stack.getTagCompound().getInteger("tileX") == tile.emcCapX
-                            && stack.getTagCompound().getInteger("tileY") == tile.emcCapY && stack
-                            .getTagCompound().getInteger("tileZ") == tile.emcCapZ))
+                    if (getDistanceSq(x, y, z, tileX, tileY, tileZ) <= tile.maxRange
+                            * tile.maxRange)
                     {
-                        tile.setEmcCapacitor(
-                                stack.getTagCompound().getInteger("tileX"),
-                                stack.getTagCompound().getInteger("tileY"),
-                                stack.getTagCompound().getInteger("tileZ"));
+                        tile.setEmcCapacitor(tileX, tileY, tileZ);
+                        if (world.isRemote)
+                            player.sendChatToPlayer(new ChatMessageComponent()
+                                    .addText("This "
+                                            + tile.getBlockType()
+                                                    .getLocalizedName()
+                                            + " is now linked with the EMC Capacitor at: "
+                                            + tileX + ", " + tileY + ", "
+                                            + tileZ));
+                    } else if (world.isRemote)
+                    {
                         player.sendChatToPlayer(new ChatMessageComponent()
-                                .addText("This "
-                                        + tile.getBlockType()
-                                                .getLocalizedName()
-                                        + " is now linked with the EMC Capacitor at: "
-                                        + stack.getTagCompound().getInteger(
-                                                "tileX")
-                                        + ", "
-                                        + stack.getTagCompound().getInteger(
-                                                "tileY")
-                                        + ", "
-                                        + stack.getTagCompound().getInteger(
-                                                "tileZ")));
-                        return true;
+                                .addText("The EMC Capcitor is too far away!"));
                     }
-                }
-                if (openGui(player, world, x, y, z))
-                {
                     return true;
-                } else
-                {
-                    return false;
                 }
             }
-            return true;
+            if (openGui(player, world, x, y, z))
+            {
+                return true;
+            }
         }
+        return false;
+    }
+    
+    public double getDistanceSq(int x, int y, int z, int x2, int y2, int z2)
+    {
+        double d3 = x - x2;
+        double d4 = y - y2;
+        double d5 = z - z2;
+        return d3 * d3 + d4 * d4 + d5 * d5;
     }
     
     public abstract boolean openGui(EntityPlayer player, World world, int x,

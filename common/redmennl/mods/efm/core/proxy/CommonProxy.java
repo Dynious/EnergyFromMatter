@@ -1,6 +1,7 @@
 package redmennl.mods.efm.core.proxy;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import redmennl.mods.efm.EnergyFromMatter;
 import redmennl.mods.efm.client.gui.inventory.GuiCondenser;
@@ -8,6 +9,7 @@ import redmennl.mods.efm.client.gui.inventory.GuiCropRipener;
 import redmennl.mods.efm.client.gui.inventory.GuiEmcCapacitor;
 import redmennl.mods.efm.client.gui.inventory.GuiEnergyCondenser;
 import redmennl.mods.efm.client.gui.inventory.GuiMatterDistillery;
+import redmennl.mods.efm.client.gui.inventory.GuiPortableHouse;
 import redmennl.mods.efm.inventory.ContainerCondenser;
 import redmennl.mods.efm.inventory.ContainerCropRipener;
 import redmennl.mods.efm.inventory.ContainerEmcCapacitor;
@@ -18,7 +20,10 @@ import redmennl.mods.efm.tileentity.TileCondenser;
 import redmennl.mods.efm.tileentity.TileCropRipener;
 import redmennl.mods.efm.tileentity.TileEmcCapacitor;
 import redmennl.mods.efm.tileentity.TileEnergyCondenser;
+import redmennl.mods.efm.tileentity.TileFluidDistillery;
 import redmennl.mods.efm.tileentity.TileMatterDistillery;
+import redmennl.mods.efm.tileentity.TilePortableHouse;
+import redmennl.mods.efm.tileentity.TilePortableHouseDeployer;
 import redmennl.mods.efm.tileentity.TilePowerLink;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -38,6 +43,12 @@ public class CommonProxy implements IGuiHandler
         GameRegistry.registerTileEntity(TileEmcCapacitor.class, "emcCapacitor");
         GameRegistry.registerTileEntity(TileCropRipener.class, "cropRipener");
         GameRegistry.registerTileEntity(TileCondenser.class, "condenser");
+        GameRegistry.registerTileEntity(TilePortableHouse.class,
+                "portableHouser");
+        GameRegistry.registerTileEntity(TilePortableHouseDeployer.class,
+                "portableHouserDeployer");
+        GameRegistry.registerTileEntity(TileFluidDistillery.class,
+                "fluidDistillery");
         
         if (EnergyFromMatter.hasBC || EnergyFromMatter.hasIC2)
         {
@@ -115,6 +126,10 @@ public class CommonProxy implements IGuiHandler
             TileCondenser tile = (TileCondenser) world.getBlockTileEntity(x, y,
                     z);
             return new GuiCondenser(player.inventory, tile);
+        } else if (ID == GuiIds.PORTABLE_HOUSE)
+        {
+            TileEntity tile = world.getBlockTileEntity(x, y, z);
+            return new GuiPortableHouse(tile);
         }
         return null;
     }

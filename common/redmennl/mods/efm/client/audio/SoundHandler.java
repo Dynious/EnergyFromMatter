@@ -1,6 +1,7 @@
 package redmennl.mods.efm.client.audio;
 
 import redmennl.mods.efm.core.helper.LogHelper;
+import redmennl.mods.efm.lib.Resources;
 import redmennl.mods.efm.lib.Sounds;
 import net.minecraftforge.client.event.sound.SoundLoadEvent;
 import net.minecraftforge.event.ForgeSubscribe;
@@ -16,7 +17,7 @@ public class SoundHandler
             // Try to add the custom sound file to the pool of sounds
             try
             {
-                event.manager.addSound(soundFile);
+                event.manager.addSound(Resources.MOD_ID + ":" + soundFile);
             }
             // If we cannot add the custom sound file to the pool, log the
             // exception

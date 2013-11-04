@@ -10,6 +10,14 @@ public class TileEmc extends TileEntity
      */
     public int emcCapX, emcCapY, emcCapZ;
     
+    public int maxRange;
+    
+    public TileEmc()
+    {
+        super();
+        maxRange = 25;
+    }
+    
     /**
      * Sets the EMC Capcitor position where this block drains from/adds to
      * 

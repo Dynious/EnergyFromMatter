@@ -44,7 +44,7 @@ public class TileMatterDistillery extends TileEmc implements IInventory,
             if (workTime < timePerDistillation)
             {
                 workTime++;
-            } else if (workTime >= timePerDistillation)
+            } else
             {
                 EmcValue emcValue = EmcRegistry.getEmcValue(getStackInSlot(0),
                         false);

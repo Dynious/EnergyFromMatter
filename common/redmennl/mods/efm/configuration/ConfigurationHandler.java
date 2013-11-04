@@ -36,8 +36,24 @@ public class ConfigurationHandler
             BlockIds.CONDENSER = configuration.getBlock("condenser",
                     BlockIds.CONDENSER_DEFAULT).getInt(
                     BlockIds.CONDENSER_DEFAULT);
-            ItemIds.LINKER = configuration.getBlock("linker",
+            BlockIds.PORTABLE_HOUSE = configuration.getBlock("portableHouse",
+                    BlockIds.PORTABLE_HOUSE_DEFAULT).getInt(
+                    BlockIds.PORTABLE_HOUSE_DEFAULT);
+            BlockIds.FLUID_DISTILLERY = configuration.getBlock(
+                    "fluidDistillery", BlockIds.FLUID_DISTILLERY_DEFAULT)
+                    .getInt(BlockIds.FLUID_DISTILLERY_DEFAULT);
+            
+            ItemIds.LINKER = configuration.getItem("linker",
                     ItemIds.LINKER_DEFAULT).getInt(ItemIds.LINKER_DEFAULT);
+            ItemIds.PORTABLE_EMC_CAPACITOR = configuration.getItem(
+                    "portableEmcCapacitor",
+                    ItemIds.PORTABLE_EMC_CAPACITOR_DEFAULT).getInt(
+                    ItemIds.PORTABLE_EMC_CAPACITOR_DEFAULT);
+            ItemIds.GRAVITY_DEFYER = configuration.getItem("gravityDefyer",
+                    ItemIds.GRAVITY_DEFYER_DEFAULT).getInt(
+                    ItemIds.GRAVITY_DEFYER_DEFAULT);
+            ItemIds.HEALER = configuration.getItem("healer",
+                    ItemIds.HEALER_DEFAULT).getInt(ItemIds.HEALER_DEFAULT);
         } catch (Exception e)
         {
             LogHelper.severe(Reference.MOD_NAME

@@ -40,7 +40,7 @@ public class GuiEmcCapacitor extends GuiContainer
                 if (x >= xStart + 9 + (i * 20) && x <= xStart + 28 + (i * 20))
                 {
                     list.add(EmcType.values()[i].toString() + ": "
-                            + Float.toString(tile.storedEmc[i]));
+                            + Float.toString(tile.getEmc().components[i]));
                 }
             }
         }
@@ -58,9 +58,16 @@ public class GuiEmcCapacitor extends GuiContainer
         this.drawTexturedModalRect(xStart, yStart, 0, 0, xSize, ySize);
         for (int i = 0; i < EmcType.values().length; i++)
         {
-            this.drawTexturedModalRect(xStart + 10 + (i * 20), yStart + 77
-                    - (int) (tile.storedEmc[i] / tile.maxStoredEmc * 67), 19,
-                    167, 15, (int) (tile.storedEmc[i] / tile.maxStoredEmc * 67));
+            this.drawTexturedModalRect(
+                    xStart + 10 + (i * 20),
+                    yStart
+                            + 77
+                            - (int) (tile.getEmc().components[i]
+                                    / tile.getMaxStoredEmc() * 67),
+                    19,
+                    167,
+                    15,
+                    (int) (tile.getEmc().components[i] / tile.getMaxStoredEmc() * 67));
             this.drawTexturedModalRect(xStart + 9 + (i * 20), yStart + 10, 1,
                     166, 19, 67);
         }

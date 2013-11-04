@@ -4,12 +4,11 @@ import com.pahimar.ee3.lib.Reference;
 
 public class Sounds
 {
-    private static final String SOUND_RESOURCE_LOCATION = Reference.MOD_ID
-            .toLowerCase() + ":";
-    
     private static final String SOUND_PREFIX = Reference.MOD_ID.toLowerCase()
             + ":";
     
-    public static String[] soundFiles = { SOUND_RESOURCE_LOCATION
-            + "soundName.ogg" };
+    public static String[] soundFiles = { "saveblocks.ogg" };
+    
+    public static final String SOUND_PORTABLEHOUSE = SOUND_PREFIX
+            + "saveBlocks";
 }

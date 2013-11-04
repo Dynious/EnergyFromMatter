@@ -8,29 +8,31 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import redmennl.mods.efm.emc.IEmcHolder;
+import redmennl.mods.efm.emc.IPortableEmcHolder;
 import redmennl.mods.efm.network.PacketTypeHandler;
 import redmennl.mods.efm.network.packet.PacketEmcValue;
 
-import com.pahimar.ee3.emc.EmcRegistry;
 import com.pahimar.ee3.emc.EmcType;
 import com.pahimar.ee3.emc.EmcValue;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
-public class TileEmcCapacitor extends TileEntity implements IInventory
+public class TileEmcCapacitor extends TileEntity implements IInventory,
+        IEmcHolder
 {
     public static final int INVENTORY_SIZE = 2;
     
     /**
-     * Stored EMC
+     * The EmcValue currently stored in the Capacitor
      */
-    public float[] storedEmc;
+    private EmcValue storedEmc;
     
     /**
      * Max possible storage per EmcType
      */
-    public float maxStoredEmc = 81920F;
+    private float maxStoredEmc = 81920F;
     
     private ArrayList<EntityPlayer> playersUsingInv;
     
@@ -43,28 +45,36 @@ public class TileEmcCapacitor extends TileEntity implements IInventory
     public TileEmcCapacitor()
     {
         super();
-        storedEmc = new float[EmcType.values().length];
         inventory = new ItemStack[INVENTORY_SIZE];
         playersUsingInv = new ArrayList<EntityPlayer>();
+        storedEmc = new EmcValue();
     }
     
+    @Override
     public boolean addEmc(EmcValue emcValue)
     {
         for (int i = 0; i < EmcType.values().length; i++)
         {
-            if (storedEmc[i] + emcValue.components[i] > maxStoredEmc)
+            if (storedEmc.components[i] + emcValue.components[i] > maxStoredEmc)
             {
                 return false;
             }
         }
         for (int i = 0; i < EmcType.values().length; i++)
         {
-            storedEmc[i] += emcValue.components[i];
+            storedEmc.components[i] += emcValue.components[i];
         }
         wantUpdate = true;
         return true;
     }
     
+    @Override
+    public float neededEmc(EmcType type)
+    {
+        return maxStoredEmc - storedEmc.components[type.ordinal()];
+    }
+    
+    @Override
     public boolean useEmc(EmcValue emcValue)
     {
         if (!hasEmc(emcValue))
@@ -73,17 +83,18 @@ public class TileEmcCapacitor extends TileEntity implements IInventory
         }
         for (int i = 0; i < EmcType.values().length; i++)
         {
-            storedEmc[i] -= emcValue.components[i];
+            storedEmc.components[i] -= emcValue.components[i];
         }
         wantUpdate = true;
         return true;
     }
     
+    @Override
     public boolean hasEmc(EmcValue emcValue)
     {
         for (int i = 0; i < EmcType.values().length; i++)
         {
-            if (storedEmc[i] - emcValue.components[i] < 0)
+            if (storedEmc.components[i] - emcValue.components[i] < 0)
             {
                 return false;
             }
@@ -91,14 +102,41 @@ public class TileEmcCapacitor extends TileEntity implements IInventory
         return true;
     }
     
+    @Override
+    public boolean storesType(EmcType emcType)
+    {
+        return true;
+    }
+    
+    @Override
+    public EmcValue getEmc()
+    {
+        return storedEmc;
+    }
+    
+    @Override
+    public void setEmc(EmcValue emcValue)
+    {
+        storedEmc = emcValue;
+    }
+    
+    @Override
+    public float getMaxStoredEmc()
+    {
+        return maxStoredEmc;
+    }
+    
     public float getStoredEmc(EmcType type)
     {
-        return storedEmc[type.ordinal()];
+        return storedEmc.components[type.ordinal()];
     }
     
     public void addPlayerUsingInv(EntityPlayer player)
     {
         playersUsingInv.add(player);
+        PacketDispatcher.sendPacketToPlayer(PacketTypeHandler
+                .populatePacket(new PacketEmcValue(storedEmc.components,
+                        xCoord, yCoord, zCoord)), (Player) player);
     }
     
     public void removePlayerUsingInv(EntityPlayer player)
@@ -118,11 +156,70 @@ public class TileEmcCapacitor extends TileEntity implements IInventory
                 for (EntityPlayer player : playersUsingInv)
                 {
                     PacketDispatcher.sendPacketToPlayer(PacketTypeHandler
-                            .populatePacket(new PacketEmcValue(storedEmc,
-                                    xCoord, yCoord, zCoord)), (Player) player);
+                            .populatePacket(new PacketEmcValue(
+                                    storedEmc.components, xCoord, yCoord,
+                                    zCoord)), (Player) player);
                 }
                 wantUpdate = false;
                 ticksSinceUpdate = 0;
+            }
+        }
+        if (getStackInSlot(0) != null
+                && getStackInSlot(0).getItem() instanceof IPortableEmcHolder)
+        {
+            IPortableEmcHolder addingStack = (IPortableEmcHolder) getStackInSlot(
+                    0).getItem();
+            for (EmcType type : EmcType.values())
+            {
+                if (addingStack.storesType(type))
+                {
+                    float addedEmc;
+                    if (addingStack.neededEmc(type, getStackInSlot(0)) > 10.0F)
+                    {
+                        addedEmc = 10.0F;
+                    } else
+                    {
+                        addedEmc = addingStack.neededEmc(type,
+                                getStackInSlot(0));
+                    }
+                    if (addedEmc > getStoredEmc(type))
+                    {
+                        addedEmc = getStoredEmc(type);
+                    }
+                    EmcValue emcAdded = new EmcValue(addedEmc, type);
+                    if (useEmc(emcAdded))
+                    {
+                        addingStack.addEmc(emcAdded, getStackInSlot(0));
+                    }
+                }
+            }
+        }
+        if (getStackInSlot(1) != null
+                && getStackInSlot(1).getItem() instanceof IPortableEmcHolder)
+        {
+            IPortableEmcHolder gettingStack = (IPortableEmcHolder) getStackInSlot(
+                    1).getItem();
+            for (EmcType type : EmcType.values())
+            {
+                float addedEmc;
+                if (neededEmc(type) > 10.0F)
+                {
+                    addedEmc = 10.0F;
+                } else
+                {
+                    addedEmc = neededEmc(type);
+                }
+                if (addedEmc > gettingStack.getStoredEmc(type,
+                        getStackInSlot(1)))
+                {
+                    addedEmc = gettingStack.getStoredEmc(type,
+                            getStackInSlot(1));
+                }
+                EmcValue emcAdded = new EmcValue(addedEmc, type);
+                if (gettingStack.useEmc(emcAdded, getStackInSlot(1)))
+                {
+                    addEmc(emcAdded);
+                }
             }
         }
     }
@@ -213,9 +310,9 @@ public class TileEmcCapacitor extends TileEntity implements IInventory
     }
     
     @Override
-    public boolean isItemValidForSlot(int i, ItemStack itemstack)
+    public boolean isItemValidForSlot(int i, ItemStack stack)
     {
-        return EmcRegistry.hasEmcValue(itemstack) ? true : false;
+        return stack.getItem() instanceof IPortableEmcHolder;
     }
     
     @Override
@@ -243,7 +340,7 @@ public class TileEmcCapacitor extends TileEntity implements IInventory
         }
         for (int i = 0; i < EmcType.values().length; i++)
         {
-            storedEmc[i] = nbtTagCompound.getFloat("EMC" + i);
+            storedEmc.components[i] = nbtTagCompound.getFloat("EMC" + i);
         }
     }
     
@@ -266,7 +363,7 @@ public class TileEmcCapacitor extends TileEntity implements IInventory
         nbtTagCompound.setTag("Items", tagList);
         for (int i = 0; i < EmcType.values().length; i++)
         {
-            nbtTagCompound.setFloat("EMC" + i, storedEmc[i]);
+            nbtTagCompound.setFloat("EMC" + i, storedEmc.components[i]);
         }
     }
 }

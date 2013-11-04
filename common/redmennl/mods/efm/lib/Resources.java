@@ -17,6 +17,11 @@ public class Resources
             MOD_ID, GUI_SHEET_LOCATION + "matterDistillery.png");
     public static final ResourceLocation GUI_EMC_CAPACITOR = new ResourceLocation(
             MOD_ID, GUI_SHEET_LOCATION + "emcCapacitor.png");
+    public static final ResourceLocation GUI_PORTABLEHOUSE = new ResourceLocation(
+            MOD_ID, GUI_SHEET_LOCATION + "portableHouse.png");
+    
     public static final ResourceLocation MODEL_ENERGY_CONDENSER = new ResourceLocation(
             MOD_ID, MODEL_SHEET_LOCATION + "energyCondenser.png");
+    public static final ResourceLocation MODEL_PORTABLEHOUSE = new ResourceLocation(
+            MOD_ID, MODEL_SHEET_LOCATION + "portableHouse.png");
 }
