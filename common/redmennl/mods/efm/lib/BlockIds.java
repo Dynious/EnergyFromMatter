@@ -10,6 +10,7 @@ public class BlockIds
     public static int CONDENSER_DEFAULT = 1534;
     public static int PORTABLE_HOUSE_DEFAULT = 1535;
     public static int FLUID_DISTILLERY_DEFAULT = 1536;
+    public static int FLUID_CONDENSER_DEFAULT = 1537;
     
     public static int ENERGY_CONDENSER;
     public static int MATTER_DISTILLERY;
@@ -19,4 +20,5 @@ public class BlockIds
     public static int CONDENSER;
     public static int PORTABLE_HOUSE;
     public static int FLUID_DISTILLERY;
+    public static int FLUID_CONDENSER;
 }

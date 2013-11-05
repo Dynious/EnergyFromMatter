@@ -105,7 +105,7 @@ public class GuiPortableHouse extends GuiScreen
                             width / 2 - fontRenderer.getStringWidth(hightText)
                                     / 2 - 70, height / 2 - 75, 0xFFFFFF);
             fontRenderer
-                    .drawString("Hight",
+                    .drawString("Height",
                             width / 2 - fontRenderer.getStringWidth(hightText)
                                     / 2 - 40, height / 2 - 75, 0xFFFFFF);
         }

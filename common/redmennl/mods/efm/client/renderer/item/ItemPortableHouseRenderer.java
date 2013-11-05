@@ -115,9 +115,9 @@ public class ItemPortableHouseRenderer implements IItemRenderer
             float blockScale = 0.70F;
             float timeD = (float) (360.0 * (System.currentTimeMillis() & 0x3FFFL) / 0x3FFFL);
             int[] idArr = new int[9 * 9 * 5];
-            int[] metaArr = new int[9 * 9 * 5];
+            byte[] metaArr = new byte[9 * 9 * 5];
             idArr = i.getTagCompound().getIntArray("idArr");
-            metaArr = i.getTagCompound().getIntArray("metaArr");
+            metaArr = i.getTagCompound().getByteArray("metaArr");
             
             GL11.glPushMatrix();
             
@@ -228,8 +228,9 @@ public class ItemPortableHouseRenderer implements IItemRenderer
         }
         lastSystemTime = System.currentTimeMillis() % 2000;
         
-        GL11.glEnable(GL11.GL_BLEND);
         GL11.glPushMatrix();
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
         
         FMLClientHandler.instance().getClient().renderEngine
                 .bindTexture(Resources.MODEL_PORTABLEHOUSE);
@@ -237,9 +238,10 @@ public class ItemPortableHouseRenderer implements IItemRenderer
         GL11.glTranslatef(x + 0.5F, y + 1.5F, z + 0.5F);
         GL11.glScalef(1.0F, -1F, -1F);
         model.renderMiddle();
-        GL11.glPopMatrix();
         
         GL11.glDisable(GL11.GL_BLEND);
+        GL11.glPopMatrix();
+        
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glEnable(GL11.GL_CULL_FACE);
     }

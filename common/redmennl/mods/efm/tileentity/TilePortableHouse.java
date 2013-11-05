@@ -1,12 +1,12 @@
 package redmennl.mods.efm.tileentity;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import redmennl.mods.efm.lib.Resources;
 
 public class TilePortableHouse extends TileEntity
 {
@@ -18,18 +18,17 @@ public class TilePortableHouse extends TileEntity
     int x, y, z;
     
     int[] idArr;
-    int[] metaArr;
+    byte[] metaArr;
     int[] xArr;
     int[] yArr;
     int[] zArr;
-    int[] hasTag;
     int idNum;
     ItemStack stack;
     
     @Override
     public void updateEntity()
     {
-        if (breakBlocks)
+        if (!this.getWorldObj().isRemote && breakBlocks)
         {
             int xTrans = xCoord - (size - 1) / 2 + x;
             int yTrans = yCoord - 1 + y;
@@ -59,9 +58,8 @@ public class TilePortableHouse extends TileEntity
                     {
                         z = 0;
                         saveStackInfo();
-                        
                         EntityItem entityItem = new EntityItem(worldObj,
-                                xCoord, yCoord + 1, zCoord, stack);
+                                xCoord + 0.5, yCoord + 1, zCoord + 0.5, stack);
                         entityItem.motionX = 0;
                         entityItem.motionY = 0;
                         entityItem.motionZ = 0;
@@ -84,14 +82,37 @@ public class TilePortableHouse extends TileEntity
         
         idNum = 0;
         idArr = new int[size * size * height];
-        metaArr = new int[size * size * height];
+        metaArr = new byte[size * size * height];
         xArr = new int[size * size * height];
         yArr = new int[size * size * height];
         zArr = new int[size * size * height];
-        hasTag = new int[size * size * height];
         
-        world.playSoundEffect(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D,
-                Resources.MOD_ID + ":saveblocks", 1.0F, 1.0F);
+        for (byte x = 0; x < size; x++)
+        {
+            int xTrans = xCoord - (size - 1) / 2 + x;
+            
+            for (byte y = 0; y < height; y++)
+            {
+                int yTrans = yCoord - 1 + y;
+                
+                for (byte z = 0; z < size; z++)
+                {
+                    int zTrans = zCoord - (size - 1) / 2 + z;
+                    
+                    if (xTrans != xCoord || yTrans != yCoord
+                            || zTrans != zCoord)
+                    {
+                        Block block = Block.blocksList[worldObj.getBlockId(
+                                xTrans, yTrans, zTrans)];
+                        if (block != null
+                                && !block.canPlaceBlockAt(world, 0, 255, 0))
+                        {
+                            writeBlock(xTrans, yTrans, zTrans, x, y, z);
+                        }
+                    }
+                }
+            }
+        }
         
         breakBlocks = true;
         /*
@@ -126,7 +147,7 @@ public class TilePortableHouse extends TileEntity
             int z)
     {
         int id = worldObj.getBlockId(xTrans, yTrans, zTrans);
-        int meta = worldObj.getBlockMetadata(xTrans, yTrans, zTrans);
+        byte meta = (byte) worldObj.getBlockMetadata(xTrans, yTrans, zTrans);
         if (id != 0)
         {
             idArr[idNum] = id;
@@ -137,26 +158,21 @@ public class TilePortableHouse extends TileEntity
             TileEntity TE = worldObj.getBlockTileEntity(xTrans, yTrans, zTrans);
             if (TE != null)
             {
-                try
+                NBTTagCompound nbt = new NBTTagCompound();
+                TE.writeToNBT(nbt);
+                nbt.removeTag("x");
+                nbt.removeTag("y");
+                nbt.removeTag("z");
+                nbt.removeTag("id");
+                if (!nbt.hasNoTags())
                 {
-                    TE.getClass().getDeclaredMethod("writeToNBT",
-                            NBTTagCompound.class);
                     NBTTagList nbttaglist = new NBTTagList();
                     
-                    NBTTagCompound nbt = new NBTTagCompound();
-                    TE.writeToNBT(nbt);
                     nbttaglist.appendTag(nbt);
                     stack.getTagCompound().setTag(Integer.toString(idNum),
                             nbttaglist);
-                    hasTag[idNum] = 1;
-                } catch (Exception e)
-                {
-                    hasTag[idNum] = 0;
                 }
                 TE.invalidate();
-            } else
-            {
-                hasTag[idNum] = 0;
             }
             
             idNum++;
@@ -175,17 +191,16 @@ public class TilePortableHouse extends TileEntity
     private void saveStackInfo()
     {
         stack.getTagCompound().setIntArray("idArr", idArr);
-        stack.getTagCompound().setIntArray("metaArr", metaArr);
+        stack.getTagCompound().setByteArray("metaArr", metaArr);
         stack.getTagCompound().setIntArray("xArr", xArr);
         stack.getTagCompound().setIntArray("yArr", yArr);
         stack.getTagCompound().setIntArray("zArr", zArr);
-        stack.getTagCompound().setInteger("size", size);
-        stack.getTagCompound().setInteger("height", height);
+        stack.getTagCompound().setByte("size", (byte) size);
+        stack.getTagCompound().setByte("height", (byte) height);
         if (name != "")
         {
             stack.getTagCompound().setString("name", name);
         }
-        stack.getTagCompound().setIntArray("hasTag", hasTag);
     }
     
     @Override

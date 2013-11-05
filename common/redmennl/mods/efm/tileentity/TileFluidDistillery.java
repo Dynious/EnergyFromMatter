@@ -56,13 +56,16 @@ public class TileFluidDistillery extends TileEmc implements IFluidHandler
                     maxAmount = (int) getEmcCapacitor().neededEmc(type) * 1000;
                 }
             }
-            EmcValue newValue = new EmcValue();
-            for (EmcType type : EmcType.values())
+            if (doFill)
             {
-                newValue.components[type.ordinal()] = value.components[type
-                        .ordinal()] / 1000 * maxAmount;
+                EmcValue newValue = new EmcValue();
+                for (EmcType type : EmcType.values())
+                {
+                    newValue.components[type.ordinal()] = value.components[type
+                            .ordinal()] / 1000 * maxAmount;
+                }
+                getEmcCapacitor().addEmc(newValue);
             }
-            getEmcCapacitor().addEmc(newValue);
             return maxAmount;
         } else
         {

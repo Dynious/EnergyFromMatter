@@ -23,6 +23,7 @@ public class ModBlocks
     public static Block condenser;
     public static Block portableHouse;
     public static Block fluidDistillery;
+    public static Block fluidCondenser;
     
     public static void init()
     {
@@ -33,6 +34,7 @@ public class ModBlocks
         condenser = new BlockCondenser(BlockIds.CONDENSER);
         portableHouse = new BlockPortableHouse(BlockIds.PORTABLE_HOUSE);
         fluidDistillery = new BlockFluidDistillery(BlockIds.FLUID_DISTILLERY);
+        fluidCondenser = new BlockFluidCondenser(BlockIds.FLUID_CONDENSER);
         
         if (EnergyFromMatter.hasBC || EnergyFromMatter.hasIC2)
         {
@@ -59,6 +61,8 @@ public class ModBlocks
                         + portableHouse.getUnlocalizedName().substring(5));
         GameRegistry.registerBlock(fluidDistillery, Reference.MOD_ID
                 + fluidDistillery.getUnlocalizedName().substring(5));
+        GameRegistry.registerBlock(fluidCondenser, Reference.MOD_ID
+                + fluidCondenser.getUnlocalizedName().substring(5));
         
         LanguageRegistry.addName(energyCondenser, "Energy Condenser");
         LanguageRegistry.addName(matterDistillery, "Matter Distillery");
@@ -70,6 +74,7 @@ public class ModBlocks
         LanguageRegistry.addName(new ItemStack(portableHouse, 1, 1),
                 "Portable House Deployer");
         LanguageRegistry.addName(fluidDistillery, "Fluid Distillery");
+        LanguageRegistry.addName(fluidCondenser, "Fluid Condenser");
         
         initBlockRecipes();
     }

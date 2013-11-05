@@ -42,6 +42,9 @@ public class ConfigurationHandler
             BlockIds.FLUID_DISTILLERY = configuration.getBlock(
                     "fluidDistillery", BlockIds.FLUID_DISTILLERY_DEFAULT)
                     .getInt(BlockIds.FLUID_DISTILLERY_DEFAULT);
+            BlockIds.FLUID_CONDENSER = configuration.getBlock(
+                    "fluidCondenser", BlockIds.FLUID_CONDENSER_DEFAULT)
+                    .getInt(BlockIds.FLUID_CONDENSER_DEFAULT);
             
             ItemIds.LINKER = configuration.getItem("linker",
                     ItemIds.LINKER_DEFAULT).getInt(ItemIds.LINKER_DEFAULT);

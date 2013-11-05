@@ -20,6 +20,7 @@ import redmennl.mods.efm.tileentity.TileCondenser;
 import redmennl.mods.efm.tileentity.TileCropRipener;
 import redmennl.mods.efm.tileentity.TileEmcCapacitor;
 import redmennl.mods.efm.tileentity.TileEnergyCondenser;
+import redmennl.mods.efm.tileentity.TileFluidCondenser;
 import redmennl.mods.efm.tileentity.TileFluidDistillery;
 import redmennl.mods.efm.tileentity.TileMatterDistillery;
 import redmennl.mods.efm.tileentity.TilePortableHouse;
@@ -49,6 +50,8 @@ public class CommonProxy implements IGuiHandler
                 "portableHouserDeployer");
         GameRegistry.registerTileEntity(TileFluidDistillery.class,
                 "fluidDistillery");
+        GameRegistry.registerTileEntity(TileFluidCondenser.class,
+                "fluidCondenser");
         
         if (EnergyFromMatter.hasBC || EnergyFromMatter.hasIC2)
         {

@@ -1,5 +1,8 @@
 package redmennl.mods.efm.tileentity;
 
+import com.pahimar.ee3.core.helper.LogHelper;
+
+import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -9,15 +12,14 @@ import net.minecraft.tileentity.TileEntity;
 public class TilePortableHouseDeployer extends TileEntity
 {
     public int[] idArr = new int[9 * 2 * 5];
-    public int[] metaArr = new int[9 * 2 * 5];
+    public byte[] metaArr = new byte[9 * 2 * 5];
     public int[] xArr = new int[9 * 2 * 5];
     public int[] yArr = new int[9 * 2 * 5];
     public int[] zArr = new int[9 * 2 * 5];
-    public int size;
-    public int height;
+    public byte size;
+    public byte height;
     public String name;
     public boolean clearArea = false;
-    public int[] hasTag = new int[9 * 2 * 5];
     public NBTTagCompound tag;
     
     public boolean noDrop = false;
@@ -30,7 +32,7 @@ public class TilePortableHouseDeployer extends TileEntity
     @Override
     public void updateEntity()
     {
-        if (startDeploy)
+        if (!this.getWorldObj().isRemote && startDeploy)
         {
             if (clearArea)
             {
@@ -77,26 +79,33 @@ public class TilePortableHouseDeployer extends TileEntity
             int xStart = xCoord - (size - 1) / 2;
             int zStart = zCoord - (size - 1) / 2;
             
-            if (idArr[currentBlock] != 0)
+            if (idArr[currentBlock] != 0
+                    && Block.blocksList[idArr[currentBlock]].canPlaceBlockAt(
+                            worldObj, 0, 255, 0))
             {
+                LogHelper.debug(idArr[currentBlock]);
                 worldObj.destroyBlock(xStart + xArr[currentBlock], yCoord - 1
                         + yArr[currentBlock], zStart + zArr[currentBlock], true);
                 worldObj.setBlock(xStart + xArr[currentBlock], yCoord - 1
                         + yArr[currentBlock], zStart + zArr[currentBlock],
                         idArr[currentBlock], metaArr[currentBlock], 2);
-                if (hasTag[currentBlock] == 1)
+                
+                TileEntity TE = worldObj.getBlockTileEntity(xStart
+                        + xArr[currentBlock], yCoord - 1 + yArr[currentBlock],
+                        zStart + zArr[currentBlock]);
+                if (TE != null)
                 {
-                    TileEntity TE = worldObj.getBlockTileEntity(xStart
-                            + xArr[currentBlock], yCoord - 1
-                            + yArr[currentBlock], zStart + zArr[currentBlock]);
-                    
                     NBTTagList nbttaglist = tag.getTagList(Integer
                             .toString(currentBlock));
-                    NBTTagCompound nbt = (NBTTagCompound) nbttaglist.tagAt(0);
-                    nbt.setInteger("x", xStart + xArr[currentBlock]);
-                    nbt.setInteger("y", yCoord - 1 + yArr[currentBlock]);
-                    nbt.setInteger("z", zStart + zArr[currentBlock]);
-                    TE.readFromNBT(nbt);
+                    if (nbttaglist != null)
+                    {
+                        NBTTagCompound nbt = (NBTTagCompound) nbttaglist
+                                .tagAt(0);
+                        nbt.setInteger("x", xStart + xArr[currentBlock]);
+                        nbt.setInteger("y", yCoord - 1 + yArr[currentBlock]);
+                        nbt.setInteger("z", zStart + zArr[currentBlock]);
+                        TE.readFromNBT(nbt);
+                    }
                 }
             }
             if (currentBlock < idArr.length - 1)
@@ -104,9 +113,22 @@ public class TilePortableHouseDeployer extends TileEntity
                 currentBlock++;
             } else
             {
+                for (int i = 0; i < idArr.length; i++)
+                {
+                    Block block = Block.blocksList[idArr[i]];
+                    if (block != null
+                            && !block.canPlaceBlockAt(worldObj, 0, 255, 0))
+                    {
+                        worldObj.destroyBlock(xStart + xArr[i], yCoord - 1
+                                + yArr[i], zStart + zArr[i], true);
+                        worldObj.setBlock(xStart + xArr[i], yCoord - 1
+                                + yArr[i], zStart + zArr[i], idArr[i],
+                                metaArr[i], 2);
+                    }
+                }
                 ItemStack stack = new ItemStack(this.getBlockType(), 1, 0);
-                EntityItem entityItem = new EntityItem(worldObj, xCoord,
-                        yCoord + 1, zCoord, stack);
+                EntityItem entityItem = new EntityItem(worldObj, xCoord + 0.5,
+                        yCoord + 1, zCoord + 0.5, stack);
                 entityItem.motionX = 0;
                 entityItem.motionY = 0;
                 entityItem.motionZ = 0;
@@ -120,6 +142,10 @@ public class TilePortableHouseDeployer extends TileEntity
     
     public void deploy()
     {
+        if (worldObj.isRemote)
+        {
+            return;
+        }
         startDeploy = true;
         /*
          * World world = this.getWorldObj();
@@ -165,12 +191,12 @@ public class TilePortableHouseDeployer extends TileEntity
         super.writeToNBT(nbt);
         nbt = tag;
         nbt.setIntArray("idArr", idArr);
-        nbt.setIntArray("metaArr", metaArr);
+        nbt.setByteArray("metaArr", metaArr);
         nbt.setIntArray("xArr", xArr);
         nbt.setIntArray("yArr", yArr);
         nbt.setIntArray("zArr", zArr);
-        nbt.setInteger("size", size);
-        nbt.setInteger("height", height);
+        nbt.setByte("size", size);
+        nbt.setByte("height", height);
         if (name != null)
         {
             nbt.setString("name", name);
@@ -183,12 +209,12 @@ public class TilePortableHouseDeployer extends TileEntity
         super.readFromNBT(nbt);
         tag = nbt;
         idArr = nbt.getIntArray("idArr");
-        metaArr = nbt.getIntArray("metaArr");
+        metaArr = nbt.getByteArray("metaArr");
         xArr = nbt.getIntArray("xArr");
         yArr = nbt.getIntArray("yArr");
         zArr = nbt.getIntArray("zArr");
-        size = nbt.getInteger("size");
-        height = nbt.getInteger("height");
+        size = nbt.getByte("size");
+        height = nbt.getByte("height");
         if (nbt.getString("name") != null)
         {
             name = nbt.getString("name");

@@ -5,6 +5,7 @@ import java.util.Random;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -15,9 +16,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import redmennl.mods.efm.EnergyFromMatter;
 import redmennl.mods.efm.client.gui.inventory.GuiPortableHouse;
+import redmennl.mods.efm.lib.Resources;
 import redmennl.mods.efm.tileentity.TilePortableHouse;
 import redmennl.mods.efm.tileentity.TilePortableHouseDeployer;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockPortableHouse extends BlockContainer
 {
@@ -89,6 +93,10 @@ public class BlockPortableHouse extends BlockContainer
     {
         super.onBlockPreDestroy(world, x, y, z, meta);
         
+        if (world.isRemote)
+        {
+            return;
+        }
         TileEntity TE = world.getBlockTileEntity(x, y, z);
         
         ItemStack stack = new ItemStack(this, 1, meta);
@@ -122,21 +130,21 @@ public class BlockPortableHouse extends BlockContainer
             }
             
             stack.getTagCompound().setIntArray("idArr", tile.idArr);
-            stack.getTagCompound().setIntArray("metaArr", tile.metaArr);
+            stack.getTagCompound().setByteArray("metaArr", tile.metaArr);
             stack.getTagCompound().setIntArray("xArr", tile.xArr);
             stack.getTagCompound().setIntArray("yArr", tile.yArr);
             stack.getTagCompound().setIntArray("zArr", tile.zArr);
-            stack.getTagCompound().setInteger("size", tile.size);
-            stack.getTagCompound().setInteger("height", tile.height);
+            stack.getTagCompound().setByte("size", tile.size);
+            stack.getTagCompound().setByte("height", tile.height);
             if (tile.name != null)
             {
                 stack.getTagCompound().setString("name", tile.name);
             }
-            stack.getTagCompound().setIntArray("hasTag", tile.hasTag);
             stack.setTagCompound(tile.tag);
         }
         
-        EntityItem entityItem = new EntityItem(world, x, y + 1, z, stack);
+        EntityItem entityItem = new EntityItem(world, x + 0.5, y + 1, z + 0.5,
+                stack);
         entityItem.motionX = 0;
         entityItem.motionY = 0;
         entityItem.motionZ = 0;
@@ -188,19 +196,26 @@ public class BlockPortableHouse extends BlockContainer
             if (tile != null)
             {
                 tile.idArr = item.getTagCompound().getIntArray("idArr");
-                tile.metaArr = item.getTagCompound().getIntArray("metaArr");
+                tile.metaArr = item.getTagCompound().getByteArray("metaArr");
                 tile.xArr = item.getTagCompound().getIntArray("xArr");
                 tile.yArr = item.getTagCompound().getIntArray("yArr");
                 tile.zArr = item.getTagCompound().getIntArray("zArr");
-                tile.size = item.getTagCompound().getInteger("size");
-                tile.height = item.getTagCompound().getInteger("height");
+                tile.size = item.getTagCompound().getByte("size");
+                tile.height = item.getTagCompound().getByte("height");
                 if (item.getTagCompound().getString("name") != null)
                 {
                     tile.name = item.getTagCompound().getString("name");
                 }
-                tile.hasTag = item.getTagCompound().getIntArray("hasTag");
                 tile.tag = item.getTagCompound();
             }
         }
+    }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IconRegister par1IconRegister)
+    {
+        blockIcon = par1IconRegister.registerIcon(Resources.MOD_ID + ":"
+                + this.getUnlocalizedName().substring(5));
     }
 }
