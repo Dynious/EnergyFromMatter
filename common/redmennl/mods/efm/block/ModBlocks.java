@@ -106,6 +106,18 @@ public class ModBlocks
     
     public static void registerModRecipes()
     {
+        if (EnergyFromMatter.hasBC && !EnergyFromMatter.hasIC2)
+        {
+            GameRegistry.addRecipe(new ItemStack(powerLink), "gpg", "pep",
+                    "gpg", 'g', Block.glass, 'p',
+                    BuildCraftTransport.pipePowerDiamond, 'e', Item.enderPearl);
+        }
+        if (!EnergyFromMatter.hasBC && EnergyFromMatter.hasIC2)
+        {
+            GameRegistry.addRecipe(new ItemStack(powerLink), "gfg", "fef",
+                    "gfg", 'g', Block.glass, 'f', Ic2Items.glassFiberCableItem,
+                    'e', Item.enderPearl);
+        }
         if (EnergyFromMatter.hasBC && EnergyFromMatter.hasIC2)
         {
             GameRegistry.addRecipe(new ItemStack(powerLink), "gpg", "fef",

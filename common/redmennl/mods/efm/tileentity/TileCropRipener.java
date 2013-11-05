@@ -49,17 +49,16 @@ public class TileCropRipener extends TileEmc
         {
             for (int z = -4; z <= 4; z++)
             {
-                if (Block.blocksList[worldObj.getBlockId(xCoord + x, yCoord,
-                        zCoord + z)] == Block.grass)
+                if (!(Block.blocksList[worldObj.getBlockId(xCoord + x, yCoord,
+                        zCoord + z)] == Block.grass))
                 {
-                    return;
-                }
-                if (ItemDye.applyBonemeal(new ItemStack(Item.dyePowder),
-                        worldObj, xCoord + x, yCoord, zCoord + z,
-                        FakePlayerFactory.getMinecraft(worldObj)))
-                {
-                    getEmcCapacitor().useEmc(
-                            new EmcValue(1.0F, EmcType.ESSENTIA));
+                    if (ItemDye.applyBonemeal(new ItemStack(Item.dyePowder),
+                            worldObj, xCoord + x, yCoord, zCoord + z,
+                            FakePlayerFactory.getMinecraft(worldObj)))
+                    {
+                        getEmcCapacitor().useEmc(
+                                new EmcValue(1.0F, EmcType.ESSENTIA));
+                    }
                 }
                 /*
                  * Block block = Block.blocksList[worldObj.getBlockId(xCoord +
