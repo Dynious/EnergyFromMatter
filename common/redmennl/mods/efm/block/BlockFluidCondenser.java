@@ -5,7 +5,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import redmennl.mods.efm.EnergyFromMatter;
+import redmennl.mods.efm.client.gui.inventory.GuiFluidCondenser;
 import redmennl.mods.efm.tileentity.TileFluidCondenser;
+import cpw.mods.fml.common.FMLCommonHandler;
 
 public class BlockFluidCondenser extends BlockEmc
 {
@@ -27,6 +29,14 @@ public class BlockFluidCondenser extends BlockEmc
     @Override
     public boolean openGui(EntityPlayer player, World world, int x, int y, int z)
     {
+        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        {
+            if (tile != null && tile instanceof TileFluidCondenser)
+            {
+                FMLCommonHandler.instance().showGuiScreen(new GuiFluidCondenser((TileFluidCondenser)tile));
+                return true;
+            }
+        }
         return false;
     }
 }

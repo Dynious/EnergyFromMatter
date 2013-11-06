@@ -14,6 +14,7 @@ import redmennl.mods.efm.client.model.ModelPortableHouse;
 import redmennl.mods.efm.lib.Resources;
 
 import com.google.common.primitives.SignedBytes;
+import com.pahimar.ee3.core.helper.LogHelper;
 
 import cpw.mods.fml.client.FMLClientHandler;
 
@@ -117,7 +118,12 @@ public class ItemPortableHouseRenderer implements IItemRenderer
             int[] idArr = new int[9 * 9 * 5];
             byte[] metaArr = new byte[9 * 9 * 5];
             idArr = i.getTagCompound().getIntArray("idArr");
-            metaArr = i.getTagCompound().getByteArray("metaArr");
+            try
+            {
+                metaArr = i.getTagCompound().getByteArray("metaArr");
+            }
+            catch (Exception e)
+            {}
             
             GL11.glPushMatrix();
             
@@ -154,16 +160,10 @@ public class ItemPortableHouseRenderer implements IItemRenderer
                 {
                     block = Block.blocksList[item.itemID];
                 }
-                if (block != null /*
-                                   * && item.getItemSpriteNumber() == 0 &&
-                                   * RenderBlocks
-                                   * .renderItemIn3d(Block.blocksList
-                                   * [item.itemID].getRenderType())
-                                   */)
+                if (block != null)
                 {
                     GL11.glRotatef(0.0F, 0.0F, 1.0F, 0.0F);
                     
-                    // FMLClientHandler.instance().getClient().renderEngine.bindTexture("/terrain.png");
                     if (item.getItemSpriteNumber() == 0)
                     {
                         FMLClientHandler.instance().getClient().renderEngine
@@ -203,7 +203,7 @@ public class ItemPortableHouseRenderer implements IItemRenderer
                     }
                 } else
                 {
-                    System.out.println("Can't render!");
+                    LogHelper.debug("What?! You got an item in the Portable House! Post how you did that!");
                 }
                 GL11.glPopMatrix();
                 

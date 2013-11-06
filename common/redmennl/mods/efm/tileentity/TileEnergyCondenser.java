@@ -7,7 +7,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import redmennl.mods.efm.block.ModBlocks;
 import redmennl.mods.efm.network.PacketTypeHandler;
 import redmennl.mods.efm.network.packet.PacketEnergyCondenser;
 
@@ -135,16 +134,16 @@ public class TileEnergyCondenser extends TileEntity implements IInventory
     public void openChest()
     {
         ++numUsingPlayers;
-        worldObj.addBlockEvent(xCoord, yCoord, zCoord,
-                ModBlocks.energyCondenser.blockID, 1, numUsingPlayers);
+        //worldObj.addBlockEvent(xCoord, yCoord, zCoord,
+        //        ModBlocks.energyCondenser.blockID, 1, numUsingPlayers);
     }
     
     @Override
     public void closeChest()
     {
         --numUsingPlayers;
-        worldObj.addBlockEvent(xCoord, yCoord, zCoord,
-                ModBlocks.energyCondenser.blockID, 1, numUsingPlayers);
+        //worldObj.addBlockEvent(xCoord, yCoord, zCoord,
+        //        ModBlocks.energyCondenser.blockID, 1, numUsingPlayers);
     }
     
     /**

@@ -9,7 +9,6 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
-import com.pahimar.ee3.core.helper.LogHelper;
 import com.pahimar.ee3.emc.EmcRegistry;
 import com.pahimar.ee3.emc.EmcType;
 import com.pahimar.ee3.emc.EmcValue;
@@ -35,12 +34,14 @@ public class TileFluidCondenser extends TileEmc implements IFluidHandler
     public void readFromNBT(NBTTagCompound nbtTagCompound)
     {
         super.readFromNBT(nbtTagCompound);
+        fluidID = nbtTagCompound.getInteger("fluidID");
     }
     
     @Override
     public void writeToNBT(NBTTagCompound nbtTagCompound)
     {
         super.writeToNBT(nbtTagCompound);
+        nbtTagCompound.setInteger("fluidID", fluidID);
     }
     
     @Override
@@ -64,7 +65,6 @@ public class TileFluidCondenser extends TileEmc implements IFluidHandler
                 if (getEmcCapacitor().getEmc().components[type.ordinal()] < value.components[type
                         .ordinal()] * maxAmount / 1000)
                 {
-                    LogHelper.debug("Different max");
                     maxAmount = (int) getEmcCapacitor().getEmc().components[type.ordinal()] * 1000;
                 }
             }

@@ -196,7 +196,20 @@ public class BlockPortableHouse extends BlockContainer
             if (tile != null)
             {
                 tile.idArr = item.getTagCompound().getIntArray("idArr");
-                tile.metaArr = item.getTagCompound().getByteArray("metaArr");
+                try
+                {
+                    tile.metaArr = item.getTagCompound().getByteArray("metaArr");
+                }
+                catch(Exception e)
+                {
+                    byte[] metaArr = new byte[9*9*5];
+                    int[] metaIntArr = item.getTagCompound().getIntArray("metaArr");
+                    for (int num = 0; num < metaIntArr.length; num++)
+                    {
+                        metaArr[num] = (byte)metaIntArr[num];
+                    }
+                    tile.metaArr = metaArr;
+                }
                 tile.xArr = item.getTagCompound().getIntArray("xArr");
                 tile.yArr = item.getTagCompound().getIntArray("yArr");
                 tile.zArr = item.getTagCompound().getIntArray("zArr");
