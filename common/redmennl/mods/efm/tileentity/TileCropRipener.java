@@ -30,20 +30,25 @@ public class TileCropRipener extends TileEmc
     public void updateEntity()
     {
         super.updateEntity();
-        if (getEmcCapacitor() != null)
+        if (worldObj.isRemote)
+        {
+            return;
+        }
+        TileEmcCapacitor emcCap = getEmcCapacitor();
+        if (emcCap != null)
         {
             if (workTime < timePerRipening)
             {
                 workTime++;
             } else if (workTime >= timePerRipening)
             {
-                doWork();
+                doWork(emcCap);
                 workTime = 0;
             }
         }
     }
     
-    private void doWork()
+    private void doWork(TileEmcCapacitor emcCap)
     {
         for (int x = -4; x <= 4; x++)
         {
@@ -56,18 +61,10 @@ public class TileCropRipener extends TileEmc
                             worldObj, xCoord + x, yCoord, zCoord + z,
                             FakePlayerFactory.getMinecraft(worldObj)))
                     {
-                        getEmcCapacitor().useEmc(
-                                new EmcValue(1.0F, EmcType.ESSENTIA));
+                        emcCap.useEmc(new EmcValue(1.0F, EmcType.ESSENTIA),
+                                xCoord, yCoord, zCoord);
                     }
                 }
-                /*
-                 * Block block = Block.blocksList[worldObj.getBlockId(xCoord +
-                 * x, yCoord, zCoord + z)]; if (block instanceof BlockCrops &&
-                 * worldObj.getBlockMetadata(xCoord + x, yCoord, zCoord + z) <
-                 * 7) { if (getEmcCapacitor().useEmc(new EmcValue(1.0F,
-                 * EmcType.ESSENTIA))) { ((BlockCrops)block).fertilize(worldObj,
-                 * xCoord + x, yCoord, zCoord + z); } else { return; } }
-                 */
             }
         }
     }

@@ -9,6 +9,8 @@ import net.minecraft.entity.player.InventoryPlayer;
 import org.lwjgl.opengl.GL11;
 
 import redmennl.mods.efm.inventory.ContainerEmcCapacitor;
+import redmennl.mods.efm.lib.EmcRGBValues;
+import redmennl.mods.efm.lib.RGBValue;
 import redmennl.mods.efm.lib.Resources;
 import redmennl.mods.efm.tileentity.TileEmcCapacitor;
 
@@ -41,6 +43,7 @@ public class GuiEmcCapacitor extends GuiContainer
                 {
                     list.add(EmcType.values()[i].toString() + ": "
                             + Float.toString(tile.getEmc().components[i]));
+                    list.add("Max: " + Float.toString(tile.getMaxStoredEmc()));
                 }
             }
         }
@@ -58,6 +61,10 @@ public class GuiEmcCapacitor extends GuiContainer
         this.drawTexturedModalRect(xStart, yStart, 0, 0, xSize, ySize);
         for (int i = 0; i < EmcType.values().length; i++)
         {
+            RGBValue rgbvalue = EmcRGBValues.getRGB(EmcType.values()[i]);
+            GL11.glColor3f((float) rgbvalue.colorR / 255,
+                    (float) rgbvalue.colorG / 255,
+                    (float) rgbvalue.colorB / 255);
             this.drawTexturedModalRect(
                     xStart + 10 + (i * 20),
                     yStart
@@ -68,6 +75,10 @@ public class GuiEmcCapacitor extends GuiContainer
                     167,
                     15,
                     (int) (tile.getEmc().components[i] / tile.getMaxStoredEmc() * 67));
+        }
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        for (int i = 0; i < EmcType.values().length; i++)
+        {
             this.drawTexturedModalRect(xStart + 9 + (i * 20), yStart + 10, 1,
                     166, 19, 67);
         }

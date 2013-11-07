@@ -10,6 +10,7 @@ public class Resources
     public static final String ENTITY_SHEET_LOCATION = "textures/entities/";
     public static final String MODEL_SHEET_LOCATION = "textures/models/";
     public static final String ARMOR_SHEET_LOCATION = "textures/armor/";
+    public static final String PARTICLE_SHEET_LOCATION = "textures/particles/";
     
     public static final ResourceLocation GUI_ENERGY_CONDENSER = new ResourceLocation(
             MOD_ID, GUI_SHEET_LOCATION + "energyCondenser.png");
@@ -24,4 +25,7 @@ public class Resources
             MOD_ID, MODEL_SHEET_LOCATION + "energyCondenser.png");
     public static final ResourceLocation MODEL_PORTABLEHOUSE = new ResourceLocation(
             MOD_ID, MODEL_SHEET_LOCATION + "portableHouse.png");
+    
+    public static final ResourceLocation PARTICLE_BEAM = new ResourceLocation(
+            MOD_ID, PARTICLE_SHEET_LOCATION + "beam.png");
 }

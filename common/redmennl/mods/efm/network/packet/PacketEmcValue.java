@@ -17,6 +17,7 @@ import cpw.mods.fml.common.network.Player;
 public class PacketEmcValue extends PacketEFM
 {
     float[] emcValues;
+    int linkedCapacitors;
     int x, y, z;
     
     public PacketEmcValue()
@@ -24,10 +25,12 @@ public class PacketEmcValue extends PacketEFM
         super(PacketTypeHandler.EMCVALUE, false);
     }
     
-    public PacketEmcValue(float[] emcValues, int x, int y, int z)
+    public PacketEmcValue(float[] emcValues, int linkedCapacitors, int x,
+            int y, int z)
     {
         super(PacketTypeHandler.EMCVALUE, false);
         this.emcValues = emcValues;
+        this.linkedCapacitors = linkedCapacitors;
         this.x = x;
         this.y = y;
         this.z = z;
@@ -43,6 +46,7 @@ public class PacketEmcValue extends PacketEFM
         {
             data.writeFloat(emcValues[i]);
         }
+        data.writeInt(linkedCapacitors);
     }
     
     @Override
@@ -56,6 +60,7 @@ public class PacketEmcValue extends PacketEFM
         {
             emcValues[i] = data.readFloat();
         }
+        linkedCapacitors = data.readInt();
     }
     
     @Override
@@ -67,6 +72,7 @@ public class PacketEmcValue extends PacketEFM
         if (tile != null)
         {
             tile.setEmc(new EmcValue(emcValues));
+            tile.linkedCapacitors = linkedCapacitors;
         }
     }
 }

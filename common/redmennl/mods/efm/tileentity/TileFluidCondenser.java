@@ -53,22 +53,28 @@ public class TileFluidCondenser extends TileEmc implements IFluidHandler
     @Override
     public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain)
     {
-        if (getEmcCapacitor() != null
-                && EmcRegistry.hasEmcValue(Block.blocksList[FluidRegistry.getFluid(fluidID)
-                        .getBlockID()]))
+        if (worldObj.isRemote)
         {
-            EmcValue value = EmcRegistry.getEmcValue(Block.blocksList[FluidRegistry
-                    .getFluid(fluidID).getBlockID()]);
+            return null;
+        }
+        TileEmcCapacitor emcCap = getEmcCapacitor();
+        if (emcCap != null
+                && EmcRegistry.hasEmcValue(Block.blocksList[FluidRegistry
+                        .getFluid(fluidID).getBlockID()]))
+        {
+            EmcValue value = EmcRegistry
+                    .getEmcValue(Block.blocksList[FluidRegistry.getFluid(
+                            fluidID).getBlockID()]);
             int maxAmount = maxDrain;
             for (EmcType type : EmcType.values())
             {
-                if (getEmcCapacitor().getEmc().components[type.ordinal()] < value.components[type
+                if (emcCap.getEmc().components[type.ordinal()] < value.components[type
                         .ordinal()] * maxAmount / 1000)
                 {
-                    maxAmount = (int) getEmcCapacitor().getEmc().components[type.ordinal()] * 1000;
+                    maxAmount = (int) emcCap.getEmc().components[type.ordinal()] * 1000;
                 }
             }
-            if (doDrain)
+            if (doDrain && maxAmount != 0)
             {
                 EmcValue newValue = new EmcValue();
                 for (EmcType type : EmcType.values())
@@ -76,7 +82,7 @@ public class TileFluidCondenser extends TileEmc implements IFluidHandler
                     newValue.components[type.ordinal()] = value.components[type
                             .ordinal()] / 1000 * maxAmount;
                 }
-                getEmcCapacitor().useEmc(newValue);
+                emcCap.useEmc(newValue, xCoord, yCoord, zCoord);
             }
             return new FluidStack(FluidRegistry.getFluid(fluidID), maxAmount);
         } else
@@ -107,7 +113,12 @@ public class TileFluidCondenser extends TileEmc implements IFluidHandler
     public FluidStack drain(ForgeDirection from, FluidStack resource,
             boolean doDrain)
     {
-        if (getEmcCapacitor() != null
+        if (worldObj.isRemote)
+        {
+            return null;
+        }
+        TileEmcCapacitor emcCap = getEmcCapacitor();
+        if (emcCap != null
                 && EmcRegistry.hasEmcValue(Block.blocksList[resource.getFluid()
                         .getBlockID()]))
         {
@@ -116,13 +127,13 @@ public class TileFluidCondenser extends TileEmc implements IFluidHandler
             int maxAmount = resource.amount;
             for (EmcType type : EmcType.values())
             {
-                if (getEmcCapacitor().getEmc().components[type.ordinal()] < value.components[type
+                if (emcCap.getEmc().components[type.ordinal()] < value.components[type
                         .ordinal()] * maxAmount / 1000)
                 {
-                    maxAmount = (int) getEmcCapacitor().getEmc().components[type.ordinal()] * 1000;
+                    maxAmount = (int) emcCap.getEmc().components[type.ordinal()] * 1000;
                 }
             }
-            if (doDrain)
+            if (doDrain && maxAmount != 0)
             {
                 EmcValue newValue = new EmcValue();
                 for (EmcType type : EmcType.values())
@@ -130,7 +141,7 @@ public class TileFluidCondenser extends TileEmc implements IFluidHandler
                     newValue.components[type.ordinal()] = value.components[type
                             .ordinal()] / 1000 * maxAmount;
                 }
-                getEmcCapacitor().useEmc(newValue);
+                emcCap.useEmc(newValue, xCoord, yCoord, zCoord);
             }
             return new FluidStack(resource.getFluid(), maxAmount);
         } else

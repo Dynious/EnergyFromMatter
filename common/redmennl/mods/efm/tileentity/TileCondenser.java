@@ -37,7 +37,12 @@ public class TileCondenser extends TileEmc implements IInventory,
     public void updateEntity()
     {
         super.updateEntity();
-        if (getEmcCapacitor() != null)
+        if (worldObj.isRemote)
+        {
+            return;
+        }
+        TileEmcCapacitor emcCap = getEmcCapacitor();
+        if (emcCap != null)
         {
             if (workTime < timePerCondensation)
             {
@@ -52,10 +57,10 @@ public class TileCondenser extends TileEmc implements IInventory,
                         && !getStackInSlot(0).getUnlocalizedName().contains(
                                 "ore"))
                 {
-                    if (getEmcCapacitor().hasEmc(
-                            EmcRegistry.getEmcValue(getStackInSlot(0))))
+                    if (emcCap.hasEmc(EmcRegistry
+                            .getEmcValue(getStackInSlot(0))))
                     {
-                        addItemsFromEMC();
+                        addItemsFromEMC(emcCap);
                     }
                 }
                 workTime = 0;
@@ -63,7 +68,7 @@ public class TileCondenser extends TileEmc implements IInventory,
         }
     }
     
-    private void addItemsFromEMC()
+    private void addItemsFromEMC(TileEmcCapacitor emcCap)
     {
         for (int i = 1; i < INVENTORY_SIZE; i++)
         {
@@ -71,8 +76,8 @@ public class TileCondenser extends TileEmc implements IInventory,
             if (stack != null && stack.getItem() == getStackInSlot(0).getItem()
                     && stack.stackSize != stack.getMaxStackSize())
             {
-                if (getEmcCapacitor().useEmc(
-                        EmcRegistry.getEmcValue(getStackInSlot(0))))
+                if (emcCap.useEmc(EmcRegistry.getEmcValue(getStackInSlot(0)),
+                        xCoord, yCoord, zCoord))
                 {
                     getStackInSlot(i).stackSize++;
                     return;
@@ -84,8 +89,8 @@ public class TileCondenser extends TileEmc implements IInventory,
             ItemStack stack = getStackInSlot(i);
             if (stack == null)
             {
-                if (getEmcCapacitor().useEmc(
-                        EmcRegistry.getEmcValue(getStackInSlot(0))))
+                if (emcCap.useEmc(EmcRegistry.getEmcValue(getStackInSlot(0)),
+                        xCoord, yCoord, zCoord))
                 {
                     ItemStack newStack = getStackInSlot(0).copy();
                     setInventorySlotContents(i, newStack);

@@ -39,7 +39,12 @@ public class TileMatterDistillery extends TileEmc implements IInventory,
     public void updateEntity()
     {
         super.updateEntity();
-        if (getEmcCapacitor() != null && getStackInSlot(0) != null)
+        if (worldObj.isRemote)
+        {
+            return;
+        }
+        TileEmcCapacitor emcCap = getEmcCapacitor();
+        if (emcCap != null && getStackInSlot(0) != null)
         {
             if (workTime < timePerDistillation)
             {
@@ -48,7 +53,8 @@ public class TileMatterDistillery extends TileEmc implements IInventory,
             {
                 EmcValue emcValue = EmcRegistry.getEmcValue(getStackInSlot(0),
                         false);
-                if (emcValue != null && getEmcCapacitor().addEmc(emcValue))
+                if (emcValue != null
+                        && emcCap.addEmc(emcValue, xCoord, yCoord, zCoord))
                 {
                     workTime = 0;
                     decrStackSize(0, 1);

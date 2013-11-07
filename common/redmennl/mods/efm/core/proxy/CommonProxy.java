@@ -37,8 +37,8 @@ public class CommonProxy implements IGuiHandler
     
     public void initTileEntities()
     {
-        //GameRegistry.registerTileEntity(TileEnergyCondenser.class,
-        //        "energyCondenser");
+        // GameRegistry.registerTileEntity(TileEnergyCondenser.class,
+        // "energyCondenser");
         GameRegistry.registerTileEntity(TileMatterDistillery.class,
                 "matterDistillery");
         GameRegistry.registerTileEntity(TileEmcCapacitor.class, "emcCapacitor");

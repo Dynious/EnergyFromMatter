@@ -34,16 +34,20 @@ public class GuiFluidCondenser extends GuiScreen
         drawContainerBackground();
         
         GL11.glDisable(GL11.GL_LIGHTING);
-        this.mc.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
-        if (!(FluidRegistry.getFluid(tile.fluidID).getBlockID() >= 0))
+        this.mc.getTextureManager().bindTexture(
+                TextureMap.locationBlocksTexture);
+        if (!(FluidRegistry.getFluid(tile.fluidID).getBlockID() <= 0))
         {
-            Block block = Block.blocksList[FluidRegistry.getFluid(tile.fluidID).getBlockID()];
+            Block block = Block.blocksList[FluidRegistry.getFluid(tile.fluidID)
+                    .getBlockID()];
             Icon icon = block.getBlockTextureFromSide(0);
-            this.drawTexturedModelRectFromIcon(width/2 - 16, height/2 - 16, icon, 32, 32);
+            this.drawTexturedModelRectFromIcon(width / 2 - 16, height / 2 - 16,
+                    icon, 32, 32);
             GL11.glEnable(GL11.GL_LIGHTING);
             if (!EmcRegistry.hasEmcValue(block))
             {
-                fontRenderer.drawString("This Fluid has no EMC Value!", width/2 - 70, height/2 - 30, 0xFFFFFF);
+                fontRenderer.drawString("This Fluid has no EMC Value!",
+                        width / 2 - 70, height / 2 - 30, 0xFFFFFF);
             }
         }
     }
@@ -51,7 +55,8 @@ public class GuiFluidCondenser extends GuiScreen
     @Override
     protected void mouseClicked(int par1, int par2, int par3)
     {
-        if (par1 >= width/2 - 16 && par1 <= width/2 + 16 && par2 >= height/2 - 16 && par2 <= height/2 + 16)
+        if (par1 >= width / 2 - 16 && par1 <= width / 2 + 16
+                && par2 >= height / 2 - 16 && par2 <= height / 2 + 16)
         {
             if (par3 == 0)
             {
@@ -70,7 +75,7 @@ public class GuiFluidCondenser extends GuiScreen
         }
         super.mouseClicked(par1, par2, par3);
     }
-
+    
     protected void drawContainerBackground()
     {
         int xSize = 176;

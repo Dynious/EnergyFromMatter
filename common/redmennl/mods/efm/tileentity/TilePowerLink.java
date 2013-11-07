@@ -37,8 +37,12 @@ public class TilePowerLink extends TileEmc implements IPowerEmitter,
     public void updateEntity()
     {
         super.updateEntity();
-        if (getEmcCapacitor() != null)
-            ;
+        if (worldObj.isRemote)
+        {
+            return;
+        }
+        TileEmcCapacitor emcCap = getEmcCapacitor();
+        if (emcCap != null)
         {
             for (int i = 0; i < ForgeDirection.values().length; i++)
             {
@@ -51,15 +55,14 @@ public class TilePowerLink extends TileEmc implements IPowerEmitter,
                         PowerReceiver reciever = ((IPowerReceptor) tile)
                                 .getPowerReceiver(ForgeDirection
                                         .getOrientation(i).getOpposite());
-                        if (reciever != null && getEmcCapacitor() != null)
+                        if (reciever != null)
                         {
                             float usedMJ;
-                            if (getEmcCapacitor().getStoredEmc(EmcType.KINETIC)
+                            if (emcCap.getStoredEmc(EmcType.KINETIC)
                                     * emcMjConversionSize < reciever
                                         .powerRequest())
                             {
-                                usedMJ = getEmcCapacitor().getStoredEmc(
-                                        EmcType.KINETIC)
+                                usedMJ = emcCap.getStoredEmc(EmcType.KINETIC)
                                         * emcMjConversionSize;
                             } else
                             {
@@ -67,8 +70,8 @@ public class TilePowerLink extends TileEmc implements IPowerEmitter,
                             }
                             if (usedMJ != 0.0F)
                             {
-                                if (getEmcCapacitor().useEmc(
-                                        new EmcValue(usedMJ
+                                if (emcCap
+                                        .useEmc(new EmcValue(usedMJ
                                                 / emcMjConversionSize,
                                                 EmcType.KINETIC)))
                                 {
@@ -84,16 +87,14 @@ public class TilePowerLink extends TileEmc implements IPowerEmitter,
                         IEnergySink sink = (IEnergySink) tile;
                         if (sink != null
                                 & sink.acceptsEnergyFrom(this, ForgeDirection
-                                        .getOrientation(i).getOpposite())
-                                && getEmcCapacitor() != null)
+                                        .getOrientation(i).getOpposite()))
                         {
                             double usedEU;
-                            if (getEmcCapacitor().getStoredEmc(EmcType.KINETIC)
+                            if (emcCap.getStoredEmc(EmcType.KINETIC)
                                     * emcEuConversionSize < sink
                                         .demandedEnergyUnits())
                             {
-                                usedEU = getEmcCapacitor().getStoredEmc(
-                                        EmcType.KINETIC)
+                                usedEU = emcCap.getStoredEmc(EmcType.KINETIC)
                                         * emcEuConversionSize;
                             } else
                             {
@@ -105,10 +106,11 @@ public class TilePowerLink extends TileEmc implements IPowerEmitter,
                             }
                             if (usedEU != 0.0F)
                             {
-                                if (getEmcCapacitor().useEmc(
+                                if (emcCap.useEmc(
                                         new EmcValue((float) usedEU
                                                 / emcEuConversionSize,
-                                                EmcType.KINETIC)))
+                                                EmcType.KINETIC), xCoord,
+                                        yCoord, zCoord))
                                 {
                                     sink.injectEnergyUnits(ForgeDirection
                                             .getOrientation(i).getOpposite(),

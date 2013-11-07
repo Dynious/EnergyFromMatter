@@ -44,7 +44,7 @@ public abstract class BlockEmc extends BlockContainer
                             * tile.maxRange)
                     {
                         tile.setEmcCapacitor(tileX, tileY, tileZ);
-                        if (world.isRemote)
+                        if (!world.isRemote)
                             player.sendChatToPlayer(new ChatMessageComponent()
                                     .addText("This "
                                             + tile.getBlockType()
@@ -52,7 +52,7 @@ public abstract class BlockEmc extends BlockContainer
                                             + " is now linked with the EMC Capacitor at: "
                                             + tileX + ", " + tileY + ", "
                                             + tileZ));
-                    } else if (world.isRemote)
+                    } else if (!world.isRemote)
                     {
                         player.sendChatToPlayer(new ChatMessageComponent()
                                 .addText("The EMC Capcitor is too far away!"));
@@ -91,7 +91,7 @@ public abstract class BlockEmc extends BlockContainer
     }
     
     @SideOnly(Side.CLIENT)
-    private Icon[] icons;
+    protected Icon[] icons;
     
     @Override
     @SideOnly(Side.CLIENT)
@@ -118,9 +118,4 @@ public abstract class BlockEmc extends BlockContainer
         }
     }
     
-    @Override
-    public int damageDropped(int par1)
-    {
-        return super.damageDropped(par1);
-    }
 }

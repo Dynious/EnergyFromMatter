@@ -46,7 +46,19 @@ public class TileEmc extends TileEntity
                 .getBlockTileEntity(emcCapX, emcCapY, emcCapZ);
         if (tile != null && tile instanceof TileEmcCapacitor)
         {
+            if (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) == 0)
+            {
+                worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 1,
+                        2);
+            }
             return (TileEmcCapacitor) tile;
+        } else
+        {
+            if (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) == 1)
+            {
+                worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0,
+                        2);
+            }
         }
         return null;
     }

@@ -2,14 +2,19 @@ package redmennl.mods.efm.tileentity;
 
 import java.util.ArrayList;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.ForgeDirection;
+import redmennl.mods.efm.client.particle.EntityBeamFX;
 import redmennl.mods.efm.emc.IEmcHolder;
 import redmennl.mods.efm.emc.IPortableEmcHolder;
+import redmennl.mods.efm.lib.EmcRGBValues;
+import redmennl.mods.efm.lib.RGBValue;
 import redmennl.mods.efm.network.PacketTypeHandler;
 import redmennl.mods.efm.network.packet.PacketEmcValue;
 
@@ -42,6 +47,13 @@ public class TileEmcCapacitor extends TileEntity implements IInventory,
     
     private ItemStack[] inventory;
     
+    /**
+     * The leader of the group of EMC Capacitors
+     */
+    private int linkedCapX, linkedCapY, linkedCapZ;
+    
+    public int linkedCapacitors = 0;
+    
     public TileEmcCapacitor()
     {
         super();
@@ -55,38 +67,72 @@ public class TileEmcCapacitor extends TileEntity implements IInventory,
     {
         for (int i = 0; i < EmcType.values().length; i++)
         {
-            if (storedEmc.components[i] + emcValue.components[i] > maxStoredEmc)
+            if (storedEmc.components[i] + emcValue.components[i] > getCapacitor()
+                    .getMaxStoredEmc())
             {
                 return false;
             }
         }
         for (int i = 0; i < EmcType.values().length; i++)
         {
-            storedEmc.components[i] += emcValue.components[i];
+            getCapacitor().storedEmc.components[i] += emcValue.components[i];
         }
-        wantUpdate = true;
+        getCapacitor().wantUpdate = true;
         return true;
+    }
+    
+    public boolean addEmc(EmcValue emcValue, int x, int y, int z)
+    {
+        if (addEmc(emcValue))
+        {
+            RGBValue rgbvalue = EmcRGBValues.getRGB(emcValue);
+            TileEmcCapacitor tile = getCapacitor();
+            EntityBeamFX beam = new EntityBeamFX(worldObj, x + 0.5D, y + 0.5D,
+                    z + 0.5D, tile.xCoord + 0.5D, tile.yCoord + 0.5D,
+                    tile.zCoord + 0.5D, 0.1D, emcValue.getValue(),
+                    rgbvalue.colorR, rgbvalue.colorG, rgbvalue.colorB);
+            Minecraft.getMinecraft().effectRenderer.addEffect(beam);
+            return true;
+        }
+        return false;
     }
     
     @Override
     public float neededEmc(EmcType type)
     {
-        return maxStoredEmc - storedEmc.components[type.ordinal()];
+        return getCapacitor().getMaxStoredEmc()
+                - getCapacitor().getEmc().components[type.ordinal()];
     }
     
     @Override
     public boolean useEmc(EmcValue emcValue)
     {
-        if (!hasEmc(emcValue))
+        if (!getCapacitor().hasEmc(emcValue))
         {
             return false;
         }
         for (int i = 0; i < EmcType.values().length; i++)
         {
-            storedEmc.components[i] -= emcValue.components[i];
+            getCapacitor().storedEmc.components[i] -= emcValue.components[i];
         }
-        wantUpdate = true;
+        getCapacitor().wantUpdate = true;
         return true;
+    }
+    
+    public boolean useEmc(EmcValue emcValue, int x, int y, int z)
+    {
+        if (useEmc(emcValue))
+        {
+            RGBValue rgbvalue = EmcRGBValues.getRGB(emcValue);
+            TileEmcCapacitor tile = getCapacitor();
+            EntityBeamFX beam = new EntityBeamFX(worldObj, tile.xCoord + 0.5D,
+                    tile.yCoord + 0.5D, tile.zCoord + 0.5D, x + 0.5D, y + 0.5D,
+                    z + 0.5D, 0.1D, emcValue.getValue(), rgbvalue.colorR,
+                    rgbvalue.colorG, rgbvalue.colorB);
+            Minecraft.getMinecraft().effectRenderer.addEffect(beam);
+            return true;
+        }
+        return false;
     }
     
     @Override
@@ -94,7 +140,7 @@ public class TileEmcCapacitor extends TileEntity implements IInventory,
     {
         for (int i = 0; i < EmcType.values().length; i++)
         {
-            if (storedEmc.components[i] - emcValue.components[i] < 0)
+            if (getCapacitor().storedEmc.components[i] - emcValue.components[i] < 0)
             {
                 return false;
             }
@@ -111,7 +157,7 @@ public class TileEmcCapacitor extends TileEntity implements IInventory,
     @Override
     public EmcValue getEmc()
     {
-        return storedEmc;
+        return getCapacitor().storedEmc;
     }
     
     @Override
@@ -123,47 +169,56 @@ public class TileEmcCapacitor extends TileEntity implements IInventory,
     @Override
     public float getMaxStoredEmc()
     {
-        return maxStoredEmc;
+        return getCapacitor().maxStoredEmc * getCapacitor().linkedCapacitors;
     }
     
     public float getStoredEmc(EmcType type)
     {
-        return storedEmc.components[type.ordinal()];
+        return getCapacitor().storedEmc.components[type.ordinal()];
     }
     
     public void addPlayerUsingInv(EntityPlayer player)
     {
-        playersUsingInv.add(player);
+        getCapacitor().playersUsingInv.add(player);
         PacketDispatcher.sendPacketToPlayer(PacketTypeHandler
-                .populatePacket(new PacketEmcValue(storedEmc.components,
-                        xCoord, yCoord, zCoord)), (Player) player);
+                .populatePacket(new PacketEmcValue(
+                        getCapacitor().storedEmc.components,
+                        getCapacitor().linkedCapacitors, getCapacitor().xCoord,
+                        getCapacitor().yCoord, getCapacitor().zCoord)),
+                (Player) player);
     }
     
     public void removePlayerUsingInv(EntityPlayer player)
     {
-        playersUsingInv.remove(player);
+        getCapacitor().playersUsingInv.remove(player);
     }
     
     @Override
     public void updateEntity()
     {
         super.updateEntity();
-        if (!worldObj.isRemote)
+        if (this.worldObj.isRemote || this.xCoord != linkedCapX
+                || this.yCoord != linkedCapY || this.zCoord != linkedCapZ)
         {
-            ticksSinceUpdate++;
-            if (wantUpdate && ticksSinceUpdate >= 10)
-            {
-                for (EntityPlayer player : playersUsingInv)
-                {
-                    PacketDispatcher.sendPacketToPlayer(PacketTypeHandler
-                            .populatePacket(new PacketEmcValue(
-                                    storedEmc.components, xCoord, yCoord,
-                                    zCoord)), (Player) player);
-                }
-                wantUpdate = false;
-                ticksSinceUpdate = 0;
-            }
+            return;
         }
+        
+        getCapacitor().ticksSinceUpdate++;
+        if (getCapacitor().wantUpdate && getCapacitor().ticksSinceUpdate >= 10)
+        {
+            for (EntityPlayer player : getCapacitor().playersUsingInv)
+            {
+                PacketDispatcher.sendPacketToPlayer(PacketTypeHandler
+                        .populatePacket(new PacketEmcValue(
+                                getCapacitor().storedEmc.components,
+                                getCapacitor().linkedCapacitors,
+                                getCapacitor().xCoord, getCapacitor().yCoord,
+                                getCapacitor().zCoord)), (Player) player);
+            }
+            getCapacitor().wantUpdate = false;
+            getCapacitor().ticksSinceUpdate = 0;
+        }
+        
         if (getStackInSlot(0) != null
                 && getStackInSlot(0).getItem() instanceof IPortableEmcHolder)
         {
@@ -222,6 +277,108 @@ public class TileEmcCapacitor extends TileEntity implements IInventory,
                 }
             }
         }
+    }
+    
+    public void scanNeighbors()
+    {
+        for (int i = 0; i < ForgeDirection.values().length; i++)
+        {
+            ForgeDirection direction = ForgeDirection.getOrientation(i);
+            if (scanNeighbor(direction))
+                break;
+        }
+    }
+    
+    public TileEmcCapacitor getCapacitor()
+    {
+        TileEntity tile = worldObj.getBlockTileEntity(this.linkedCapX,
+                this.linkedCapY, this.linkedCapZ);
+        if (tile != null && tile instanceof TileEmcCapacitor)
+        {
+            return (TileEmcCapacitor) tile;
+        }
+        return this;
+    }
+    
+    public boolean scanNeighbor(ForgeDirection direction)
+    {
+        TileEntity tile;
+        switch (direction)
+        {
+            case EAST:
+                tile = worldObj.getBlockTileEntity(xCoord + 1, yCoord, zCoord);
+                if (tile instanceof TileEmcCapacitor)
+                {
+                    setLinkedCapacitor(tile);
+                    return true;
+                }
+                break;
+            case WEST:
+                tile = worldObj.getBlockTileEntity(xCoord - 1, yCoord, zCoord);
+                if (tile instanceof TileEmcCapacitor)
+                {
+                    setLinkedCapacitor(tile);
+                    return true;
+                }
+                break;
+            case UP:
+                tile = worldObj.getBlockTileEntity(xCoord, yCoord + 1, zCoord);
+                if (tile instanceof TileEmcCapacitor)
+                {
+                    setLinkedCapacitor(tile);
+                    return true;
+                }
+                break;
+            case DOWN:
+                tile = worldObj.getBlockTileEntity(xCoord, yCoord - 1, zCoord);
+                if (tile instanceof TileEmcCapacitor)
+                {
+                    setLinkedCapacitor(tile);
+                    return true;
+                }
+                break;
+            case SOUTH:
+                tile = worldObj.getBlockTileEntity(xCoord, yCoord, zCoord + 1);
+                if (tile instanceof TileEmcCapacitor)
+                {
+                    setLinkedCapacitor(tile);
+                    return true;
+                }
+                break;
+            case NORTH:
+                tile = worldObj.getBlockTileEntity(xCoord, yCoord, zCoord - 1);
+                if (tile instanceof TileEmcCapacitor)
+                {
+                    setLinkedCapacitor(tile);
+                    return true;
+                }
+                break;
+            default:
+                break;
+        }
+        return false;
+    }
+    
+    public void setLinkedCapacitor(TileEntity tile)
+    {
+        TileEmcCapacitor tileCap = (TileEmcCapacitor) tile;
+        tileCap = tileCap.getCapacitor();
+        this.linkedCapX = tileCap.xCoord;
+        this.linkedCapY = tileCap.yCoord;
+        this.linkedCapZ = tileCap.zCoord;
+        tileCap.linkedCapacitors++;
+    }
+    
+    @Override
+    public void invalidate()
+    {
+        TileEntity tile = worldObj.getBlockTileEntity(linkedCapX, linkedCapY,
+                linkedCapZ);
+        if (tile != null && tile instanceof TileEmcCapacitor)
+        {
+            ((TileEmcCapacitor) tile).linkedCapacitors--;
+        }
+        super.invalidate();
     }
     
     @Override
@@ -342,6 +499,11 @@ public class TileEmcCapacitor extends TileEntity implements IInventory,
         {
             storedEmc.components[i] = nbtTagCompound.getFloat("EMC" + i);
         }
+        
+        linkedCapX = nbtTagCompound.getInteger("linkedCapX");
+        linkedCapY = nbtTagCompound.getInteger("linkedCapY");
+        linkedCapZ = nbtTagCompound.getInteger("linkedCapZ");
+        linkedCapacitors = nbtTagCompound.getInteger("linkedCapacitors");
     }
     
     @Override
@@ -365,5 +527,10 @@ public class TileEmcCapacitor extends TileEntity implements IInventory,
         {
             nbtTagCompound.setFloat("EMC" + i, storedEmc.components[i]);
         }
+        
+        nbtTagCompound.setInteger("linkedCapX", linkedCapX);
+        nbtTagCompound.setInteger("linkedCapY", linkedCapY);
+        nbtTagCompound.setInteger("linkedCapZ", linkedCapZ);
+        nbtTagCompound.setInteger("linkedCapacitors", linkedCapacitors);
     }
 }

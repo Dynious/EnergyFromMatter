@@ -134,16 +134,16 @@ public class TileEnergyCondenser extends TileEntity implements IInventory
     public void openChest()
     {
         ++numUsingPlayers;
-        //worldObj.addBlockEvent(xCoord, yCoord, zCoord,
-        //        ModBlocks.energyCondenser.blockID, 1, numUsingPlayers);
+        // worldObj.addBlockEvent(xCoord, yCoord, zCoord,
+        // ModBlocks.energyCondenser.blockID, 1, numUsingPlayers);
     }
     
     @Override
     public void closeChest()
     {
         --numUsingPlayers;
-        //worldObj.addBlockEvent(xCoord, yCoord, zCoord,
-        //        ModBlocks.energyCondenser.blockID, 1, numUsingPlayers);
+        // worldObj.addBlockEvent(xCoord, yCoord, zCoord,
+        // ModBlocks.energyCondenser.blockID, 1, numUsingPlayers);
     }
     
     /**

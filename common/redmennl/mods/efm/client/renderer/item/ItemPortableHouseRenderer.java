@@ -121,9 +121,9 @@ public class ItemPortableHouseRenderer implements IItemRenderer
             try
             {
                 metaArr = i.getTagCompound().getByteArray("metaArr");
+            } catch (Exception e)
+            {
             }
-            catch (Exception e)
-            {}
             
             GL11.glPushMatrix();
             
@@ -203,7 +203,8 @@ public class ItemPortableHouseRenderer implements IItemRenderer
                     }
                 } else
                 {
-                    LogHelper.debug("What?! You got an item in the Portable House! Post how you did that!");
+                    LogHelper
+                            .debug("What?! You got an item in the Portable House! Post how you did that!");
                 }
                 GL11.glPopMatrix();
                 

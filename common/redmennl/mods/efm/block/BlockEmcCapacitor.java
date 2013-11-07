@@ -1,7 +1,5 @@
 package redmennl.mods.efm.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -16,6 +14,8 @@ import redmennl.mods.efm.item.ModItems;
 import redmennl.mods.efm.lib.GuiIds;
 import redmennl.mods.efm.lib.Resources;
 import redmennl.mods.efm.tileentity.TileEmcCapacitor;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockEmcCapacitor extends BlockContainer
 {
@@ -52,24 +52,43 @@ public class BlockEmcCapacitor extends BlockContainer
                     {
                         stack.setTagCompound(new NBTTagCompound());
                     }
-                    if (!(stack.getTagCompound().getInteger("tileX") == x
-                            && stack.getTagCompound().getInteger("tileY") == y && stack
-                            .getTagCompound().getInteger("tileZ") == z))
+                    if (!(stack.getTagCompound().getInteger("tileX") == tile
+                            .getCapacitor().xCoord
+                            && stack.getTagCompound().getInteger("tileY") == tile
+                                    .getCapacitor().yCoord && stack
+                            .getTagCompound().getInteger("tileZ") == tile
+                            .getCapacitor().zCoord))
                     {
-                        stack.getTagCompound().setInteger("tileX", x);
-                        stack.getTagCompound().setInteger("tileY", y);
-                        stack.getTagCompound().setInteger("tileZ", z);
+                        stack.getTagCompound().setInteger("tileX",
+                                tile.getCapacitor().xCoord);
+                        stack.getTagCompound().setInteger("tileY",
+                                tile.getCapacitor().yCoord);
+                        stack.getTagCompound().setInteger("tileZ",
+                                tile.getCapacitor().zCoord);
                         player.sendChatToPlayer(new ChatMessageComponent()
-                                .addText("Linker set to EMC Capacitor at: " + x
-                                        + ", " + y + ", " + z));
+                                .addText("Linker set to EMC Capacitor at: "
+                                        + tile.getCapacitor().xCoord + ", "
+                                        + tile.getCapacitor().yCoord + ", "
+                                        + tile.getCapacitor().zCoord));
                         return true;
                     }
                 }
                 player.openGui(EnergyFromMatter.instance, GuiIds.EMC_CAPACITOR,
-                        world, x, y, z);
+                        world, tile.getCapacitor().xCoord,
+                        tile.getCapacitor().yCoord, tile.getCapacitor().zCoord);
             }
             return true;
         }
+    }
+    
+    @Override
+    public void onBlockAdded(World world, int x, int y, int z)
+    {
+        super.onBlockAdded(world, x, y, z);
+        TileEmcCapacitor tile = (TileEmcCapacitor) world.getBlockTileEntity(x,
+                y, z);
+        tile.setLinkedCapacitor(tile);
+        tile.scanNeighbors();
     }
     
     @Override

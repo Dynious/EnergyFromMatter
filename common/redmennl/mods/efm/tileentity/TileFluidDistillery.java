@@ -41,7 +41,12 @@ public class TileFluidDistillery extends TileEmc implements IFluidHandler
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill)
     {
-        if (getEmcCapacitor() != null
+        if (worldObj.isRemote)
+        {
+            return 0;
+        }
+        TileEmcCapacitor emcCap = getEmcCapacitor();
+        if (emcCap != null
                 && EmcRegistry.hasEmcValue(Block.blocksList[resource.getFluid()
                         .getBlockID()]))
         {
@@ -50,10 +55,10 @@ public class TileFluidDistillery extends TileEmc implements IFluidHandler
             int maxAmount = resource.amount;
             for (EmcType type : EmcType.values())
             {
-                if (getEmcCapacitor().neededEmc(type) < value.components[type
-                        .ordinal()] * maxAmount / 1000)
+                if (emcCap.neededEmc(type) < value.components[type.ordinal()]
+                        * maxAmount / 1000)
                 {
-                    maxAmount = (int) getEmcCapacitor().neededEmc(type) * 1000;
+                    maxAmount = (int) emcCap.neededEmc(type) * 1000;
                 }
             }
             if (doFill)
@@ -64,7 +69,7 @@ public class TileFluidDistillery extends TileEmc implements IFluidHandler
                     newValue.components[type.ordinal()] = value.components[type
                             .ordinal()] / 1000 * maxAmount;
                 }
-                getEmcCapacitor().addEmc(newValue);
+                emcCap.addEmc(newValue, xCoord, yCoord, zCoord);
             }
             return maxAmount;
         } else

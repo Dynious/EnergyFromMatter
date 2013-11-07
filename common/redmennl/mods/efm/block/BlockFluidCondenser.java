@@ -33,7 +33,8 @@ public class BlockFluidCondenser extends BlockEmc
         {
             if (tile != null && tile instanceof TileFluidCondenser)
             {
-                FMLCommonHandler.instance().showGuiScreen(new GuiFluidCondenser((TileFluidCondenser)tile));
+                FMLCommonHandler.instance().showGuiScreen(
+                        new GuiFluidCondenser((TileFluidCondenser) tile));
                 return true;
             }
         }

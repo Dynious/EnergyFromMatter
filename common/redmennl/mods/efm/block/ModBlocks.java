@@ -15,7 +15,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class ModBlocks
 {
-    //public static Block energyCondenser;
+    // public static Block energyCondenser;
     public static Block matterDistillery;
     public static Block emcCapacitor;
     public static Block cropRipener;
@@ -27,7 +27,8 @@ public class ModBlocks
     
     public static void init()
     {
-        //energyCondenser = new BlockEnergyCondenser(BlockIds.ENERGY_CONDENSER);
+        // energyCondenser = new
+        // BlockEnergyCondenser(BlockIds.ENERGY_CONDENSER);
         matterDistillery = new BlockMatterDistillery(BlockIds.MATTER_DISTILLERY);
         emcCapacitor = new BlockEmcCapacitor(BlockIds.EMC_CAPACITOR);
         cropRipener = new BlockCropRipener(BlockIds.CROP_RIPENER);
@@ -46,8 +47,8 @@ public class ModBlocks
             LanguageRegistry.addName(powerLink, "Power Link");
         }
         
-        //GameRegistry.registerBlock(energyCondenser, Reference.MOD_ID
-        //        + energyCondenser.getUnlocalizedName().substring(5));
+        // GameRegistry.registerBlock(energyCondenser, Reference.MOD_ID
+        // + energyCondenser.getUnlocalizedName().substring(5));
         GameRegistry.registerBlock(matterDistillery, Reference.MOD_ID
                 + matterDistillery.getUnlocalizedName().substring(5));
         GameRegistry.registerBlock(emcCapacitor, Reference.MOD_ID
@@ -64,7 +65,7 @@ public class ModBlocks
         GameRegistry.registerBlock(fluidCondenser, Reference.MOD_ID
                 + fluidCondenser.getUnlocalizedName().substring(5));
         
-        //LanguageRegistry.addName(energyCondenser, "Energy Condenser");
+        // LanguageRegistry.addName(energyCondenser, "Energy Condenser");
         LanguageRegistry.addName(matterDistillery, "Matter Distillery");
         LanguageRegistry.addName(emcCapacitor, "EMC Capacitor");
         LanguageRegistry.addName(cropRipener, "Crop Ripener");
@@ -81,10 +82,10 @@ public class ModBlocks
     
     private static void initBlockRecipes()
     {
-        //GameRegistry
-        //        .addRecipe(new ItemStack(energyCondenser), "odo", "dcd", "odo",
-        //                'o', Block.obsidian, 'd', Item.diamond, 'c',
-        //                Block.chest);
+        // GameRegistry
+        // .addRecipe(new ItemStack(energyCondenser), "odo", "dcd", "odo",
+        // 'o', Block.obsidian, 'd', Item.diamond, 'c',
+        // Block.chest);
         GameRegistry.addRecipe(new ItemStack(matterDistillery), "dod", "ogo",
                 "dod", 'd', Item.diamond, 'o', Block.obsidian, 'g',
                 new ItemStack(com.pahimar.ee3.item.ModItems.miniumStone, 1,
@@ -107,8 +108,8 @@ public class ModBlocks
                 Item.bucketLava, 'g', new ItemStack(
                         com.pahimar.ee3.item.ModItems.miniumStone, 1,
                         OreDictionary.WILDCARD_VALUE));
-        GameRegistry.addRecipe(new ItemStack(fluidCondenser), "beb", "ede", "beb",
-                'b', Item.bucketEmpty, 'e', Item.enderPearl, 'd',
+        GameRegistry.addRecipe(new ItemStack(fluidCondenser), "beb", "ede",
+                "beb", 'b', Item.bucketEmpty, 'e', Item.enderPearl, 'd',
                 Item.diamond);
     }
     
