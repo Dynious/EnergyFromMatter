@@ -13,10 +13,6 @@ import redmennl.mods.efm.tileentity.TileFluidCondenser;
 
 import com.pahimar.ee3.emc.EmcRegistry;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
-@SideOnly(Side.CLIENT)
 public class GuiFluidCondenser extends GuiScreen
 {
     private TileFluidCondenser tile;
