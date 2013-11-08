@@ -8,14 +8,12 @@ import net.minecraftforge.oredict.OreDictionary;
 import redmennl.mods.efm.EnergyFromMatter;
 import redmennl.mods.efm.block.item.ItemPortableHouse;
 import redmennl.mods.efm.lib.BlockIds;
-import redmennl.mods.efm.lib.Reference;
+import redmennl.mods.efm.lib.Strings;
 import buildcraft.BuildCraftTransport;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class ModBlocks
 {
-    // public static Block energyCondenser;
     public static Block matterDistillery;
     public static Block emcCapacitor;
     public static Block cropRipener;
@@ -27,8 +25,6 @@ public class ModBlocks
     
     public static void init()
     {
-        // energyCondenser = new
-        // BlockEnergyCondenser(BlockIds.ENERGY_CONDENSER);
         matterDistillery = new BlockMatterDistillery(BlockIds.MATTER_DISTILLERY);
         emcCapacitor = new BlockEmcCapacitor(BlockIds.EMC_CAPACITOR);
         cropRipener = new BlockCropRipener(BlockIds.CROP_RIPENER);
@@ -41,31 +37,21 @@ public class ModBlocks
         {
             powerLink = new BlockPowerLink(BlockIds.POWER_LINK);
             
-            GameRegistry.registerBlock(powerLink, Reference.MOD_ID
-                    + powerLink.getUnlocalizedName().substring(5));
+            GameRegistry.registerBlock(powerLink, Strings.POWER_LINK_NAME);
             
-            LanguageRegistry.addName(powerLink, "Power Link");
+            //LanguageRegistry.addName(powerLink, "Power Link");
         }
         
-        // GameRegistry.registerBlock(energyCondenser, Reference.MOD_ID
-        // + energyCondenser.getUnlocalizedName().substring(5));
-        GameRegistry.registerBlock(matterDistillery, Reference.MOD_ID
-                + matterDistillery.getUnlocalizedName().substring(5));
-        GameRegistry.registerBlock(emcCapacitor, Reference.MOD_ID
-                + emcCapacitor.getUnlocalizedName().substring(5));
-        GameRegistry.registerBlock(cropRipener, Reference.MOD_ID
-                + cropRipener.getUnlocalizedName().substring(5));
-        GameRegistry.registerBlock(condenser, Reference.MOD_ID
-                + condenser.getUnlocalizedName().substring(5));
+        GameRegistry.registerBlock(matterDistillery, Strings.MATTER_DISTILLERY_NAME);
+        GameRegistry.registerBlock(emcCapacitor, Strings.EMC_CAPACITOR_NAME);
+        GameRegistry.registerBlock(cropRipener, Strings.CROP_RIPENER_NAME);
+        GameRegistry.registerBlock(condenser, Strings.CONDENSER_NAME);
         GameRegistry.registerBlock(portableHouse, ItemPortableHouse.class,
-                Reference.MOD_ID
-                        + portableHouse.getUnlocalizedName().substring(5));
-        GameRegistry.registerBlock(fluidDistillery, Reference.MOD_ID
-                + fluidDistillery.getUnlocalizedName().substring(5));
-        GameRegistry.registerBlock(fluidCondenser, Reference.MOD_ID
-                + fluidCondenser.getUnlocalizedName().substring(5));
+                Strings.PORTABLE_HOUSE_NAME);
+        GameRegistry.registerBlock(fluidDistillery, Strings.FLUID_DISTILLERY_NAME);
+        GameRegistry.registerBlock(fluidCondenser, Strings.FLUID_CONDENSER_NAME);
         
-        // LanguageRegistry.addName(energyCondenser, "Energy Condenser");
+        /*
         LanguageRegistry.addName(matterDistillery, "Matter Distillery");
         LanguageRegistry.addName(emcCapacitor, "EMC Capacitor");
         LanguageRegistry.addName(cropRipener, "Crop Ripener");
@@ -76,16 +62,13 @@ public class ModBlocks
                 "Portable House Deployer");
         LanguageRegistry.addName(fluidDistillery, "Fluid Distillery");
         LanguageRegistry.addName(fluidCondenser, "Fluid Condenser");
+        */
         
         initBlockRecipes();
     }
     
     private static void initBlockRecipes()
     {
-        // GameRegistry
-        // .addRecipe(new ItemStack(energyCondenser), "odo", "dcd", "odo",
-        // 'o', Block.obsidian, 'd', Item.diamond, 'c',
-        // Block.chest);
         GameRegistry.addRecipe(new ItemStack(matterDistillery), "dod", "ogo",
                 "dod", 'd', Item.diamond, 'o', Block.obsidian, 'g',
                 new ItemStack(com.pahimar.ee3.item.ModItems.miniumStone, 1,

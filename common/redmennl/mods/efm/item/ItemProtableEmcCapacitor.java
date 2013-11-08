@@ -4,6 +4,7 @@ import java.util.List;
 
 import redmennl.mods.efm.EnergyFromMatter;
 import redmennl.mods.efm.emc.IPortableEmcHolder;
+import redmennl.mods.efm.lib.Strings;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -21,7 +22,7 @@ public class ItemProtableEmcCapacitor extends ItemEFM implements
     public ItemProtableEmcCapacitor(int id)
     {
         super(id);
-        this.setUnlocalizedName("portableEmcCapacitor");
+        this.setUnlocalizedName(Strings.RESOURCE_PREFIX + Strings.PORTABLE_EMC_CAPACITOR_NAME);
         this.setCreativeTab(EnergyFromMatter.tabEFM);
     }
     

@@ -17,6 +17,7 @@ import net.minecraft.world.World;
 import redmennl.mods.efm.EnergyFromMatter;
 import redmennl.mods.efm.client.gui.inventory.GuiPortableHouse;
 import redmennl.mods.efm.lib.Resources;
+import redmennl.mods.efm.lib.Strings;
 import redmennl.mods.efm.tileentity.TilePortableHouse;
 import redmennl.mods.efm.tileentity.TilePortableHouseDeployer;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -29,7 +30,7 @@ public class BlockPortableHouse extends BlockContainer
     public BlockPortableHouse(int id)
     {
         super(id, Material.iron);
-        this.setUnlocalizedName("portableHouse");
+        this.setUnlocalizedName(Strings.RESOURCE_PREFIX + Strings.PORTABLE_HOUSE_NAME);
         this.setCreativeTab(EnergyFromMatter.tabEFM);
         this.setHardness(5.0F);
     }

@@ -36,57 +36,61 @@ public class EmcRGBValues
     public static RGBValue getRGB(EmcValue emcValue)
     {
         RGBValue value = new RGBValue(0, 0, 0);
-        int components = 0;
+        float components = 0;
         for (int i = 0; i < emcValue.components.length; i++)
         {
             float component = emcValue.components[i];
             if (component != 0.0F)
             {
+                if (component < 0.1F)
+                {
+                    component = 0.1F;
+                }
                 EmcType type = EmcType.values()[i];
                 switch (type)
                 {
                     case OMNI:
-                        value.colorR += omniR;
-                        value.colorG += omniG;
-                        value.colorB += omniB;
+                        value.colorR += omniR * component;
+                        value.colorG += omniG * component;
+                        value.colorB += omniB * component;
                         break;
                     case CORPOREAL:
-                        value.colorR += corporealR;
-                        value.colorG += corporealG;
-                        value.colorB += corporealB;
+                        value.colorR += corporealR * component;
+                        value.colorG += corporealG * component;
+                        value.colorB += corporealB * component;
                         break;
                     case KINETIC:
-                        value.colorR += kineticR;
-                        value.colorG += kineticG;
-                        value.colorB += kineticB;
+                        value.colorR += kineticR * component;
+                        value.colorG += kineticG * component;
+                        value.colorB += kineticB * component;
                         break;
                     case TEMPORAL:
-                        value.colorR += tempotalR;
-                        value.colorG += tempotalG;
-                        value.colorB += tempotalB;
+                        value.colorR += tempotalR * component;
+                        value.colorG += tempotalG * component;
+                        value.colorB += tempotalB * component;
                         break;
                     case ESSENTIA:
-                        value.colorR += essentiaR;
-                        value.colorG += essentiaG;
-                        value.colorB += essentiaB;
+                        value.colorR += essentiaR * component;
+                        value.colorG += essentiaG * component;
+                        value.colorB += essentiaB * component;
                         break;
                     case AMORPHOUS:
-                        value.colorR += amorphousR;
-                        value.colorG += amorphousG;
-                        value.colorB += amorphousB;
+                        value.colorR += amorphousR * component;
+                        value.colorG += amorphousG * component;
+                        value.colorB += amorphousB * component;
                         break;
                     case VOID:
-                        value.colorR += voidR;
-                        value.colorG += voidG;
-                        value.colorB += voidB;
+                        value.colorR += voidR * component;
+                        value.colorG += voidG * component;
+                        value.colorB += voidB * component;
                         break;
                 }
-                components++;
+                components += component;
             }
         }
-        value.colorR = value.colorR / components;
-        value.colorG = value.colorG / components;
-        value.colorB = value.colorB / components;
+        value.colorR = (int)(value.colorR / components);
+        value.colorG = (int)(value.colorG / components);
+        value.colorB = (int)(value.colorB / components);
         return value;
     }
     
@@ -96,39 +100,39 @@ public class EmcRGBValues
         switch (emcType)
         {
             case OMNI:
-                value.colorR += omniR;
-                value.colorG += omniG;
-                value.colorB += omniB;
+                value.colorR = omniR;
+                value.colorG = omniG;
+                value.colorB = omniB;
                 break;
             case CORPOREAL:
-                value.colorR += corporealR;
-                value.colorG += corporealG;
-                value.colorB += corporealB;
+                value.colorR = corporealR;
+                value.colorG = corporealG;
+                value.colorB = corporealB;
                 break;
             case KINETIC:
-                value.colorR += kineticR;
-                value.colorG += kineticG;
-                value.colorB += kineticB;
+                value.colorR = kineticR;
+                value.colorG = kineticG;
+                value.colorB = kineticB;
                 break;
             case TEMPORAL:
-                value.colorR += tempotalR;
-                value.colorG += tempotalG;
-                value.colorB += tempotalB;
+                value.colorR = tempotalR;
+                value.colorG = tempotalG;
+                value.colorB = tempotalB;
                 break;
             case ESSENTIA:
-                value.colorR += essentiaR;
-                value.colorG += essentiaG;
-                value.colorB += essentiaB;
+                value.colorR = essentiaR;
+                value.colorG = essentiaG;
+                value.colorB = essentiaB;
                 break;
             case AMORPHOUS:
-                value.colorR += amorphousR;
-                value.colorG += amorphousG;
-                value.colorB += amorphousB;
+                value.colorR = amorphousR;
+                value.colorG = amorphousG;
+                value.colorB = amorphousB;
                 break;
             case VOID:
-                value.colorR += voidR;
-                value.colorG += voidG;
-                value.colorB += voidB;
+                value.colorR = voidR;
+                value.colorG = voidG;
+                value.colorB = voidB;
                 break;
         }
         return value;

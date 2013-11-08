@@ -6,6 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import redmennl.mods.efm.EnergyFromMatter;
+import redmennl.mods.efm.lib.Strings;
 import redmennl.mods.efm.tileentity.TileCropRipener;
 
 public class BlockCropRipener extends BlockEmc
@@ -13,7 +14,7 @@ public class BlockCropRipener extends BlockEmc
     public BlockCropRipener(int id)
     {
         super(id, Material.water);
-        this.setUnlocalizedName("cropRipener");
+        this.setUnlocalizedName(Strings.RESOURCE_PREFIX + Strings.CROP_RIPENER_NAME);
         this.setCreativeTab(EnergyFromMatter.tabEFM);
         this.setHardness(5.0F);
         this.setStepSound(soundMetalFootstep);

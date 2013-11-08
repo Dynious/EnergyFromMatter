@@ -25,7 +25,8 @@ public class TilePowerLink extends TileEmc implements IPowerEmitter,
 {
     public static final int emcMjConversionSize = 250;
     public static final int emcEuConversionSize = 625;
-    TileEntity[] tiles;
+    private TileEntity[] tiles;
+    private boolean firstUpdate = false;
     
     public TilePowerLink()
     {
@@ -40,6 +41,11 @@ public class TilePowerLink extends TileEmc implements IPowerEmitter,
         if (worldObj.isRemote)
         {
             return;
+        }
+        if (!firstUpdate)
+        {
+            scanNeighbors();
+            firstUpdate = true;
         }
         TileEmcCapacitor emcCap = getEmcCapacitor();
         if (emcCap != null)
@@ -73,7 +79,8 @@ public class TilePowerLink extends TileEmc implements IPowerEmitter,
                                 if (emcCap
                                         .useEmc(new EmcValue(usedMJ
                                                 / emcMjConversionSize,
-                                                EmcType.KINETIC)))
+                                                EmcType.KINETIC), xCoord,
+                                                yCoord, zCoord))
                                 {
                                     reciever.receiveEnergy(Type.STORAGE,
                                             usedMJ,

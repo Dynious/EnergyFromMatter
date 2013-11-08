@@ -4,7 +4,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import redmennl.mods.efm.lib.ItemIds;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class ModItems
 {
@@ -21,11 +20,13 @@ public class ModItems
         gravityDefyer = new ItemGravityDefyer(ItemIds.GRAVITY_DEFYER);
         healer = new ItemHealer(ItemIds.HEALER);
         
+        /*
         LanguageRegistry.addName(linker, "Linker");
         LanguageRegistry
                 .addName(portableEmcCapacitor, "Portable EMC Capacitor");
         LanguageRegistry.addName(gravityDefyer, "Gravity Defyer");
         LanguageRegistry.addName(healer, "Healer");
+        */
         
         initItemRecipes();
     }

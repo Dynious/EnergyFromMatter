@@ -13,6 +13,7 @@ import redmennl.mods.efm.EnergyFromMatter;
 import redmennl.mods.efm.item.ModItems;
 import redmennl.mods.efm.lib.GuiIds;
 import redmennl.mods.efm.lib.Resources;
+import redmennl.mods.efm.lib.Strings;
 import redmennl.mods.efm.tileentity.TileEmcCapacitor;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -22,7 +23,7 @@ public class BlockEmcCapacitor extends BlockContainer
     protected BlockEmcCapacitor(int id)
     {
         super(id, Material.iron);
-        this.setUnlocalizedName("emcCapacitor");
+        this.setUnlocalizedName(Strings.RESOURCE_PREFIX + Strings.EMC_CAPACITOR_NAME);
         this.setCreativeTab(EnergyFromMatter.tabEFM);
         this.setHardness(5.0F);
     }
@@ -96,6 +97,6 @@ public class BlockEmcCapacitor extends BlockContainer
     public void registerIcons(IconRegister par1IconRegister)
     {
         blockIcon = par1IconRegister.registerIcon(Resources.MOD_ID + ":"
-                + this.getUnlocalizedName().substring(5));
+                + this.getUnlocalizedName().substring(9));
     }
 }

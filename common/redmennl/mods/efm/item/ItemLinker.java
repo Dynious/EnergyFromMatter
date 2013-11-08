@@ -9,13 +9,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import redmennl.mods.efm.EnergyFromMatter;
 import redmennl.mods.efm.lib.Resources;
+import redmennl.mods.efm.lib.Strings;
 
 public class ItemLinker extends ItemEFM
 {
     public ItemLinker(int id)
     {
         super(id);
-        this.setUnlocalizedName("linker");
+        this.setUnlocalizedName(Strings.RESOURCE_PREFIX + Strings.LINKER_NAME);
         this.setCreativeTab(EnergyFromMatter.tabEFM);
         this.setMaxStackSize(1);
     }
@@ -39,6 +40,6 @@ public class ItemLinker extends ItemEFM
     public void registerIcons(IconRegister par1IconRegister)
     {
         itemIcon = par1IconRegister.registerIcon(Resources.MOD_ID + ":"
-                + this.getUnlocalizedName().substring(5));
+                + this.getUnlocalizedName().substring(9));
     }
 }

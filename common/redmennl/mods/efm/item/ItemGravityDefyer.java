@@ -9,12 +9,20 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import redmennl.mods.efm.EnergyFromMatter;
+import redmennl.mods.efm.lib.Strings;
 
 import com.pahimar.ee3.emc.EmcType;
 import com.pahimar.ee3.emc.EmcValue;
 
 public class ItemGravityDefyer extends ItemProtableEmcCapacitor
 {
+    public ItemGravityDefyer(int id)
+    {
+        super(id);
+        this.setUnlocalizedName(Strings.RESOURCE_PREFIX + Strings.GRAVITY_DEFYER_NAME);
+        this.setCreativeTab(EnergyFromMatter.tabEFM);
+        this.setMaxStackSize(1);
+    }
     
     @Override
     public boolean onDroppedByPlayer(ItemStack stack, EntityPlayer ep)
@@ -23,14 +31,6 @@ public class ItemGravityDefyer extends ItemProtableEmcCapacitor
         ep.capabilities.allowFlying = false;
         ep.capabilities.isFlying = false;
         return super.onDroppedByPlayer(stack, ep);
-    }
-    
-    public ItemGravityDefyer(int id)
-    {
-        super(id);
-        this.setUnlocalizedName("gravityDefyer");
-        this.setCreativeTab(EnergyFromMatter.tabEFM);
-        this.setMaxStackSize(1);
     }
     
     @SuppressWarnings({ "unchecked", "rawtypes" })

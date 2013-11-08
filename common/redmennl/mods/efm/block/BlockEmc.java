@@ -101,7 +101,7 @@ public abstract class BlockEmc extends BlockContainer
         for (int i = 0; i < icons.length; i++)
         {
             icons[i] = par1IconRegister.registerIcon(Resources.MOD_ID + ":"
-                    + this.getUnlocalizedName().substring(5) + i);
+                    + this.getUnlocalizedName().substring(9) + i);
         }
     }
     

@@ -9,6 +9,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import redmennl.mods.efm.EnergyFromMatter;
+import redmennl.mods.efm.lib.Strings;
 
 import com.pahimar.ee3.emc.EmcType;
 import com.pahimar.ee3.emc.EmcValue;
@@ -20,7 +21,7 @@ public class ItemHealer extends ItemProtableEmcCapacitor
     public ItemHealer(int id)
     {
         super(id);
-        this.setUnlocalizedName("healer");
+        this.setUnlocalizedName(Strings.RESOURCE_PREFIX + Strings.HEALER_NAME);
         this.setCreativeTab(EnergyFromMatter.tabEFM);
         this.setMaxStackSize(1);
     }

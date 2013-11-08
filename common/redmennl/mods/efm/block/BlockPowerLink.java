@@ -6,6 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import redmennl.mods.efm.EnergyFromMatter;
+import redmennl.mods.efm.lib.Strings;
 import redmennl.mods.efm.tileentity.TilePowerLink;
 
 public class BlockPowerLink extends BlockEmc
@@ -13,7 +14,7 @@ public class BlockPowerLink extends BlockEmc
     public BlockPowerLink(int id)
     {
         super(id, Material.iron);
-        this.setUnlocalizedName("powerLink");
+        this.setUnlocalizedName(Strings.RESOURCE_PREFIX + Strings.POWER_LINK_NAME);
         this.setCreativeTab(EnergyFromMatter.tabEFM);
         this.setHardness(5.0F);
     }

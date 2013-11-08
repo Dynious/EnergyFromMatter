@@ -15,6 +15,7 @@ import redmennl.mods.efm.emc.IEmcHolder;
 import redmennl.mods.efm.emc.IPortableEmcHolder;
 import redmennl.mods.efm.lib.EmcRGBValues;
 import redmennl.mods.efm.lib.RGBValue;
+import redmennl.mods.efm.lib.Toggles;
 import redmennl.mods.efm.network.PacketTypeHandler;
 import redmennl.mods.efm.network.packet.PacketEmcValue;
 
@@ -85,13 +86,16 @@ public class TileEmcCapacitor extends TileEntity implements IInventory,
     {
         if (addEmc(emcValue))
         {
-            RGBValue rgbvalue = EmcRGBValues.getRGB(emcValue);
-            TileEmcCapacitor tile = getCapacitor();
-            EntityBeamFX beam = new EntityBeamFX(worldObj, x + 0.5D, y + 0.5D,
-                    z + 0.5D, tile.xCoord + 0.5D, tile.yCoord + 0.5D,
-                    tile.zCoord + 0.5D, 0.1D, emcValue.getValue(),
-                    rgbvalue.colorR, rgbvalue.colorG, rgbvalue.colorB);
-            Minecraft.getMinecraft().effectRenderer.addEffect(beam);
+            if (Toggles.SHOW_EMC_PARTICLES)
+            {
+                RGBValue rgbvalue = EmcRGBValues.getRGB(emcValue);
+                TileEmcCapacitor tile = getCapacitor();
+                EntityBeamFX beam = new EntityBeamFX(worldObj, x + 0.5D, y + 0.5D,
+                        z + 0.5D, tile.xCoord + 0.5D, tile.yCoord + 0.5D,
+                        tile.zCoord + 0.5D, 0.1D, emcValue.getValue(),
+                        rgbvalue.colorR, rgbvalue.colorG, rgbvalue.colorB);
+                Minecraft.getMinecraft().effectRenderer.addEffect(beam);
+            }
             return true;
         }
         return false;
@@ -123,13 +127,16 @@ public class TileEmcCapacitor extends TileEntity implements IInventory,
     {
         if (useEmc(emcValue))
         {
-            RGBValue rgbvalue = EmcRGBValues.getRGB(emcValue);
-            TileEmcCapacitor tile = getCapacitor();
-            EntityBeamFX beam = new EntityBeamFX(worldObj, tile.xCoord + 0.5D,
-                    tile.yCoord + 0.5D, tile.zCoord + 0.5D, x + 0.5D, y + 0.5D,
-                    z + 0.5D, 0.1D, emcValue.getValue(), rgbvalue.colorR,
-                    rgbvalue.colorG, rgbvalue.colorB);
-            Minecraft.getMinecraft().effectRenderer.addEffect(beam);
+            if (Toggles.SHOW_EMC_PARTICLES)
+            {
+                RGBValue rgbvalue = EmcRGBValues.getRGB(emcValue);
+                TileEmcCapacitor tile = getCapacitor();
+                EntityBeamFX beam = new EntityBeamFX(worldObj, tile.xCoord + 0.5D,
+                        tile.yCoord + 0.5D, tile.zCoord + 0.5D, x + 0.5D, y + 0.5D,
+                        z + 0.5D, 0.1D, emcValue.getValue(), rgbvalue.colorR,
+                        rgbvalue.colorG, rgbvalue.colorB);
+                Minecraft.getMinecraft().effectRenderer.addEffect(beam);
+            }
             return true;
         }
         return false;

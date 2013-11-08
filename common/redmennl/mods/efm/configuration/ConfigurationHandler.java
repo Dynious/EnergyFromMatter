@@ -6,6 +6,7 @@ import net.minecraftforge.common.Configuration;
 import redmennl.mods.efm.lib.BlockIds;
 import redmennl.mods.efm.lib.ItemIds;
 import redmennl.mods.efm.lib.Reference;
+import redmennl.mods.efm.lib.Toggles;
 
 import com.pahimar.ee3.core.helper.LogHelper;
 
@@ -57,6 +58,10 @@ public class ConfigurationHandler
                     ItemIds.GRAVITY_DEFYER_DEFAULT);
             ItemIds.HEALER = configuration.getItem("healer",
                     ItemIds.HEALER_DEFAULT).getInt(ItemIds.HEALER_DEFAULT);
+            
+            
+            Toggles.SHOW_EMC_PARTICLES = configuration.get("Client options", "Show EMC Particles", Toggles.SHOW_EMC_PARTICLES_DEFAULT).getBoolean(Toggles.SHOW_EMC_PARTICLES_DEFAULT);
+            
         } catch (Exception e)
         {
             LogHelper.severe(Reference.MOD_NAME
