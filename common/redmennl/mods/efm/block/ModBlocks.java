@@ -22,49 +22,40 @@ public class ModBlocks
     public static Block portableHouse;
     public static Block fluidDistillery;
     public static Block fluidCondenser;
+    public static Block matterSuperheater;
     
     public static void init()
     {
         matterDistillery = new BlockMatterDistillery(BlockIds.MATTER_DISTILLERY);
         emcCapacitor = new BlockEmcCapacitor(BlockIds.EMC_CAPACITOR);
         cropRipener = new BlockCropRipener(BlockIds.CROP_RIPENER);
-        condenser = new BlockCondenser(BlockIds.CONDENSER);
+        condenser = new BlockMatterCreator(BlockIds.MATTER_CREATOR);
         portableHouse = new BlockPortableHouse(BlockIds.PORTABLE_HOUSE);
         fluidDistillery = new BlockFluidDistillery(BlockIds.FLUID_DISTILLERY);
         fluidCondenser = new BlockFluidCondenser(BlockIds.FLUID_CONDENSER);
+        matterSuperheater = new BlockMatterSuperheater(
+                BlockIds.MATTER_SUPERHEATER);
         
         if (EnergyFromMatter.hasBC || EnergyFromMatter.hasIC2)
         {
             powerLink = new BlockPowerLink(BlockIds.POWER_LINK);
             
             GameRegistry.registerBlock(powerLink, Strings.POWER_LINK_NAME);
-            
-            // LanguageRegistry.addName(powerLink, "Power Link");
         }
         
         GameRegistry.registerBlock(matterDistillery,
                 Strings.MATTER_DISTILLERY_NAME);
         GameRegistry.registerBlock(emcCapacitor, Strings.EMC_CAPACITOR_NAME);
         GameRegistry.registerBlock(cropRipener, Strings.CROP_RIPENER_NAME);
-        GameRegistry.registerBlock(condenser, Strings.CONDENSER_NAME);
+        GameRegistry.registerBlock(condenser, Strings.MATTER_CREATOR_NAME);
         GameRegistry.registerBlock(portableHouse, ItemPortableHouse.class,
                 Strings.PORTABLE_HOUSE_NAME);
         GameRegistry.registerBlock(fluidDistillery,
                 Strings.FLUID_DISTILLERY_NAME);
         GameRegistry
                 .registerBlock(fluidCondenser, Strings.FLUID_CONDENSER_NAME);
-        
-        /*
-         * LanguageRegistry.addName(matterDistillery, "Matter Distillery");
-         * LanguageRegistry.addName(emcCapacitor, "EMC Capacitor");
-         * LanguageRegistry.addName(cropRipener, "Crop Ripener");
-         * LanguageRegistry.addName(condenser, "Condenser");
-         * LanguageRegistry.addName(new ItemStack(portableHouse, 1, 0),
-         * "Portable House"); LanguageRegistry.addName(new
-         * ItemStack(portableHouse, 1, 1), "Portable House Deployer");
-         * LanguageRegistry.addName(fluidDistillery, "Fluid Distillery");
-         * LanguageRegistry.addName(fluidCondenser, "Fluid Condenser");
-         */
+        GameRegistry.registerBlock(matterSuperheater,
+                Strings.MATTER_SUPERHEATER_NAME);
         
         initBlockRecipes();
     }

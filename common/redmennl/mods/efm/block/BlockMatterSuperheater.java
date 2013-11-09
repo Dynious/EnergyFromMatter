@@ -1,28 +1,25 @@
 package redmennl.mods.efm.block;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import redmennl.mods.efm.EnergyFromMatter;
-import redmennl.mods.efm.lib.GuiIds;
 import redmennl.mods.efm.lib.Resources;
 import redmennl.mods.efm.lib.Strings;
-import redmennl.mods.efm.tileentity.TileMatterDistillery;
+import redmennl.mods.efm.tileentity.TileMatterSuperheater;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockMatterDistillery extends BlockEmc
+public class BlockMatterSuperheater extends BlockEmc
 {
-    public BlockMatterDistillery(int id)
+    public BlockMatterSuperheater(int id)
     {
         super(id, Material.iron);
         this.setUnlocalizedName(Strings.RESOURCE_PREFIX
-                + Strings.MATTER_DISTILLERY_NAME);
+                + Strings.MATTER_SUPERHEATER_NAME);
         this.setCreativeTab(EnergyFromMatter.tabEFM);
         this.setHardness(5.0F);
     }
@@ -30,15 +27,13 @@ public class BlockMatterDistillery extends BlockEmc
     @Override
     public TileEntity createNewTileEntity(World world)
     {
-        return new TileMatterDistillery();
+        return new TileMatterSuperheater();
     }
     
     @Override
     public boolean openGui(EntityPlayer player, World world, int x, int y, int z)
     {
-        player.openGui(EnergyFromMatter.instance, GuiIds.MATTER_DISTILLERY,
-                world, x, y, z);
-        return true;
+        return false;
     }
     
     @Override
@@ -85,32 +80,4 @@ public class BlockMatterDistillery extends BlockEmc
                 }
         }
     }
-    
-    @Override
-    public void onNeighborBlockChange(World world, int x, int y, int z, int id2)
-    {
-        int id = world.getBlockId(x, y - 1, z);
-        if (id == 10 || id == 11 || id == 51)
-        {
-            ((TileMatterDistillery) world.getBlockTileEntity(x, y, z)).hasHeater = true;
-        } else
-        {
-            ((TileMatterDistillery) world.getBlockTileEntity(x, y, z)).hasHeater = false;
-        }
-        super.onNeighborBlockChange(world, x, y, z, id2);
-    }
-    
-    @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z,
-            EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
-    {
-        int id = world.getBlockId(x, y - 1, z);
-        if (id == 10 || id == 11 || id == 51)
-        {
-            ((TileMatterDistillery) world.getBlockTileEntity(x, y, z)).hasHeater = true;
-        }
-        super.onBlockPlacedBy(world, x, y, z, par5EntityLivingBase,
-                par6ItemStack);
-    }
-    
 }

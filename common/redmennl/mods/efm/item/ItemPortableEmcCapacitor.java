@@ -14,12 +14,12 @@ import net.minecraft.world.World;
 import com.pahimar.ee3.emc.EmcType;
 import com.pahimar.ee3.emc.EmcValue;
 
-public class ItemProtableEmcCapacitor extends ItemEFM implements
+public class ItemPortableEmcCapacitor extends ItemEFM implements
         IPortableEmcHolder
 {
     private int maxStoredEmc = 8192;
     
-    public ItemProtableEmcCapacitor(int id)
+    public ItemPortableEmcCapacitor(int id)
     {
         super(id);
         this.setUnlocalizedName(Strings.RESOURCE_PREFIX

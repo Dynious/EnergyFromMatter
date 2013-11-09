@@ -6,6 +6,7 @@ import net.minecraftforge.common.Configuration;
 import redmennl.mods.efm.lib.BlockIds;
 import redmennl.mods.efm.lib.ItemIds;
 import redmennl.mods.efm.lib.Reference;
+import redmennl.mods.efm.lib.Strings;
 import redmennl.mods.efm.lib.Toggles;
 
 import com.pahimar.ee3.core.helper.LogHelper;
@@ -19,45 +20,55 @@ public class ConfigurationHandler
         configuration = new Configuration(configFile);
         try
         {
-            BlockIds.ENERGY_CONDENSER = configuration.getBlock(
-                    "energyCondenser", BlockIds.ENERGY_CONDENSER_DEFAULT)
-                    .getInt(BlockIds.ENERGY_CONDENSER_DEFAULT);
             BlockIds.MATTER_DISTILLERY = configuration.getBlock(
-                    "matterDistillery", BlockIds.MATTER_DISTILLERY_DEFAULT)
-                    .getInt(BlockIds.MATTER_DISTILLERY_DEFAULT);
-            BlockIds.EMC_CAPACITOR = configuration.getBlock("emcCapacitor",
-                    BlockIds.EMC_CAPACITOR_DEFAULT).getInt(
-                    BlockIds.EMC_CAPACITOR_DEFAULT);
-            BlockIds.CROP_RIPENER = configuration.getBlock("cropRipener",
-                    BlockIds.CROP_RIPENER_DEFAULT).getInt(
-                    BlockIds.CROP_RIPENER_DEFAULT);
-            BlockIds.POWER_LINK = configuration.getBlock("powerLink",
-                    BlockIds.POWER_LINK_DEFAULT).getInt(
-                    BlockIds.POWER_LINK_DEFAULT);
-            BlockIds.CONDENSER = configuration.getBlock("condenser",
-                    BlockIds.CONDENSER_DEFAULT).getInt(
-                    BlockIds.CONDENSER_DEFAULT);
-            BlockIds.PORTABLE_HOUSE = configuration.getBlock("portableHouse",
+                    Strings.MATTER_DISTILLERY_NAME,
+                    BlockIds.MATTER_DISTILLERY_DEFAULT).getInt(
+                    BlockIds.MATTER_DISTILLERY_DEFAULT);
+            BlockIds.EMC_CAPACITOR = configuration.getBlock(
+                    Strings.EMC_CAPACITOR_NAME, BlockIds.EMC_CAPACITOR_DEFAULT)
+                    .getInt(BlockIds.EMC_CAPACITOR_DEFAULT);
+            BlockIds.CROP_RIPENER = configuration.getBlock(
+                    Strings.CROP_RIPENER_NAME, BlockIds.CROP_RIPENER_DEFAULT)
+                    .getInt(BlockIds.CROP_RIPENER_DEFAULT);
+            BlockIds.POWER_LINK = configuration.getBlock(
+                    Strings.POWER_LINK_NAME, BlockIds.POWER_LINK_DEFAULT)
+                    .getInt(BlockIds.POWER_LINK_DEFAULT);
+            BlockIds.MATTER_CREATOR = configuration.getBlock(
+                    Strings.MATTER_CREATOR_NAME,
+                    BlockIds.MATTER_CREATOR_DEFAULT).getInt(
+                    BlockIds.MATTER_CREATOR_DEFAULT);
+            BlockIds.PORTABLE_HOUSE = configuration.getBlock(
+                    Strings.PORTABLE_HOUSE_NAME,
                     BlockIds.PORTABLE_HOUSE_DEFAULT).getInt(
                     BlockIds.PORTABLE_HOUSE_DEFAULT);
             BlockIds.FLUID_DISTILLERY = configuration.getBlock(
                     "fluidDistillery", BlockIds.FLUID_DISTILLERY_DEFAULT)
                     .getInt(BlockIds.FLUID_DISTILLERY_DEFAULT);
-            BlockIds.FLUID_CONDENSER = configuration.getBlock("fluidCondenser",
+            BlockIds.FLUID_CONDENSER = configuration.getBlock(
+                    Strings.FLUID_CONDENSER_NAME,
                     BlockIds.FLUID_CONDENSER_DEFAULT).getInt(
                     BlockIds.FLUID_CONDENSER_DEFAULT);
+            BlockIds.MATTER_SUPERHEATER = configuration.getBlock(
+                    Strings.MATTER_SUPERHEATER_NAME,
+                    BlockIds.MATTER_SUPERHEATER_DEFAULT).getInt(
+                    BlockIds.MATTER_SUPERHEATER_DEFAULT);
             
-            ItemIds.LINKER = configuration.getItem("linker",
+            ItemIds.LINKER = configuration.getItem(Strings.LINKER_NAME,
                     ItemIds.LINKER_DEFAULT).getInt(ItemIds.LINKER_DEFAULT);
             ItemIds.PORTABLE_EMC_CAPACITOR = configuration.getItem(
-                    "portableEmcCapacitor",
+                    Strings.PORTABLE_EMC_CAPACITOR_NAME,
                     ItemIds.PORTABLE_EMC_CAPACITOR_DEFAULT).getInt(
                     ItemIds.PORTABLE_EMC_CAPACITOR_DEFAULT);
-            ItemIds.GRAVITY_DEFYER = configuration.getItem("gravityDefyer",
-                    ItemIds.GRAVITY_DEFYER_DEFAULT).getInt(
-                    ItemIds.GRAVITY_DEFYER_DEFAULT);
-            ItemIds.HEALER = configuration.getItem("healer",
+            ItemIds.GRAVITY_DEFYER = configuration
+                    .getItem(Strings.GRAVITY_DEFYER_NAME,
+                            ItemIds.GRAVITY_DEFYER_DEFAULT).getInt(
+                            ItemIds.GRAVITY_DEFYER_DEFAULT);
+            ItemIds.HEALER = configuration.getItem(Strings.HEALER_NAME,
                     ItemIds.HEALER_DEFAULT).getInt(ItemIds.HEALER_DEFAULT);
+            ItemIds.CREATIVE_PORTABLE_EMC_CAPACITOR = configuration.getItem(
+                    Strings.CREATIVE_PORTABLE_EMC_CAPACITOR_NAME,
+                    ItemIds.CREATIVE_PORTABLE_EMC_CAPACITOR_DEFAULT).getInt(
+                    ItemIds.CREATIVE_PORTABLE_EMC_CAPACITOR_DEFAULT);
             
             Toggles.SHOW_EMC_PARTICLES = configuration.get("Client options",
                     "Show EMC Particles", Toggles.SHOW_EMC_PARTICLES_DEFAULT)

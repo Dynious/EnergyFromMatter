@@ -167,28 +167,31 @@ public class TileEmcCapacitor extends TileEntity implements IInventory,
     public void spawnEmcPartcle(EmcValue emcValue, int x, int y, int z,
             boolean add)
     {
-        RGBValue rgbvalue = EmcRGBValues.getRGB(emcValue);
-        TileEmcCapacitor tile = getCapacitor();
-        if (add)
+        if (emcValue.getValue() != 0.0F)
         {
-            PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 64D,
-                    worldObj.provider.dimensionId, PacketTypeHandler
-                            .populatePacket(new PacketSpawnEmcParticle(
-                                    x + 0.5F, y + 0.5F, z + 0.5F,
-                                    tile.xCoord + 0.5F, tile.yCoord + 0.5F,
-                                    tile.zCoord + 0.5F, 0.1F, emcValue
-                                            .getValue(), rgbvalue.colorR,
-                                    rgbvalue.colorG, rgbvalue.colorB)));
-        } else
-        {
-            PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 64D,
-                    worldObj.provider.dimensionId, PacketTypeHandler
-                            .populatePacket(new PacketSpawnEmcParticle(
-                                    tile.xCoord + 0.5F, tile.yCoord + 0.5F,
-                                    tile.zCoord + 0.5F, x + 0.5F, y + 0.5F,
-                                    z + 0.5F, 0.1F, emcValue.getValue(),
-                                    rgbvalue.colorR, rgbvalue.colorG,
-                                    rgbvalue.colorB)));
+            RGBValue rgbvalue = EmcRGBValues.getRGB(emcValue);
+            TileEmcCapacitor tile = getCapacitor();
+            if (add)
+            {
+                PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 64D,
+                        worldObj.provider.dimensionId, PacketTypeHandler
+                                .populatePacket(new PacketSpawnEmcParticle(
+                                        x + 0.5F, y + 0.5F, z + 0.5F,
+                                        tile.xCoord + 0.5F, tile.yCoord + 0.5F,
+                                        tile.zCoord + 0.5F, 0.1F, emcValue
+                                                .getValue(), rgbvalue.colorR,
+                                        rgbvalue.colorG, rgbvalue.colorB)));
+            } else
+            {
+                PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 64D,
+                        worldObj.provider.dimensionId, PacketTypeHandler
+                                .populatePacket(new PacketSpawnEmcParticle(
+                                        tile.xCoord + 0.5F, tile.yCoord + 0.5F,
+                                        tile.zCoord + 0.5F, x + 0.5F, y + 0.5F,
+                                        z + 0.5F, 0.1F, emcValue.getValue(),
+                                        rgbvalue.colorR, rgbvalue.colorG,
+                                        rgbvalue.colorB)));
+            }
         }
     }
     

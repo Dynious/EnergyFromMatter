@@ -2,10 +2,13 @@
 tile.efm:matterDistillery.name=物质蒸馏机
 tile.efm:emcCapacitor.name=EMC容器
 tile.efm:cropRipener.name=作物催熟机
+tile.efm:matterCreator.name=
 tile.efm:powerLink.name=能量链接器
-tile.efm:portableHouse.name=便携屋
+tile.efm:portableHouse0.name=便携屋
+tile.efm:portableHouse1.name=
 tile.efm:fluidDistillery.name=流体蒸馏机
 tile.efm:fluidCondenser.name=Fluid聚合器
+tile.efm:matterSuperheater.name=
 
 # Item localizations
 item.efm:linker.name=链接器

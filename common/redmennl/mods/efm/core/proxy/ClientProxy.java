@@ -1,17 +1,15 @@
 package redmennl.mods.efm.core.proxy;
 
-import cpw.mods.fml.client.registry.ClientRegistry;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 import redmennl.mods.efm.client.audio.SoundHandler;
 import redmennl.mods.efm.client.renderer.item.ItemEnergyCondenserRenderer;
 import redmennl.mods.efm.client.renderer.item.ItemPortableHouseRenderer;
-import redmennl.mods.efm.client.renderer.tileentity.TileEntityEnergyCondenserRenderer;
 import redmennl.mods.efm.client.renderer.tileentity.TilePortableHouseRenderer;
 import redmennl.mods.efm.lib.BlockIds;
-import redmennl.mods.efm.tileentity.TileEnergyCondenser;
 import redmennl.mods.efm.tileentity.TilePortableHouse;
 import redmennl.mods.efm.tileentity.TilePortableHouseDeployer;
+import cpw.mods.fml.client.registry.ClientRegistry;
 
 public class ClientProxy extends CommonProxy
 {
@@ -28,8 +26,6 @@ public class ClientProxy extends CommonProxy
     public void initTileEntities()
     {
         super.initTileEntities();
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEnergyCondenser.class,
-                new TileEntityEnergyCondenserRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TilePortableHouse.class,
                 new TilePortableHouseRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(

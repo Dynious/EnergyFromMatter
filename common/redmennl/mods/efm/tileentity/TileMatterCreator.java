@@ -9,7 +9,7 @@ import net.minecraft.nbt.NBTTagList;
 
 import com.pahimar.ee3.emc.EmcRegistry;
 
-public class TileCondenser extends TileEmc implements IInventory,
+public class TileMatterCreator extends TileEmc implements IInventory,
         ISidedInventory
 {
     /**
@@ -26,7 +26,7 @@ public class TileCondenser extends TileEmc implements IInventory,
      */
     private ItemStack[] inventory;
     
-    public TileCondenser()
+    public TileMatterCreator()
     {
         super();
         inventory = new ItemStack[INVENTORY_SIZE];

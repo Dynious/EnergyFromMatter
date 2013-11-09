@@ -19,13 +19,15 @@ public class Strings
     public static final String EMC_CAPACITOR_NAME = "emcCapacitor";
     public static final String CROP_RIPENER_NAME = "cropRipener";
     public static final String POWER_LINK_NAME = "powerLink";
-    public static final String CONDENSER_NAME = "condenser";
+    public static final String MATTER_CREATOR_NAME = "matterCreator";
     public static final String PORTABLE_HOUSE_NAME = "portableHouse";
     public static final String FLUID_DISTILLERY_NAME = "fluidDistillery";
     public static final String FLUID_CONDENSER_NAME = "fluidCondenser";
+    public static final String MATTER_SUPERHEATER_NAME = "matterSuperheater";
     
     public static final String LINKER_NAME = "linker";
     public static final String PORTABLE_EMC_CAPACITOR_NAME = "portableEmcCapacitor";
     public static final String GRAVITY_DEFYER_NAME = "gravityDefyer";
     public static final String HEALER_NAME = "healer";
+    public static final String CREATIVE_PORTABLE_EMC_CAPACITOR_NAME = "creativePortableEmcCapacitor";
 }

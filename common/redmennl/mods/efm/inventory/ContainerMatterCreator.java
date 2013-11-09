@@ -1,32 +1,29 @@
 package redmennl.mods.efm.inventory;
 
-import redmennl.mods.efm.tileentity.TileEnergyCondenser;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import redmennl.mods.efm.inventory.slot.SlotPhantom;
+import redmennl.mods.efm.tileentity.TileMatterCreator;
 
-public class ContainerEnergyCondenser extends Container
+public class ContainerMatterCreator extends ContainerPhantom
 {
-    private TileEnergyCondenser tileEnergyCondenser;
     private final int CHEST_INVENTORY_ROWS = 4;
     private final int CHEST_INVENTORY_COLUMNS = 13;
     private final int PLAYER_INVENTORY_ROWS = 3;
     private final int PLAYER_INVENTORY_COLUMNS = 9;
     
-    public ContainerEnergyCondenser(InventoryPlayer inventoryPlayer,
-            TileEnergyCondenser tileEnergyCondenser)
+    public ContainerMatterCreator(InventoryPlayer inventoryPlayer,
+            TileMatterCreator tileCondenser)
     {
-        this.tileEnergyCondenser = tileEnergyCondenser;
-        tileEnergyCondenser.openChest();
-        // Add the Alchemical Chest slots to the container
-        this.addSlotToContainer(new Slot(tileEnergyCondenser, 0, 8, 7));
+        // Add the Condenser slot to the container
+        this.addSlotToContainer(new SlotPhantom(tileCondenser, 0, 8, 7));
         for (int chestRowIndex = 0; chestRowIndex < CHEST_INVENTORY_ROWS; ++chestRowIndex)
         {
             for (int chestColumnIndex = 0; chestColumnIndex < CHEST_INVENTORY_COLUMNS; ++chestColumnIndex)
             {
-                this.addSlotToContainer(new Slot(tileEnergyCondenser, 1
+                this.addSlotToContainer(new Slot(tileCondenser, 1
                         + chestColumnIndex + chestRowIndex * 13,
                         8 + chestColumnIndex * 18, 27 + chestRowIndex * 18));
             }
@@ -54,16 +51,6 @@ public class ContainerEnergyCondenser extends Container
     public boolean canInteractWith(EntityPlayer var1)
     {
         return true;
-    }
-    
-    /**
-     * Callback for when the crafting gui is closed.
-     */
-    @Override
-    public void onContainerClosed(EntityPlayer entityPlayer)
-    {
-        super.onContainerClosed(entityPlayer);
-        tileEnergyCondenser.closeChest();
     }
     
     @Override

@@ -8,35 +8,26 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
 import com.pahimar.ee3.emc.EmcRegistry;
+import com.pahimar.ee3.emc.EmcType;
 import com.pahimar.ee3.emc.EmcValue;
 
-public class TileMatterDistillery extends TileEmc implements IInventory,
+public class TileMatterSuperheater extends TileEmc implements IInventory,
         ISidedInventory
 {
     public static final int INVENTORY_SIZE = 1;
     
-    /**
-     * Time in ticks to finish distillation
-     */
-    private int timePerDistillation;
-    
-    /**
-     * Time worked
-     */
-    private int workTime;
-    
-    /**
-     * Has this Matter Distillery a lava or fire block under it
-     */
-    public boolean hasHeater = false;
-    
     private ItemStack[] inventory;
     
-    public TileMatterDistillery()
+    private EmcValue emcValue = new EmcValue();
+    
+    private int spawParticleTime = 0;
+    
+    private boolean enoughEMC = true;
+    
+    public TileMatterSuperheater()
     {
         super();
         inventory = new ItemStack[INVENTORY_SIZE];
-        timePerDistillation = 20;
     }
     
     @Override
@@ -47,38 +38,44 @@ public class TileMatterDistillery extends TileEmc implements IInventory,
         {
             return;
         }
+        
+        spawParticleTime++;
+        
         TileEmcCapacitor emcCap = getEmcCapacitor();
-        if (emcCap != null && getStackInSlot(0) != null)
+        if (spawParticleTime >= 20 && emcCap != null)
         {
-            if (workTime < (hasHeater ? timePerDistillation / 2
-                    : timePerDistillation))
+            emcCap.spawnEmcPartcle(
+                    new EmcValue(0.02F, EmcType.KINETIC), this.xCoord,
+                    this.yCoord, this.zCoord, false);
+            emcCap.spawnEmcPartcle(emcValue, this.xCoord, this.yCoord,
+                    this.zCoord, true);
+            emcValue = new EmcValue();
+            spawParticleTime = 0;
+        }
+        
+        if (!emcCap.useEmc(new EmcValue(0.001F, EmcType.KINETIC)))
+        {
+            enoughEMC = false;
+        }
+        else
+        {
+            enoughEMC = true;
+        }
+        
+        if (getStackInSlot(0) != null && enoughEMC)
+        {
+            if (EmcRegistry.hasEmcValue(getStackInSlot(0)))
             {
-                workTime++;
-            } else
-            {
-                EmcValue emcValue = EmcRegistry.getEmcValue(getStackInSlot(0),
-                        false);
-                if (emcValue != null
-                        && emcCap.addEmc(emcValue, xCoord, yCoord, zCoord))
+                EmcValue addedValue = EmcRegistry
+                        .getEmcValue(getStackInSlot(0));
+                emcCap.addEmc(addedValue);
+                for (int i = 0; i < addedValue.components.length; i++)
                 {
-                    workTime = 0;
-                    decrStackSize(0, 1);
+                    emcValue.components[i] += addedValue.components[i];
                 }
             }
-        } else if (workTime != 0)
-        {
-            workTime = 0;
+            inventory[0] = null;
         }
-    }
-    
-    /**
-     * Gets the amount of work finished
-     * 
-     * @return Fraction of time to finish working
-     */
-    public float getWork()
-    {
-        return (float) workTime / (float) timePerDistillation;
     }
     
     @Override
@@ -136,6 +133,27 @@ public class TileMatterDistillery extends TileEmc implements IInventory,
             itemStack.stackSize = this.getInventoryStackLimit();
         }
         this.onInventoryChanged();
+    }
+    
+    @Override
+    public void onInventoryChanged()
+    {
+        if (getStackInSlot(0) != null && enoughEMC)
+        {
+            if (EmcRegistry.hasEmcValue(getStackInSlot(0)))
+            {
+                EmcValue addedValue = EmcRegistry
+                        .getEmcValue(getStackInSlot(0));
+                getEmcCapacitor().addEmc(addedValue);
+                for (int i = 0; i < addedValue.components.length; i++)
+                {
+                    emcValue.components[i] += addedValue.components[i];
+                }
+            }
+            inventory[0] = null;
+        }
+        
+        super.onInventoryChanged();
     }
     
     @Override
@@ -226,12 +244,12 @@ public class TileMatterDistillery extends TileEmc implements IInventory,
     @Override
     public boolean canInsertItem(int i, ItemStack itemstack, int j)
     {
-        return EmcRegistry.hasEmcValue(itemstack) ? true : false;
+        return (EmcRegistry.hasEmcValue(itemstack) && enoughEMC) ? true : false;
     }
     
     @Override
     public boolean canExtractItem(int i, ItemStack itemstack, int j)
     {
-        return true;
+        return false;
     }
 }

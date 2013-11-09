@@ -14,7 +14,7 @@ import redmennl.mods.efm.lib.Strings;
 import com.pahimar.ee3.emc.EmcType;
 import com.pahimar.ee3.emc.EmcValue;
 
-public class ItemHealer extends ItemProtableEmcCapacitor
+public class ItemHealer extends ItemPortableEmcCapacitor
 {
     public static int timePerHealing = 10;
     

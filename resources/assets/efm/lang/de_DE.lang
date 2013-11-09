@@ -3,9 +3,12 @@ tile.efm:matterDistillery.name=Materiendestillerie
 tile.efm:emcCapacitor.name=EMC-Kondensator
 tile.efm:cropRipener.name=Feldfruchtreifer
 tile.efm:powerLink.name=Energielink
-tile.efm:portableHouse.name=Tragbares Haus
+tile.efm:matterCreator.name=
+tile.efm:portableHouse0.name=Tragbares Haus
+tile.efm:portableHouse1.name=
 tile.efm:fluidDistillery.name=Flüssigkeitsdestillerie
 tile.efm:fluidCondenser.name=Flüssigkeitskondensator
+tile.efm:matterSuperheater.name=
 
 # Item localizations
 item.efm:linker.name=Verbinder

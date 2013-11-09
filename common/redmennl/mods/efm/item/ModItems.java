@@ -11,21 +11,17 @@ public class ModItems
     public static Item portableEmcCapacitor;
     public static Item gravityDefyer;
     public static Item healer;
+    public static Item creativePortableEmcCapacitor;
     
     public static void init()
     {
         linker = new ItemLinker(ItemIds.LINKER);
-        portableEmcCapacitor = new ItemProtableEmcCapacitor(
+        portableEmcCapacitor = new ItemPortableEmcCapacitor(
                 ItemIds.PORTABLE_EMC_CAPACITOR);
         gravityDefyer = new ItemGravityDefyer(ItemIds.GRAVITY_DEFYER);
         healer = new ItemHealer(ItemIds.HEALER);
-        
-        /*
-         * LanguageRegistry.addName(linker, "Linker"); LanguageRegistry
-         * .addName(portableEmcCapacitor, "Portable EMC Capacitor");
-         * LanguageRegistry.addName(gravityDefyer, "Gravity Defyer");
-         * LanguageRegistry.addName(healer, "Healer");
-         */
+        creativePortableEmcCapacitor = new ItemCreativePortableEmcCapacitor(
+                ItemIds.CREATIVE_PORTABLE_EMC_CAPACITOR);
         
         initItemRecipes();
     }

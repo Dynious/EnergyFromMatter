@@ -14,7 +14,7 @@ import redmennl.mods.efm.lib.Strings;
 import com.pahimar.ee3.emc.EmcType;
 import com.pahimar.ee3.emc.EmcValue;
 
-public class ItemGravityDefyer extends ItemProtableEmcCapacitor
+public class ItemGravityDefyer extends ItemPortableEmcCapacitor
 {
     public ItemGravityDefyer(int id)
     {
