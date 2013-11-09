@@ -4,7 +4,8 @@ public class Strings
 {
     
     /* Localization Prefixes */
-    public static final String RESOURCE_PREFIX = Reference.MOD_ID.toLowerCase() + ":";
+    public static final String RESOURCE_PREFIX = Reference.MOD_ID.toLowerCase()
+            + ":";
     
     /* Fingerprint check related constants */
     public static final String NO_FINGERPRINT_MESSAGE = "The copy of "

@@ -21,12 +21,11 @@ public class ModItems
         healer = new ItemHealer(ItemIds.HEALER);
         
         /*
-        LanguageRegistry.addName(linker, "Linker");
-        LanguageRegistry
-                .addName(portableEmcCapacitor, "Portable EMC Capacitor");
-        LanguageRegistry.addName(gravityDefyer, "Gravity Defyer");
-        LanguageRegistry.addName(healer, "Healer");
-        */
+         * LanguageRegistry.addName(linker, "Linker"); LanguageRegistry
+         * .addName(portableEmcCapacitor, "Portable EMC Capacitor");
+         * LanguageRegistry.addName(gravityDefyer, "Gravity Defyer");
+         * LanguageRegistry.addName(healer, "Healer");
+         */
         
         initItemRecipes();
     }

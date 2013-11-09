@@ -16,6 +16,8 @@ import com.pahimar.ee3.emc.EmcValue;
 public class TileFluidCondenser extends TileEmc implements IFluidHandler
 {
     public int fluidID;
+    private EmcValue condensedEmc = new EmcValue();
+    private int spawParticleTime = 0;
     
     public TileFluidCondenser()
     {
@@ -27,7 +29,21 @@ public class TileFluidCondenser extends TileEmc implements IFluidHandler
     public void updateEntity()
     {
         super.updateEntity();
+        if (worldObj.isRemote)
+        {
+            return;
+        }
         
+        spawParticleTime++;
+        
+        TileEmcCapacitor emcCap = getEmcCapacitor();
+        if (spawParticleTime >= 20 && emcCap != null)
+        {
+            emcCap.spawnEmcPartcle(condensedEmc, this.xCoord, this.yCoord,
+                    this.zCoord, false);
+            condensedEmc = new EmcValue();
+            spawParticleTime = 0;
+        }
     }
     
     @Override
@@ -79,10 +95,12 @@ public class TileFluidCondenser extends TileEmc implements IFluidHandler
                 EmcValue newValue = new EmcValue();
                 for (EmcType type : EmcType.values())
                 {
-                    newValue.components[type.ordinal()] = value.components[type
-                            .ordinal()] / 1000 * maxAmount;
+                    float emc = value.components[type.ordinal()] / 1000
+                            * maxAmount;
+                    newValue.components[type.ordinal()] = emc;
+                    condensedEmc.components[type.ordinal()] += emc;
                 }
-                emcCap.useEmc(newValue, xCoord, yCoord, zCoord);
+                emcCap.useEmc(newValue);
             }
             return new FluidStack(FluidRegistry.getFluid(fluidID), maxAmount);
         } else
@@ -138,10 +156,12 @@ public class TileFluidCondenser extends TileEmc implements IFluidHandler
                 EmcValue newValue = new EmcValue();
                 for (EmcType type : EmcType.values())
                 {
-                    newValue.components[type.ordinal()] = value.components[type
-                            .ordinal()] / 1000 * maxAmount;
+                    float emc = value.components[type.ordinal()] / 1000
+                            * maxAmount;
+                    newValue.components[type.ordinal()] = emc;
+                    condensedEmc.components[type.ordinal()] += emc;
                 }
-                emcCap.useEmc(newValue, xCoord, yCoord, zCoord);
+                emcCap.useEmc(newValue);
             }
             return new FluidStack(resource.getFluid(), maxAmount);
         } else

@@ -22,7 +22,8 @@ public class ItemProtableEmcCapacitor extends ItemEFM implements
     public ItemProtableEmcCapacitor(int id)
     {
         super(id);
-        this.setUnlocalizedName(Strings.RESOURCE_PREFIX + Strings.PORTABLE_EMC_CAPACITOR_NAME);
+        this.setUnlocalizedName(Strings.RESOURCE_PREFIX
+                + Strings.PORTABLE_EMC_CAPACITOR_NAME);
         this.setCreativeTab(EnergyFromMatter.tabEFM);
     }
     

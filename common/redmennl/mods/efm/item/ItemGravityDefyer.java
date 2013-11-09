@@ -19,7 +19,8 @@ public class ItemGravityDefyer extends ItemProtableEmcCapacitor
     public ItemGravityDefyer(int id)
     {
         super(id);
-        this.setUnlocalizedName(Strings.RESOURCE_PREFIX + Strings.GRAVITY_DEFYER_NAME);
+        this.setUnlocalizedName(Strings.RESOURCE_PREFIX
+                + Strings.GRAVITY_DEFYER_NAME);
         this.setCreativeTab(EnergyFromMatter.tabEFM);
         this.setMaxStackSize(1);
     }

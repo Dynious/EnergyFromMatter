@@ -26,6 +26,9 @@ public class Resources
     public static final ResourceLocation MODEL_PORTABLEHOUSE = new ResourceLocation(
             MOD_ID, MODEL_SHEET_LOCATION + "portableHouse.png");
     
+    public static final ResourceLocation VANILLA_PARTICLES = new ResourceLocation(
+            "textures/particle/particles.png");
+    
     public static final ResourceLocation PARTICLE_BEAM = new ResourceLocation(
             MOD_ID, PARTICLE_SHEET_LOCATION + "beam.png");
 }

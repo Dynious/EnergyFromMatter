@@ -59,8 +59,9 @@ public class ConfigurationHandler
             ItemIds.HEALER = configuration.getItem("healer",
                     ItemIds.HEALER_DEFAULT).getInt(ItemIds.HEALER_DEFAULT);
             
-            
-            Toggles.SHOW_EMC_PARTICLES = configuration.get("Client options", "Show EMC Particles", Toggles.SHOW_EMC_PARTICLES_DEFAULT).getBoolean(Toggles.SHOW_EMC_PARTICLES_DEFAULT);
+            Toggles.SHOW_EMC_PARTICLES = configuration.get("Client options",
+                    "Show EMC Particles", Toggles.SHOW_EMC_PARTICLES_DEFAULT)
+                    .getBoolean(Toggles.SHOW_EMC_PARTICLES_DEFAULT);
             
         } catch (Exception e)
         {

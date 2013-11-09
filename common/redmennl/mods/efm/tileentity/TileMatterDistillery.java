@@ -18,13 +18,17 @@ public class TileMatterDistillery extends TileEmc implements IInventory,
     /**
      * Time in ticks to finish distillation
      */
-    
     private int timePerDistillation;
     
     /**
      * Time worked
      */
     private int workTime;
+    
+    /**
+     * Has this Matter Distillery a lava or fire block under it
+     */
+    public boolean hasHeater = false;
     
     private ItemStack[] inventory;
     
@@ -46,7 +50,7 @@ public class TileMatterDistillery extends TileEmc implements IInventory,
         TileEmcCapacitor emcCap = getEmcCapacitor();
         if (emcCap != null && getStackInSlot(0) != null)
         {
-            if (workTime < timePerDistillation)
+            if (workTime < (hasHeater? timePerDistillation/2: timePerDistillation))
             {
                 workTime++;
             } else

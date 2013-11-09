@@ -4,7 +4,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
@@ -19,7 +21,8 @@ public class BlockMatterDistillery extends BlockEmc
     public BlockMatterDistillery(int id)
     {
         super(id, Material.iron);
-        this.setUnlocalizedName(Strings.RESOURCE_PREFIX + Strings.MATTER_DISTILLERY_NAME);
+        this.setUnlocalizedName(Strings.RESOURCE_PREFIX
+                + Strings.MATTER_DISTILLERY_NAME);
         this.setCreativeTab(EnergyFromMatter.tabEFM);
         this.setHardness(5.0F);
     }
@@ -82,4 +85,34 @@ public class BlockMatterDistillery extends BlockEmc
                 }
         }
     }
+    
+    @Override
+    public void onNeighborBlockChange(World world, int x, int y,
+            int z, int id2)
+    {
+        int id = world.getBlockId(x, y - 1, z);
+        if (id == 10 || id == 11 || id == 51)
+        {
+            ((TileMatterDistillery)world.getBlockTileEntity(x, y, z)).hasHeater = true;
+        }
+        else
+        {
+            ((TileMatterDistillery)world.getBlockTileEntity(x, y, z)).hasHeater = false;
+        }
+        super.onNeighborBlockChange(world, x, y, z, id2);
+    }
+
+    @Override
+    public void onBlockPlacedBy(World world, int x, int y, int z,
+            EntityLivingBase par5EntityLivingBase, ItemStack par6ItemStack)
+    {
+        int id = world.getBlockId(x, y - 1, z);
+        if (id == 10 || id == 11 || id == 51)
+        {
+            ((TileMatterDistillery)world.getBlockTileEntity(x, y, z)).hasHeater = true;
+        }
+        super.onBlockPlacedBy(world, x, y, z, par5EntityLivingBase,
+                par6ItemStack);
+    }
+    
 }

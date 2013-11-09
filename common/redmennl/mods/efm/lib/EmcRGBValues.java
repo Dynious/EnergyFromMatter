@@ -42,10 +42,9 @@ public class EmcRGBValues
             float component = emcValue.components[i];
             if (component != 0.0F)
             {
-                if (component < 0.1F)
-                {
-                    component = 0.1F;
-                }
+                // Fixes rounding issues
+                component *= 100F;
+                
                 EmcType type = EmcType.values()[i];
                 switch (type)
                 {
@@ -88,9 +87,9 @@ public class EmcRGBValues
                 components += component;
             }
         }
-        value.colorR = (int)(value.colorR / components);
-        value.colorG = (int)(value.colorG / components);
-        value.colorB = (int)(value.colorB / components);
+        value.colorR = (int) (value.colorR / components);
+        value.colorG = (int) (value.colorG / components);
+        value.colorB = (int) (value.colorB / components);
         return value;
     }
     

@@ -14,7 +14,8 @@ public class BlockPowerLink extends BlockEmc
     public BlockPowerLink(int id)
     {
         super(id, Material.iron);
-        this.setUnlocalizedName(Strings.RESOURCE_PREFIX + Strings.POWER_LINK_NAME);
+        this.setUnlocalizedName(Strings.RESOURCE_PREFIX
+                + Strings.POWER_LINK_NAME);
         this.setCreativeTab(EnergyFromMatter.tabEFM);
         this.setHardness(5.0F);
     }

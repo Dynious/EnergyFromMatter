@@ -14,7 +14,8 @@ public class BlockCondenser extends BlockEmc
     public BlockCondenser(int id)
     {
         super(id, Material.iron);
-        this.setUnlocalizedName(Strings.RESOURCE_PREFIX + Strings.CONDENSER_NAME);
+        this.setUnlocalizedName(Strings.RESOURCE_PREFIX
+                + Strings.CONDENSER_NAME);
         this.setCreativeTab(EnergyFromMatter.tabEFM);
         this.setHardness(5.0F);
     }

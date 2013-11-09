@@ -11,13 +11,13 @@ import redmennl.mods.efm.lib.Resources;
 
 public class EntityBeamFX extends EntityFX
 {
-    private double targetPosX, targetPosY, targetPosZ;
+    private float targetPosX, targetPosY, targetPosZ;
     private double vx, vy, vz;
     
-    public EntityBeamFX(World world, double startPosX, double startPosY,
-            double startPosZ, double targetPosX, double targetPosY,
-            double targetPosZ, double speed, float scale, int colorR,
-            int colorG, int colorB)
+    public EntityBeamFX(World world, float startPosX, float startPosY,
+            float startPosZ, float targetPosX, float targetPosY,
+            float targetPosZ, float speed, float scale, int colorR, int colorG,
+            int colorB)
     {
         super(world, startPosX, startPosY, startPosZ, 0.0D, 0.0D, 0.0D);
         
@@ -30,7 +30,7 @@ public class EntityBeamFX extends EntityFX
         this.particleBlue = colorB;
         
         setSize(0.02F, 0.02F);
-        this.particleScale = ((scale / 8192) * 0.5F + 0.5F) * 2.0F;
+        this.particleScale = (float) (Math.pow(scale, 0.15));
         this.noClip = true;
         
         double dx = targetPosX - startPosX;
@@ -112,6 +112,8 @@ public class EntityBeamFX extends EntityFX
         GL11.glDepthMask(true);
         
         GL11.glPopMatrix();
+        Minecraft.getMinecraft().renderEngine
+                .bindTexture(Resources.VANILLA_PARTICLES);
         tessellator.startDrawingQuads();
     }
     

@@ -14,6 +14,9 @@ import com.pahimar.ee3.emc.EmcValue;
 
 public class TileFluidDistillery extends TileEmc implements IFluidHandler
 {
+    private EmcValue distilledEmc = new EmcValue();
+    private int spawParticleTime = 0;
+    
     public TileFluidDistillery()
     {
         super();
@@ -23,7 +26,21 @@ public class TileFluidDistillery extends TileEmc implements IFluidHandler
     public void updateEntity()
     {
         super.updateEntity();
+        if (worldObj.isRemote)
+        {
+            return;
+        }
         
+        spawParticleTime++;
+        
+        TileEmcCapacitor emcCap = getEmcCapacitor();
+        if (spawParticleTime >= 20 && emcCap != null)
+        {
+            emcCap.spawnEmcPartcle(distilledEmc, this.xCoord, this.yCoord,
+                    this.zCoord, true);
+            distilledEmc = new EmcValue();
+            spawParticleTime = 0;
+        }
     }
     
     @Override
@@ -45,6 +62,7 @@ public class TileFluidDistillery extends TileEmc implements IFluidHandler
         {
             return 0;
         }
+        
         TileEmcCapacitor emcCap = getEmcCapacitor();
         if (emcCap != null
                 && EmcRegistry.hasEmcValue(Block.blocksList[resource.getFluid()
@@ -66,10 +84,12 @@ public class TileFluidDistillery extends TileEmc implements IFluidHandler
                 EmcValue newValue = new EmcValue();
                 for (EmcType type : EmcType.values())
                 {
-                    newValue.components[type.ordinal()] = value.components[type
-                            .ordinal()] / 1000 * maxAmount;
+                    float emc = value.components[type.ordinal()] / 1000
+                            * maxAmount;
+                    newValue.components[type.ordinal()] = emc;
+                    distilledEmc.components[type.ordinal()] += emc;
                 }
-                emcCap.addEmc(newValue, xCoord, yCoord, zCoord);
+                emcCap.addEmc(newValue);
             }
             return maxAmount;
         } else

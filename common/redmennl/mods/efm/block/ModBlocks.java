@@ -39,30 +39,32 @@ public class ModBlocks
             
             GameRegistry.registerBlock(powerLink, Strings.POWER_LINK_NAME);
             
-            //LanguageRegistry.addName(powerLink, "Power Link");
+            // LanguageRegistry.addName(powerLink, "Power Link");
         }
         
-        GameRegistry.registerBlock(matterDistillery, Strings.MATTER_DISTILLERY_NAME);
+        GameRegistry.registerBlock(matterDistillery,
+                Strings.MATTER_DISTILLERY_NAME);
         GameRegistry.registerBlock(emcCapacitor, Strings.EMC_CAPACITOR_NAME);
         GameRegistry.registerBlock(cropRipener, Strings.CROP_RIPENER_NAME);
         GameRegistry.registerBlock(condenser, Strings.CONDENSER_NAME);
         GameRegistry.registerBlock(portableHouse, ItemPortableHouse.class,
                 Strings.PORTABLE_HOUSE_NAME);
-        GameRegistry.registerBlock(fluidDistillery, Strings.FLUID_DISTILLERY_NAME);
-        GameRegistry.registerBlock(fluidCondenser, Strings.FLUID_CONDENSER_NAME);
+        GameRegistry.registerBlock(fluidDistillery,
+                Strings.FLUID_DISTILLERY_NAME);
+        GameRegistry
+                .registerBlock(fluidCondenser, Strings.FLUID_CONDENSER_NAME);
         
         /*
-        LanguageRegistry.addName(matterDistillery, "Matter Distillery");
-        LanguageRegistry.addName(emcCapacitor, "EMC Capacitor");
-        LanguageRegistry.addName(cropRipener, "Crop Ripener");
-        LanguageRegistry.addName(condenser, "Condenser");
-        LanguageRegistry.addName(new ItemStack(portableHouse, 1, 0),
-                "Portable House");
-        LanguageRegistry.addName(new ItemStack(portableHouse, 1, 1),
-                "Portable House Deployer");
-        LanguageRegistry.addName(fluidDistillery, "Fluid Distillery");
-        LanguageRegistry.addName(fluidCondenser, "Fluid Condenser");
-        */
+         * LanguageRegistry.addName(matterDistillery, "Matter Distillery");
+         * LanguageRegistry.addName(emcCapacitor, "EMC Capacitor");
+         * LanguageRegistry.addName(cropRipener, "Crop Ripener");
+         * LanguageRegistry.addName(condenser, "Condenser");
+         * LanguageRegistry.addName(new ItemStack(portableHouse, 1, 0),
+         * "Portable House"); LanguageRegistry.addName(new
+         * ItemStack(portableHouse, 1, 1), "Portable House Deployer");
+         * LanguageRegistry.addName(fluidDistillery, "Fluid Distillery");
+         * LanguageRegistry.addName(fluidCondenser, "Fluid Condenser");
+         */
         
         initBlockRecipes();
     }

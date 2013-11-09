@@ -2,7 +2,6 @@ package redmennl.mods.efm.tileentity;
 
 import java.util.ArrayList;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -10,14 +9,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
-import redmennl.mods.efm.client.particle.EntityBeamFX;
 import redmennl.mods.efm.emc.IEmcHolder;
 import redmennl.mods.efm.emc.IPortableEmcHolder;
 import redmennl.mods.efm.lib.EmcRGBValues;
 import redmennl.mods.efm.lib.RGBValue;
-import redmennl.mods.efm.lib.Toggles;
 import redmennl.mods.efm.network.PacketTypeHandler;
 import redmennl.mods.efm.network.packet.PacketEmcValue;
+import redmennl.mods.efm.network.packet.PacketSpawnEmcParticle;
 
 import com.pahimar.ee3.emc.EmcType;
 import com.pahimar.ee3.emc.EmcValue;
@@ -86,16 +84,7 @@ public class TileEmcCapacitor extends TileEntity implements IInventory,
     {
         if (addEmc(emcValue))
         {
-            if (Toggles.SHOW_EMC_PARTICLES)
-            {
-                RGBValue rgbvalue = EmcRGBValues.getRGB(emcValue);
-                TileEmcCapacitor tile = getCapacitor();
-                EntityBeamFX beam = new EntityBeamFX(worldObj, x + 0.5D, y + 0.5D,
-                        z + 0.5D, tile.xCoord + 0.5D, tile.yCoord + 0.5D,
-                        tile.zCoord + 0.5D, 0.1D, emcValue.getValue(),
-                        rgbvalue.colorR, rgbvalue.colorG, rgbvalue.colorB);
-                Minecraft.getMinecraft().effectRenderer.addEffect(beam);
-            }
+            spawnEmcPartcle(emcValue, x, y, z, true);
             return true;
         }
         return false;
@@ -127,16 +116,7 @@ public class TileEmcCapacitor extends TileEntity implements IInventory,
     {
         if (useEmc(emcValue))
         {
-            if (Toggles.SHOW_EMC_PARTICLES)
-            {
-                RGBValue rgbvalue = EmcRGBValues.getRGB(emcValue);
-                TileEmcCapacitor tile = getCapacitor();
-                EntityBeamFX beam = new EntityBeamFX(worldObj, tile.xCoord + 0.5D,
-                        tile.yCoord + 0.5D, tile.zCoord + 0.5D, x + 0.5D, y + 0.5D,
-                        z + 0.5D, 0.1D, emcValue.getValue(), rgbvalue.colorR,
-                        rgbvalue.colorG, rgbvalue.colorB);
-                Minecraft.getMinecraft().effectRenderer.addEffect(beam);
-            }
+            spawnEmcPartcle(emcValue, x, y, z, false);
             return true;
         }
         return false;
@@ -182,6 +162,34 @@ public class TileEmcCapacitor extends TileEntity implements IInventory,
     public float getStoredEmc(EmcType type)
     {
         return getCapacitor().storedEmc.components[type.ordinal()];
+    }
+    
+    public void spawnEmcPartcle(EmcValue emcValue, int x, int y, int z,
+            boolean add)
+    {
+        RGBValue rgbvalue = EmcRGBValues.getRGB(emcValue);
+        TileEmcCapacitor tile = getCapacitor();
+        if (add)
+        {
+            PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 64D,
+                    worldObj.provider.dimensionId, PacketTypeHandler
+                            .populatePacket(new PacketSpawnEmcParticle(
+                                    x + 0.5F, y + 0.5F, z + 0.5F,
+                                    tile.xCoord + 0.5F, tile.yCoord + 0.5F,
+                                    tile.zCoord + 0.5F, 0.1F, emcValue
+                                            .getValue(), rgbvalue.colorR,
+                                    rgbvalue.colorG, rgbvalue.colorB)));
+        } else
+        {
+            PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 64D,
+                    worldObj.provider.dimensionId, PacketTypeHandler
+                            .populatePacket(new PacketSpawnEmcParticle(
+                                    tile.xCoord + 0.5F, tile.yCoord + 0.5F,
+                                    tile.zCoord + 0.5F, x + 0.5F, y + 0.5F,
+                                    z + 0.5F, 0.1F, emcValue.getValue(),
+                                    rgbvalue.colorR, rgbvalue.colorG,
+                                    rgbvalue.colorB)));
+        }
     }
     
     public void addPlayerUsingInv(EntityPlayer player)

@@ -23,7 +23,8 @@ public class BlockEmcCapacitor extends BlockContainer
     protected BlockEmcCapacitor(int id)
     {
         super(id, Material.iron);
-        this.setUnlocalizedName(Strings.RESOURCE_PREFIX + Strings.EMC_CAPACITOR_NAME);
+        this.setUnlocalizedName(Strings.RESOURCE_PREFIX
+                + Strings.EMC_CAPACITOR_NAME);
         this.setCreativeTab(EnergyFromMatter.tabEFM);
         this.setHardness(5.0F);
     }

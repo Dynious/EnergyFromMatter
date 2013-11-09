@@ -26,7 +26,9 @@ public class TilePowerLink extends TileEmc implements IPowerEmitter,
     public static final int emcMjConversionSize = 250;
     public static final int emcEuConversionSize = 625;
     private TileEntity[] tiles;
-    private boolean firstUpdate = false;
+    private boolean firstUpdate = true;
+    private float usedEMC = 0F;
+    private int spawParticleTime = 0;
     
     public TilePowerLink()
     {
@@ -42,12 +44,23 @@ public class TilePowerLink extends TileEmc implements IPowerEmitter,
         {
             return;
         }
-        if (!firstUpdate)
+        if (firstUpdate)
         {
             scanNeighbors();
-            firstUpdate = true;
+            firstUpdate = false;
         }
+        
         TileEmcCapacitor emcCap = getEmcCapacitor();
+        
+        spawParticleTime++;
+        if (spawParticleTime >= 20 && emcCap != null)
+        {
+            emcCap.spawnEmcPartcle(new EmcValue(usedEMC, EmcType.KINETIC),
+                    this.xCoord, this.yCoord, this.zCoord, false);
+            usedEMC = 0F;
+            spawParticleTime = 0;
+        }
+        
         if (emcCap != null)
         {
             for (int i = 0; i < ForgeDirection.values().length; i++)
@@ -79,12 +92,12 @@ public class TilePowerLink extends TileEmc implements IPowerEmitter,
                                 if (emcCap
                                         .useEmc(new EmcValue(usedMJ
                                                 / emcMjConversionSize,
-                                                EmcType.KINETIC), xCoord,
-                                                yCoord, zCoord))
+                                                EmcType.KINETIC)))
                                 {
                                     reciever.receiveEnergy(Type.STORAGE,
                                             usedMJ,
                                             ForgeDirection.getOrientation(i));
+                                    usedEMC += usedMJ / emcMjConversionSize;
                                 }
                             }
                         }
@@ -113,15 +126,15 @@ public class TilePowerLink extends TileEmc implements IPowerEmitter,
                             }
                             if (usedEU != 0.0F)
                             {
-                                if (emcCap.useEmc(
-                                        new EmcValue((float) usedEU
+                                if (emcCap
+                                        .useEmc(new EmcValue((float) usedEU
                                                 / emcEuConversionSize,
-                                                EmcType.KINETIC), xCoord,
-                                        yCoord, zCoord))
+                                                EmcType.KINETIC)))
                                 {
                                     sink.injectEnergyUnits(ForgeDirection
                                             .getOrientation(i).getOpposite(),
                                             usedEU);
+                                    usedEMC += usedEU / emcMjConversionSize;
                                 }
                             }
                         }
