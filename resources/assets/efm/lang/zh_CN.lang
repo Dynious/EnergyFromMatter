@@ -1,0 +1,14 @@
+# Block localizations
+tile.efm:matterDistillery.name=物质蒸馏机
+tile.efm:emcCapacitor.name=EMC容器
+tile.efm:cropRipener.name=作物催熟机
+tile.efm:powerLink.name=能量链接器
+tile.efm:portableHouse.name=便携屋
+tile.efm:fluidDistillery.name=流体蒸馏机
+tile.efm:fluidCondenser.name=Fluid聚合器
+
+# Item localizations
+item.efm:linker.name=链接器
+item.efm:portableEmcCapacitor.name=便携EMC容器
+item.efm:gravityDefyer.name=反重力工具
+item.efm:healer.name=治疗工具
