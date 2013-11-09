@@ -1,0 +1,14 @@
+# Block localizations
+tile.efm:matterDistillery.name=Materiendestillerie
+tile.efm:emcCapacitor.name=EMC-Kondensator
+tile.efm:cropRipener.name=Feldfruchtreifer
+tile.efm:powerLink.name=Energielink
+tile.efm:portableHouse.name=Tragbares Haus
+tile.efm:fluidDistillery.name=Flüssigkeitsdestillerie
+tile.efm:fluidCondenser.name=Flüssigkeitskondensator
+
+# Item localizations
+item.efm:linker.name=Verbinder
+item.efm:portableEmcCapacitor.name=Tragmarer EMC-Kondensator
+item.efm:gravityDefyer.name=Schwerkraftsannullierer
+item.efm:healer.name=Heiler
