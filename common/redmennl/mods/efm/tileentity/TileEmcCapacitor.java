@@ -173,8 +173,8 @@ public class TileEmcCapacitor extends TileEntity implements IInventory,
             TileEmcCapacitor tile = getCapacitor();
             if (add)
             {
-                PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 64D,
-                        worldObj.provider.dimensionId, PacketTypeHandler
+                PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord,
+                        64D, worldObj.provider.dimensionId, PacketTypeHandler
                                 .populatePacket(new PacketSpawnEmcParticle(
                                         x + 0.5F, y + 0.5F, z + 0.5F,
                                         tile.xCoord + 0.5F, tile.yCoord + 0.5F,
@@ -183,8 +183,8 @@ public class TileEmcCapacitor extends TileEntity implements IInventory,
                                         rgbvalue.colorG, rgbvalue.colorB)));
             } else
             {
-                PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 64D,
-                        worldObj.provider.dimensionId, PacketTypeHandler
+                PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord,
+                        64D, worldObj.provider.dimensionId, PacketTypeHandler
                                 .populatePacket(new PacketSpawnEmcParticle(
                                         tile.xCoord + 0.5F, tile.yCoord + 0.5F,
                                         tile.zCoord + 0.5F, x + 0.5F, y + 0.5F,

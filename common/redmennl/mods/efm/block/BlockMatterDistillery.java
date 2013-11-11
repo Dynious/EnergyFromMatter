@@ -98,6 +98,7 @@ public class BlockMatterDistillery extends BlockEmc
             ((TileMatterDistillery) world.getBlockTileEntity(x, y, z)).hasHeater = false;
         }
         super.onNeighborBlockChange(world, x, y, z, id2);
+        // TODO fix
     }
     
     @Override

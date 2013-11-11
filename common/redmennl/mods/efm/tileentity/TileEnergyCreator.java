@@ -1,9 +1,12 @@
 package redmennl.mods.efm.tileentity;
 
+import ic2.api.energy.event.EnergyTileLoadEvent;
+import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergyEmitter;
 import ic2.api.energy.tile.IEnergySink;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.MinecraftForge;
 import redmennl.mods.efm.EnergyFromMatter;
 import buildcraft.api.power.IPowerEmitter;
 import buildcraft.api.power.IPowerReceptor;
@@ -20,7 +23,7 @@ import cpw.mods.fml.common.Optional.Method;
 @InterfaceList(value = {
         @Interface(iface = "buildcraft.api.power.IPowerEmitter", modid = "BuildCraft|Energy"),
         @Interface(iface = "ic2.api.energy.tile.IEnergyEmitter", modid = "IC2") })
-public class TilePowerLink extends TileEmc implements IPowerEmitter,
+public class TileEnergyCreator extends TileEmc implements IPowerEmitter,
         IEnergyEmitter
 {
     public static final int emcMjConversionSize = 250;
@@ -30,7 +33,7 @@ public class TilePowerLink extends TileEmc implements IPowerEmitter,
     private float usedEMC = 0F;
     private int spawParticleTime = 0;
     
-    public TilePowerLink()
+    public TileEnergyCreator()
     {
         super();
         tiles = new TileEntity[ForgeDirection.values().length];
@@ -199,5 +202,37 @@ public class TilePowerLink extends TileEmc implements IPowerEmitter,
     public boolean emitsEnergyTo(TileEntity tile, ForgeDirection direction)
     {
         return tiles[direction.ordinal()] == tile ? true : false;
+    }
+    
+    @Override
+    public void validate()
+    {
+        super.validate();
+        if (!worldObj.isRemote && EnergyFromMatter.hasIC2)
+        {
+            MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
+        }
+    }
+    
+    @Override
+    public void invalidate()
+    {
+        if (!worldObj.isRemote && EnergyFromMatter.hasIC2)
+        {
+            MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+        }
+        
+        super.invalidate();
+    }
+    
+    @Override
+    public void onChunkUnload()
+    {
+        if (!worldObj.isRemote && EnergyFromMatter.hasIC2)
+        {
+            MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
+        }
+        
+        super.onChunkUnload();
     }
 }

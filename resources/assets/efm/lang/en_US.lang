@@ -2,13 +2,14 @@
 tile.efm:matterDistillery.name=Matter Distillery
 tile.efm:emcCapacitor.name=EMC Capacitor
 tile.efm:cropRipener.name=Crop Ripener
-tile.efm:powerLink.name=Power Link
+tile.efm:energyCreator.name=Energy Creator
 tile.efm:matterCreator.name=Matter Creator
 tile.efm:portableHouse0.name=Portable House
 tile.efm:portableHouse1.name=Portable House Deployer
 tile.efm:fluidDistillery.name=Fluid Distillery
-tile.efm:fluidCondenser.name=Fluid Creator
+tile.efm:fluidCreator.name=Fluid Creator
 tile.efm:matterSuperheater.name=Matter Superheater
+tile.efm:energyDistillery.name=Energy Distillery
 
 # Item localizations
 item.efm:linker.name=Linker

@@ -2,13 +2,14 @@
 tile.efm:matterDistillery.name=Materie Distilleerderij
 tile.efm:emcCapacitor.name=EMC Condensator
 tile.efm:cropRipener.name=Gewas Rijper
-tile.efm:powerLink.name=Energie Link
-tile.efm:condenser.name=Materie Vormer
+tile.efm:energyCreator.name=Energie Vormer
+tile.efm:matterCreator.name=Materie Vormer
 tile.efm:portableHouse0.name=Draagbaar Huis
 tile.efm:portableHouse1.name=Draagbaar Huis Bouwer
 tile.efm:fluidDistillery.name=Vloeistof Distilleerderij
-tile.efm:fluidCondenser.name=Vloeistof Condensator
+tile.efm:fluidCreator.name=Vloeistof Vormer
 tile.efm:matterSuperheater.name=Materie Oververhitter
+ile.efm:energyDistillery.name=Energie Distilleerderij
 
 # Item localizations
 item.efm:linker.name=Linker

@@ -30,9 +30,10 @@ public class ConfigurationHandler
             BlockIds.CROP_RIPENER = configuration.getBlock(
                     Strings.CROP_RIPENER_NAME, BlockIds.CROP_RIPENER_DEFAULT)
                     .getInt(BlockIds.CROP_RIPENER_DEFAULT);
-            BlockIds.POWER_LINK = configuration.getBlock(
-                    Strings.POWER_LINK_NAME, BlockIds.POWER_LINK_DEFAULT)
-                    .getInt(BlockIds.POWER_LINK_DEFAULT);
+            BlockIds.ENERGY_CREATOR = configuration.getBlock(
+                    Strings.ENERGY_CREATOR_NAME,
+                    BlockIds.ENERGY_CREATOR_DEFAULT).getInt(
+                    BlockIds.ENERGY_CREATOR_DEFAULT);
             BlockIds.MATTER_CREATOR = configuration.getBlock(
                     Strings.MATTER_CREATOR_NAME,
                     BlockIds.MATTER_CREATOR_DEFAULT).getInt(
@@ -44,14 +45,17 @@ public class ConfigurationHandler
             BlockIds.FLUID_DISTILLERY = configuration.getBlock(
                     "fluidDistillery", BlockIds.FLUID_DISTILLERY_DEFAULT)
                     .getInt(BlockIds.FLUID_DISTILLERY_DEFAULT);
-            BlockIds.FLUID_CONDENSER = configuration.getBlock(
-                    Strings.FLUID_CONDENSER_NAME,
-                    BlockIds.FLUID_CONDENSER_DEFAULT).getInt(
-                    BlockIds.FLUID_CONDENSER_DEFAULT);
+            BlockIds.FLUID_CREATOR = configuration.getBlock(
+                    Strings.FLUID_CREATOR_NAME, BlockIds.FLUID_CREATOR_DEFAULT)
+                    .getInt(BlockIds.FLUID_CREATOR_DEFAULT);
             BlockIds.MATTER_SUPERHEATER = configuration.getBlock(
                     Strings.MATTER_SUPERHEATER_NAME,
                     BlockIds.MATTER_SUPERHEATER_DEFAULT).getInt(
                     BlockIds.MATTER_SUPERHEATER_DEFAULT);
+            BlockIds.ENERGY_DISTILLERY = configuration.getBlock(
+                    Strings.ENERGY_DISTILLERY_NAME,
+                    BlockIds.ENERGY_DISTILLERY_DEFAULT).getInt(
+                    BlockIds.ENERGY_DISTILLERY_DEFAULT);
             
             ItemIds.LINKER = configuration.getItem(Strings.LINKER_NAME,
                     ItemIds.LINKER_DEFAULT).getInt(ItemIds.LINKER_DEFAULT);

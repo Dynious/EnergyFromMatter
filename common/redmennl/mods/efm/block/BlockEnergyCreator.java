@@ -7,15 +7,15 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import redmennl.mods.efm.EnergyFromMatter;
 import redmennl.mods.efm.lib.Strings;
-import redmennl.mods.efm.tileentity.TilePowerLink;
+import redmennl.mods.efm.tileentity.TileEnergyCreator;
 
-public class BlockPowerLink extends BlockEmc
+public class BlockEnergyCreator extends BlockEmc
 {
-    public BlockPowerLink(int id)
+    public BlockEnergyCreator(int id)
     {
         super(id, Material.iron);
         this.setUnlocalizedName(Strings.RESOURCE_PREFIX
-                + Strings.POWER_LINK_NAME);
+                + Strings.ENERGY_CREATOR_NAME);
         this.setCreativeTab(EnergyFromMatter.tabEFM);
         this.setHardness(5.0F);
     }
@@ -23,7 +23,7 @@ public class BlockPowerLink extends BlockEmc
     @Override
     public TileEntity createNewTileEntity(World world)
     {
-        return new TilePowerLink();
+        return new TileEnergyCreator();
     }
     
     @Override
@@ -59,7 +59,7 @@ public class BlockPowerLink extends BlockEmc
         }
         if (direction != null)
         {
-            ((TilePowerLink) world.getBlockTileEntity(x, y, z))
+            ((TileEnergyCreator) world.getBlockTileEntity(x, y, z))
                     .scanNeighbor(direction);
         }
     }
@@ -68,6 +68,6 @@ public class BlockPowerLink extends BlockEmc
     public void onBlockAdded(World world, int x, int y, int z)
     {
         super.onBlockAdded(world, x, y, z);
-        ((TilePowerLink) world.getBlockTileEntity(x, y, z)).scanNeighbors();
+        ((TileEnergyCreator) world.getBlockTileEntity(x, y, z)).scanNeighbors();
     }
 }

@@ -5,19 +5,19 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import redmennl.mods.efm.EnergyFromMatter;
-import redmennl.mods.efm.client.gui.inventory.GuiFluidCondenser;
+import redmennl.mods.efm.client.gui.inventory.GuiFluidCreator;
 import redmennl.mods.efm.lib.Strings;
-import redmennl.mods.efm.tileentity.TileFluidCondenser;
+import redmennl.mods.efm.tileentity.TileFluidCreator;
 import cpw.mods.fml.common.FMLCommonHandler;
 
-public class BlockFluidCondenser extends BlockEmc
+public class BlockFluidCreator extends BlockEmc
 {
     
-    public BlockFluidCondenser(int id)
+    public BlockFluidCreator(int id)
     {
         super(id, Material.iron);
         this.setUnlocalizedName(Strings.RESOURCE_PREFIX
-                + Strings.FLUID_CONDENSER_NAME);
+                + Strings.FLUID_CREATOR_NAME);
         this.setCreativeTab(EnergyFromMatter.tabEFM);
         this.setHardness(5.0F);
     }
@@ -25,7 +25,7 @@ public class BlockFluidCondenser extends BlockEmc
     @Override
     public TileEntity createNewTileEntity(World world)
     {
-        return new TileFluidCondenser();
+        return new TileFluidCreator();
     }
     
     @Override
@@ -33,10 +33,10 @@ public class BlockFluidCondenser extends BlockEmc
     {
         TileEntity tile = world.getBlockTileEntity(x, y, z);
         {
-            if (tile != null && tile instanceof TileFluidCondenser)
+            if (tile != null && tile instanceof TileFluidCreator)
             {
                 FMLCommonHandler.instance().showGuiScreen(
-                        new GuiFluidCondenser((TileFluidCondenser) tile));
+                        new GuiFluidCreator((TileFluidCreator) tile));
                 return true;
             }
         }

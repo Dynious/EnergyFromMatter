@@ -9,15 +9,15 @@ import net.minecraftforge.fluids.FluidRegistry;
 import org.lwjgl.opengl.GL11;
 
 import redmennl.mods.efm.lib.Resources;
-import redmennl.mods.efm.tileentity.TileFluidCondenser;
+import redmennl.mods.efm.tileentity.TileFluidCreator;
 
 import com.pahimar.ee3.emc.EmcRegistry;
 
-public class GuiFluidCondenser extends GuiScreen
+public class GuiFluidCreator extends GuiScreen
 {
-    private TileFluidCondenser tile;
+    private TileFluidCreator tile;
     
-    public GuiFluidCondenser(TileFluidCondenser tile)
+    public GuiFluidCreator(TileFluidCreator tile)
     {
         super();
         this.tile = tile;

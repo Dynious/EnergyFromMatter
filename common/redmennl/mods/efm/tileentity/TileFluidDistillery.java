@@ -58,7 +58,7 @@ public class TileFluidDistillery extends TileEmc implements IFluidHandler
     @Override
     public int fill(ForgeDirection from, FluidStack resource, boolean doFill)
     {
-        if (worldObj.isRemote)
+        if (worldObj.isRemote || resource.getFluid().getBlockID() <= 0)
         {
             return 0;
         }

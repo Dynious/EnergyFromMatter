@@ -44,9 +44,8 @@ public class TileMatterSuperheater extends TileEmc implements IInventory,
         TileEmcCapacitor emcCap = getEmcCapacitor();
         if (spawParticleTime >= 20 && emcCap != null)
         {
-            emcCap.spawnEmcPartcle(
-                    new EmcValue(0.02F, EmcType.KINETIC), this.xCoord,
-                    this.yCoord, this.zCoord, false);
+            emcCap.spawnEmcPartcle(new EmcValue(0.02F, EmcType.KINETIC),
+                    this.xCoord, this.yCoord, this.zCoord, false);
             emcCap.spawnEmcPartcle(emcValue, this.xCoord, this.yCoord,
                     this.zCoord, true);
             emcValue = new EmcValue();
@@ -56,8 +55,7 @@ public class TileMatterSuperheater extends TileEmc implements IInventory,
         if (!emcCap.useEmc(new EmcValue(0.001F, EmcType.KINETIC)))
         {
             enoughEMC = false;
-        }
-        else
+        } else
         {
             enoughEMC = true;
         }

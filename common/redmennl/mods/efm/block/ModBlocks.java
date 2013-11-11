@@ -17,12 +17,13 @@ public class ModBlocks
     public static Block matterDistillery;
     public static Block emcCapacitor;
     public static Block cropRipener;
-    public static Block powerLink;
+    public static Block energyCreator;
     public static Block condenser;
     public static Block portableHouse;
     public static Block fluidDistillery;
     public static Block fluidCondenser;
     public static Block matterSuperheater;
+    public static Block energyDistillery;
     
     public static void init()
     {
@@ -32,15 +33,20 @@ public class ModBlocks
         condenser = new BlockMatterCreator(BlockIds.MATTER_CREATOR);
         portableHouse = new BlockPortableHouse(BlockIds.PORTABLE_HOUSE);
         fluidDistillery = new BlockFluidDistillery(BlockIds.FLUID_DISTILLERY);
-        fluidCondenser = new BlockFluidCondenser(BlockIds.FLUID_CONDENSER);
+        fluidCondenser = new BlockFluidCreator(BlockIds.FLUID_CREATOR);
         matterSuperheater = new BlockMatterSuperheater(
                 BlockIds.MATTER_SUPERHEATER);
         
         if (EnergyFromMatter.hasBC || EnergyFromMatter.hasIC2)
         {
-            powerLink = new BlockPowerLink(BlockIds.POWER_LINK);
+            energyCreator = new BlockEnergyCreator(BlockIds.ENERGY_CREATOR);
+            energyDistillery = new BlockEnergyDistillery(
+                    BlockIds.ENERGY_DISTILLERY);
             
-            GameRegistry.registerBlock(powerLink, Strings.POWER_LINK_NAME);
+            GameRegistry.registerBlock(energyCreator,
+                    Strings.ENERGY_CREATOR_NAME);
+            GameRegistry.registerBlock(energyDistillery,
+                    Strings.ENERGY_DISTILLERY_NAME);
         }
         
         GameRegistry.registerBlock(matterDistillery,
@@ -52,8 +58,7 @@ public class ModBlocks
                 Strings.PORTABLE_HOUSE_NAME);
         GameRegistry.registerBlock(fluidDistillery,
                 Strings.FLUID_DISTILLERY_NAME);
-        GameRegistry
-                .registerBlock(fluidCondenser, Strings.FLUID_CONDENSER_NAME);
+        GameRegistry.registerBlock(fluidCondenser, Strings.FLUID_CREATOR_NAME);
         GameRegistry.registerBlock(matterSuperheater,
                 Strings.MATTER_SUPERHEATER_NAME);
         
@@ -62,8 +67,8 @@ public class ModBlocks
     
     private static void initBlockRecipes()
     {
-        GameRegistry.addRecipe(new ItemStack(matterDistillery), "dod", "ogo",
-                "dod", 'd', Item.diamond, 'o', Block.obsidian, 'g',
+        GameRegistry.addRecipe(new ItemStack(matterDistillery), "dod", "omo",
+                "dod", 'd', Item.diamond, 'o', Block.obsidian, 'm',
                 new ItemStack(com.pahimar.ee3.item.ModItems.miniumStone, 1,
                         OreDictionary.WILDCARD_VALUE));
         GameRegistry.addRecipe(new ItemStack(emcCapacitor), "ded", "ege",
@@ -87,28 +92,47 @@ public class ModBlocks
         GameRegistry.addRecipe(new ItemStack(fluidCondenser), "beb", "ede",
                 "beb", 'b', Item.bucketEmpty, 'e', Item.enderPearl, 'd',
                 Item.diamond);
+        GameRegistry.addRecipe(new ItemStack(matterSuperheater), "olo", "lml",
+                "olo", 'o', Block.obsidian, 'l', Item.bucketLava, 'm',
+                matterDistillery);
     }
     
     public static void registerModRecipes()
     {
         if (EnergyFromMatter.hasBC && !EnergyFromMatter.hasIC2)
         {
-            GameRegistry.addRecipe(new ItemStack(powerLink), "gpg", "pep",
+            GameRegistry.addRecipe(new ItemStack(energyCreator), "gpg", "pep",
                     "gpg", 'g', Block.glass, 'p',
                     BuildCraftTransport.pipePowerDiamond, 'e', Item.enderPearl);
+            GameRegistry.addRecipe(new ItemStack(energyDistillery), "pop",
+                    "omo", "pop", 'o', Block.obsidian, 'p',
+                    BuildCraftTransport.pipePowerDiamond, 'm', new ItemStack(
+                            com.pahimar.ee3.item.ModItems.miniumStone, 1,
+                            OreDictionary.WILDCARD_VALUE));
         }
         if (!EnergyFromMatter.hasBC && EnergyFromMatter.hasIC2)
         {
-            GameRegistry.addRecipe(new ItemStack(powerLink), "gfg", "fef",
+            GameRegistry.addRecipe(new ItemStack(energyCreator), "gfg", "fef",
                     "gfg", 'g', Block.glass, 'f', Ic2Items.glassFiberCableItem,
                     'e', Item.enderPearl);
+            GameRegistry.addRecipe(new ItemStack(energyDistillery), "fof",
+                    "omo", "fof", 'o', Block.obsidian, 'f',
+                    Ic2Items.glassFiberCableItem, 'm', new ItemStack(
+                            com.pahimar.ee3.item.ModItems.miniumStone, 1,
+                            OreDictionary.WILDCARD_VALUE));
         }
         if (EnergyFromMatter.hasBC && EnergyFromMatter.hasIC2)
         {
-            GameRegistry.addRecipe(new ItemStack(powerLink), "gpg", "fef",
+            GameRegistry.addRecipe(new ItemStack(energyCreator), "gpg", "fef",
                     "gpg", 'g', Block.glass, 'p',
                     BuildCraftTransport.pipePowerDiamond, 'f',
                     Ic2Items.glassFiberCableItem, 'e', Item.enderPearl);
+            GameRegistry.addRecipe(new ItemStack(energyDistillery), "fop",
+                    "omo", "fop", 'o', Block.obsidian, 'p',
+                    BuildCraftTransport.pipePowerDiamond, 'f',
+                    Ic2Items.glassFiberCableItem, 'm', new ItemStack(
+                            com.pahimar.ee3.item.ModItems.miniumStone, 1,
+                            OreDictionary.WILDCARD_VALUE));
         }
     }
 }

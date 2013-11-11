@@ -13,13 +13,13 @@ import com.pahimar.ee3.emc.EmcRegistry;
 import com.pahimar.ee3.emc.EmcType;
 import com.pahimar.ee3.emc.EmcValue;
 
-public class TileFluidCondenser extends TileEmc implements IFluidHandler
+public class TileFluidCreator extends TileEmc implements IFluidHandler
 {
     public int fluidID;
     private EmcValue condensedEmc = new EmcValue();
     private int spawParticleTime = 0;
     
-    public TileFluidCondenser()
+    public TileFluidCreator()
     {
         super();
         fluidID = FluidRegistry.getFluidID("water");
@@ -131,7 +131,7 @@ public class TileFluidCondenser extends TileEmc implements IFluidHandler
     public FluidStack drain(ForgeDirection from, FluidStack resource,
             boolean doDrain)
     {
-        if (worldObj.isRemote)
+        if (worldObj.isRemote || resource.getFluid().getBlockID() <= 0)
         {
             return null;
         }

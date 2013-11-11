@@ -14,16 +14,18 @@ import redmennl.mods.efm.inventory.ContainerCropRipener;
 import redmennl.mods.efm.inventory.ContainerEmcCapacitor;
 import redmennl.mods.efm.inventory.ContainerMatterDistillery;
 import redmennl.mods.efm.lib.GuiIds;
+import redmennl.mods.efm.lib.Strings;
+import redmennl.mods.efm.tileentity.TileEnergyDistillery;
 import redmennl.mods.efm.tileentity.TileMatterCreator;
 import redmennl.mods.efm.tileentity.TileCropRipener;
 import redmennl.mods.efm.tileentity.TileEmcCapacitor;
-import redmennl.mods.efm.tileentity.TileFluidCondenser;
+import redmennl.mods.efm.tileentity.TileFluidCreator;
 import redmennl.mods.efm.tileentity.TileFluidDistillery;
 import redmennl.mods.efm.tileentity.TileMatterDistillery;
 import redmennl.mods.efm.tileentity.TileMatterSuperheater;
 import redmennl.mods.efm.tileentity.TilePortableHouse;
 import redmennl.mods.efm.tileentity.TilePortableHouseDeployer;
-import redmennl.mods.efm.tileentity.TilePowerLink;
+import redmennl.mods.efm.tileentity.TileEnergyCreator;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -36,24 +38,30 @@ public class CommonProxy implements IGuiHandler
     public void initTileEntities()
     {
         GameRegistry.registerTileEntity(TileMatterDistillery.class,
-                "matterDistillery");
-        GameRegistry.registerTileEntity(TileEmcCapacitor.class, "emcCapacitor");
-        GameRegistry.registerTileEntity(TileCropRipener.class, "cropRipener");
-        GameRegistry.registerTileEntity(TileMatterCreator.class, "condenser");
+                Strings.MATTER_DISTILLERY_NAME);
+        GameRegistry.registerTileEntity(TileEmcCapacitor.class,
+                Strings.EMC_CAPACITOR_NAME);
+        GameRegistry.registerTileEntity(TileCropRipener.class,
+                Strings.CROP_RIPENER_NAME);
+        GameRegistry.registerTileEntity(TileMatterCreator.class,
+                Strings.MATTER_CREATOR_NAME);
         GameRegistry.registerTileEntity(TilePortableHouse.class,
-                "portableHouser");
+                Strings.PORTABLE_HOUSE_NAME);
         GameRegistry.registerTileEntity(TilePortableHouseDeployer.class,
-                "portableHouserDeployer");
+                Strings.PORTABLE_HOUSE_NAME + "Deployer");
         GameRegistry.registerTileEntity(TileFluidDistillery.class,
-                "fluidDistillery");
-        GameRegistry.registerTileEntity(TileFluidCondenser.class,
-                "fluidCondenser");
+                Strings.FLUID_DISTILLERY_NAME);
+        GameRegistry.registerTileEntity(TileFluidCreator.class,
+                Strings.FLUID_CREATOR_NAME);
         GameRegistry.registerTileEntity(TileMatterSuperheater.class,
-                "matterSuperHeater");
+                Strings.MATTER_SUPERHEATER_NAME);
         
         if (EnergyFromMatter.hasBC || EnergyFromMatter.hasIC2)
         {
-            GameRegistry.registerTileEntity(TilePowerLink.class, "powerLink");
+            GameRegistry.registerTileEntity(TileEnergyCreator.class,
+                    Strings.ENERGY_CREATOR_NAME);
+            GameRegistry.registerTileEntity(TileEnergyDistillery.class,
+                    Strings.ENERGY_DISTILLERY_NAME);
         }
     }
     
