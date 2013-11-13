@@ -9,10 +9,11 @@ tile.efm:portableHouse1.name=
 tile.efm:fluidDistillery.name=Flüssigkeitsdestillerie
 tile.efm:fluidCreator.name=
 tile.efm:matterSuperheater.name=
-ile.efm:energyDistillery.name=
+tile.efm:energyDistillery.name=
 
 # Item localizations
 item.efm:linker.name=Verbinder
-item.efm:portableEmcCapacitor.name=Tragmarer EMC-Kondensator
+item.efm:portableEmcCapacitor.name=Tragbarer EMC-Kondensator
 item.efm:gravityDefyer.name=Schwerkraftsannullierer
 item.efm:healer.name=Heiler
+item.efm:creativePortableEmcCapacitor.name=Tragbarer Kreativ-EMC-Kondensator
