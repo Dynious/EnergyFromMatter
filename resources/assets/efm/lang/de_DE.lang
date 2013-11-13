@@ -2,14 +2,14 @@
 tile.efm:matterDistillery.name=Materiendestillerie
 tile.efm:emcCapacitor.name=EMC-Kondensator
 tile.efm:cropRipener.name=Feldfruchtreifer
-tile.efm:energyCreator.name=
-tile.efm:matterCreator.name=
+tile.efm:energyCreator.name=Energiekreierer
+tile.efm:matterCreator.name=Materienkreierer
 tile.efm:portableHouse0.name=Tragbares Haus
-tile.efm:portableHouse1.name=
+tile.efm:portableHouse1.name=Tragbares-Haus-Aufsteller
 tile.efm:fluidDistillery.name=Flüssigkeitsdestillerie
-tile.efm:fluidCreator.name=
-tile.efm:matterSuperheater.name=
-tile.efm:energyDistillery.name=
+tile.efm:fluidCreator.name=Flüssigkeitskreierer
+tile.efm:matterSuperheater.name=Materien-Superheizer
+tile.efm:energyDistillery.name=Energiedestillerie
 
 # Item localizations
 item.efm:linker.name=Verbinder
