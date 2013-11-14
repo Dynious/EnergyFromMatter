@@ -1,9 +1,11 @@
 package redmennl.mods.efm;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraftforge.common.MinecraftForge;
 import redmennl.mods.efm.block.ModBlocks;
 import redmennl.mods.efm.configuration.ConfigurationHandler;
 import redmennl.mods.efm.core.handler.IMCHandler;
+import redmennl.mods.efm.core.handler.WorldEventHandler;
 import redmennl.mods.efm.core.helper.LogHelper;
 import redmennl.mods.efm.core.proxy.CommonProxy;
 import redmennl.mods.efm.creativetab.CreativeTabEFM;
@@ -90,5 +92,7 @@ public class EnergyFromMatter
         
         // Register mod dependant recipes
         ModBlocks.registerModRecipes();
+        
+        MinecraftForge.EVENT_BUS.register(new WorldEventHandler());
     }
 }

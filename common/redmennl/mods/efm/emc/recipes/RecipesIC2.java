@@ -3,17 +3,23 @@ package redmennl.mods.efm.emc.recipes;
 import ic2.api.recipe.IRecipeInput;
 import ic2.api.recipe.RecipeOutput;
 import ic2.api.recipe.Recipes;
+import ic2.core.AdvRecipe;
+import ic2.core.AdvShapelessRecipe;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map.Entry;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.oredict.OreDictionary;
 import redmennl.mods.efm.EnergyFromMatter;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import com.pahimar.ee3.core.helper.LogHelper;
 import com.pahimar.ee3.item.CustomWrappedStack;
 import com.pahimar.ee3.item.OreStack;
 
@@ -36,6 +42,26 @@ public class RecipesIC2
         
         if (EnergyFromMatter.hasIC2)
         {
+            for (Object recipeObject : CraftingManager.getInstance().getRecipeList()) {
+
+                if (recipeObject instanceof AdvRecipe || recipeObject instanceof AdvShapelessRecipe) {
+
+                    IRecipe recipe = (IRecipe) recipeObject;
+                    ItemStack recipeOutput = recipe.getRecipeOutput();
+
+                    if (recipeOutput != null) {
+                        
+                        ArrayList<CustomWrappedStack> recipeInputs = getRecipeInputs(recipe);
+                        Ic2Recipes.put(new CustomWrappedStack(recipeOutput), recipeInputs);
+                    }
+                }
+            }
+            
+            for (Entry<CustomWrappedStack, List<CustomWrappedStack>> e : Ic2Recipes.entries())
+            {
+                LogHelper.debug(e.getKey().toString() + " ... " + e.getValue().toString());
+            }
+            
             for (Entry<IRecipeInput, RecipeOutput> entry : Recipes.macerator.getRecipes().entrySet())
             {
                 addEntryToMap(entry);
@@ -69,6 +95,50 @@ public class RecipesIC2
                 addEntryToMap(entry);
             }
         }
+    }
+    
+    private static ArrayList<CustomWrappedStack> getRecipeInputs(IRecipe recipe)
+    {
+        ArrayList<CustomWrappedStack> recipeInputs = new ArrayList<CustomWrappedStack>();
+
+        if (recipe instanceof AdvRecipe) {
+
+            AdvRecipe shapedRecipe = (AdvRecipe) recipe;
+
+            for (int i = 0; i < shapedRecipe.input.length; i++) {
+
+                if (shapedRecipe.input[i] instanceof ItemStack) {
+
+                    ItemStack itemStack = ((ItemStack) shapedRecipe.input[i]).copy();
+                    
+                    if (itemStack.stackSize > 1) {
+                        itemStack.stackSize = 1;
+                    }
+                    
+                    recipeInputs.add(getWrappedStack(itemStack));
+                }
+            }
+        }
+        else if (recipe instanceof AdvShapelessRecipe) {
+
+            AdvShapelessRecipe shapelessRecipe = (AdvShapelessRecipe) recipe;
+
+            for (Object object : shapelessRecipe.input) {
+
+                if (object instanceof ItemStack) {
+
+                    ItemStack itemStack = ((ItemStack) object).copy();
+
+                    if (itemStack.stackSize > 1) {
+                        itemStack.stackSize = 1;
+                    }
+                    
+                    recipeInputs.add(getWrappedStack(itemStack));
+                }
+            }
+        }
+        
+        return recipeInputs;
     }
     
     private static void addEntryToMap(Entry<IRecipeInput, RecipeOutput> entry)

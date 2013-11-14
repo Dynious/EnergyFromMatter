@@ -17,9 +17,9 @@ public class EmcRGBValues
     public static final int kineticG = 0;
     public static final int kineticB = 0;
     
-    public static final int tempotalR = 255;
-    public static final int tempotalG = 255;
-    public static final int tempotalB = 0;
+    public static final int temporalR = 255;
+    public static final int temporalG = 255;
+    public static final int temporalB = 0;
     
     public static final int essentiaR = 0;
     public static final int essentiaG = 255;
@@ -64,9 +64,9 @@ public class EmcRGBValues
                         value.colorB += kineticB * component;
                         break;
                     case TEMPORAL:
-                        value.colorR += tempotalR * component;
-                        value.colorG += tempotalG * component;
-                        value.colorB += tempotalB * component;
+                        value.colorR += temporalR * component;
+                        value.colorG += temporalG * component;
+                        value.colorB += temporalB * component;
                         break;
                     case ESSENTIA:
                         value.colorR += essentiaR * component;
@@ -114,9 +114,9 @@ public class EmcRGBValues
                 value.colorB = kineticB;
                 break;
             case TEMPORAL:
-                value.colorR = tempotalR;
-                value.colorG = tempotalG;
-                value.colorB = tempotalB;
+                value.colorR = temporalR;
+                value.colorG = temporalG;
+                value.colorB = temporalB;
                 break;
             case ESSENTIA:
                 value.colorR = essentiaR;
