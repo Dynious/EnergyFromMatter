@@ -18,10 +18,10 @@ public class ModBlocks
     public static Block emcCapacitor;
     public static Block cropRipener;
     public static Block energyCreator;
-    public static Block condenser;
+    public static Block matterCreator;
     public static Block portableHouse;
     public static Block fluidDistillery;
-    public static Block fluidCondenser;
+    public static Block fluidCreator;
     public static Block matterSuperheater;
     public static Block energyDistillery;
     
@@ -30,10 +30,10 @@ public class ModBlocks
         matterDistillery = new BlockMatterDistillery(BlockIds.MATTER_DISTILLERY);
         emcCapacitor = new BlockEmcCapacitor(BlockIds.EMC_CAPACITOR);
         cropRipener = new BlockCropRipener(BlockIds.CROP_RIPENER);
-        condenser = new BlockMatterCreator(BlockIds.MATTER_CREATOR);
+        matterCreator = new BlockMatterCreator(BlockIds.MATTER_CREATOR);
         portableHouse = new BlockPortableHouse(BlockIds.PORTABLE_HOUSE);
         fluidDistillery = new BlockFluidDistillery(BlockIds.FLUID_DISTILLERY);
-        fluidCondenser = new BlockFluidCreator(BlockIds.FLUID_CREATOR);
+        fluidCreator = new BlockFluidCreator(BlockIds.FLUID_CREATOR);
         matterSuperheater = new BlockMatterSuperheater(
                 BlockIds.MATTER_SUPERHEATER);
         
@@ -53,12 +53,12 @@ public class ModBlocks
                 Strings.MATTER_DISTILLERY_NAME);
         GameRegistry.registerBlock(emcCapacitor, Strings.EMC_CAPACITOR_NAME);
         GameRegistry.registerBlock(cropRipener, Strings.CROP_RIPENER_NAME);
-        GameRegistry.registerBlock(condenser, Strings.MATTER_CREATOR_NAME);
+        GameRegistry.registerBlock(matterCreator, Strings.MATTER_CREATOR_NAME);
         GameRegistry.registerBlock(portableHouse, ItemPortableHouse.class,
                 Strings.PORTABLE_HOUSE_NAME);
         GameRegistry.registerBlock(fluidDistillery,
                 Strings.FLUID_DISTILLERY_NAME);
-        GameRegistry.registerBlock(fluidCondenser, Strings.FLUID_CREATOR_NAME);
+        GameRegistry.registerBlock(fluidCreator, Strings.FLUID_CREATOR_NAME);
         GameRegistry.registerBlock(matterSuperheater,
                 Strings.MATTER_SUPERHEATER_NAME);
         
@@ -78,7 +78,7 @@ public class ModBlocks
                 's', Block.sapling, 'e', Item.enderPearl, 'w', Item.seeds, 'b',
                 new ItemStack(Item.dyePowder.itemID, 1, 15), 'p', Item.potato,
                 'c', Item.carrot);
-        GameRegistry.addRecipe(new ItemStack(condenser), "oeo", "ede", "oeo",
+        GameRegistry.addRecipe(new ItemStack(matterCreator), "oeo", "ede", "oeo",
                 'o', Block.obsidian, 'e', Item.enderPearl, 'd',
                 Block.blockDiamond);
         GameRegistry.addRecipe(new ItemStack(portableHouse), "ded", "ege",
@@ -89,7 +89,7 @@ public class ModBlocks
                 Item.bucketLava, 'g', new ItemStack(
                         com.pahimar.ee3.item.ModItems.miniumStone, 1,
                         OreDictionary.WILDCARD_VALUE));
-        GameRegistry.addRecipe(new ItemStack(fluidCondenser), "beb", "ede",
+        GameRegistry.addRecipe(new ItemStack(fluidCreator), "beb", "ede",
                 "beb", 'b', Item.bucketEmpty, 'e', Item.enderPearl, 'd',
                 Item.diamond);
         GameRegistry.addRecipe(new ItemStack(matterSuperheater), "olo", "lml",

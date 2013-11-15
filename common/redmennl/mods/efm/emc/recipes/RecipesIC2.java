@@ -12,14 +12,12 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.oredict.OreDictionary;
 import redmennl.mods.efm.EnergyFromMatter;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.pahimar.ee3.core.helper.LogHelper;
 import com.pahimar.ee3.item.CustomWrappedStack;
 import com.pahimar.ee3.item.OreStack;
 
@@ -42,6 +40,7 @@ public class RecipesIC2
         
         if (EnergyFromMatter.hasIC2)
         {
+            /*
             for (Object recipeObject : CraftingManager.getInstance().getRecipeList()) {
 
                 if (recipeObject instanceof AdvRecipe || recipeObject instanceof AdvShapelessRecipe) {
@@ -56,11 +55,7 @@ public class RecipesIC2
                     }
                 }
             }
-            
-            for (Entry<CustomWrappedStack, List<CustomWrappedStack>> e : Ic2Recipes.entries())
-            {
-                LogHelper.debug(e.getKey().toString() + " ... " + e.getValue().toString());
-            }
+            */
             
             for (Entry<IRecipeInput, RecipeOutput> entry : Recipes.macerator.getRecipes().entrySet())
             {

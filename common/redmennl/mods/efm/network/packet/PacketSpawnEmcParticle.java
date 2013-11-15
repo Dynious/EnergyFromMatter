@@ -8,6 +8,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetworkManager;
 import cpw.mods.fml.common.network.Player;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import redmennl.mods.efm.client.particle.EntityBeamFX;
 import redmennl.mods.efm.lib.Toggles;
 import redmennl.mods.efm.network.PacketTypeHandler;
@@ -86,6 +88,7 @@ public class PacketSpawnEmcParticle extends PacketEFM
     }
     
     @Override
+    @SideOnly(Side.CLIENT)
     public void execute(INetworkManager manager, Player player)
     {
         if (Toggles.SHOW_EMC_PARTICLES)

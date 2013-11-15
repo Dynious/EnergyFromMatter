@@ -2,18 +2,26 @@ package redmennl.mods.efm.core.handler;
 
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.world.WorldEvent.Load;
+import redmennl.mods.efm.block.ModBlocks;
 import redmennl.mods.efm.client.gui.inventory.GuiMatterCreator;
 import codechicken.nei.api.API;
-
-import com.pahimar.ee3.core.helper.LogHelper;
 
 public class WorldEventHandler
 {
     @ForgeSubscribe
     public void onWorldLoaded(Load event)
     {
-        LogHelper.debug("Loaded!");
-        //API.registerGuiOverlay(GuiMatterCreator.class, "crafting");
-        API.registerGuiOverlayHandler(GuiMatterCreator.class, new NEIOverlayHandler(), "crafting");
+        if (event.world.isRemote)
+        {
+            API.registerGuiOverlayHandler(GuiMatterCreator.class, new NEIOverlayHandler(), "crafting");
+            API.setMaxDamageException(ModBlocks.matterDistillery.blockID, 0);
+            API.setMaxDamageException(ModBlocks.cropRipener.blockID, 0);
+            API.setMaxDamageException(ModBlocks.cropRipener.blockID, 0);
+            API.setMaxDamageException(ModBlocks.matterCreator.blockID, 0);
+            API.setMaxDamageException(ModBlocks.fluidDistillery.blockID, 0);
+            API.setMaxDamageException(ModBlocks.fluidCreator.blockID, 0);
+            API.setMaxDamageException(ModBlocks.matterSuperheater.blockID, 0);
+            API.setMaxDamageException(ModBlocks.energyDistillery.blockID, 0);
+        }
     }
 }
