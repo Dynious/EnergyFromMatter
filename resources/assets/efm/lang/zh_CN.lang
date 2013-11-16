@@ -16,3 +16,4 @@ item.efm:linker.name=链接器
 item.efm:portableEmcCapacitor.name=便携EMC容器
 item.efm:gravityDefyer.name=反重力工具
 item.efm:healer.name=治疗工具
+item.efm.creativePortableEmcCapacitor.name=

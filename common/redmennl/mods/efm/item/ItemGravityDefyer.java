@@ -16,6 +16,8 @@ import com.pahimar.ee3.emc.EmcValue;
 
 public class ItemGravityDefyer extends ItemPortableEmcCapacitor
 {
+    private EntityPlayer ep = null;
+    
     public ItemGravityDefyer(int id)
     {
         super(id);
@@ -90,6 +92,7 @@ public class ItemGravityDefyer extends ItemPortableEmcCapacitor
             if (entity != null && entity instanceof EntityPlayer)
             {
                 EntityPlayer ep = (EntityPlayer) entity;
+                this.ep = ep;
                 if (ep.capabilities.isFlying)
                 {
                     if (!useEmc(new EmcValue(0.001F, EmcType.AMORPHOUS), stack))
@@ -99,6 +102,12 @@ public class ItemGravityDefyer extends ItemPortableEmcCapacitor
                         ep.capabilities.isFlying = false;
                     }
                 }
+            }
+            else if (ep != null)
+            {
+                stack.getTagCompound().setBoolean("isEnabled", false);
+                ep.capabilities.allowFlying = false;
+                ep.capabilities.isFlying = false;
             }
         }
     }

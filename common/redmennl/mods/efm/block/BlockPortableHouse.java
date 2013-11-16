@@ -232,6 +232,6 @@ public class BlockPortableHouse extends BlockContainer
     public void registerIcons(IconRegister par1IconRegister)
     {
         blockIcon = par1IconRegister.registerIcon(Resources.MOD_ID + ":"
-                + this.getUnlocalizedName().substring(5));
+                + Strings.PORTABLE_HOUSE_NAME);
     }
 }

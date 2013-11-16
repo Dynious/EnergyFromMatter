@@ -1,7 +1,12 @@
 package redmennl.mods.efm.tileentity;
 
-import com.pahimar.ee3.core.helper.LogHelper;
-
+import cpw.mods.fml.common.network.PacketDispatcher;
+import redmennl.mods.efm.client.audio.CustomSoundManager;
+import redmennl.mods.efm.client.audio.ICulledSoundPlayer;
+import redmennl.mods.efm.lib.Resources;
+import redmennl.mods.efm.network.PacketTypeHandler;
+import redmennl.mods.efm.network.packet.PacketSoundCullEvent;
+import redmennl.mods.efm.network.packet.PacketSoundEvent;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
@@ -9,7 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-public class TilePortableHouseDeployer extends TileEntity
+public class TilePortableHouseDeployer extends TileEntity implements ICulledSoundPlayer
 {
     public int[] idArr = new int[9 * 2 * 5];
     public byte[] metaArr = new byte[9 * 2 * 5];
@@ -28,6 +33,8 @@ public class TilePortableHouseDeployer extends TileEntity
     int currentBlock;
     private boolean startDeploy;
     private boolean deploy;
+    
+    private String soundsource;
     
     @Override
     public void updateEntity()
@@ -74,7 +81,7 @@ public class TilePortableHouseDeployer extends TileEntity
                 deploy = true;
             }
         }
-        if (deploy)
+        if (!this.getWorldObj().isRemote && deploy)
         {
             int xStart = xCoord - (size - 1) / 2;
             int zStart = zCoord - (size - 1) / 2;
@@ -83,7 +90,6 @@ public class TilePortableHouseDeployer extends TileEntity
                     && Block.blocksList[idArr[currentBlock]].canPlaceBlockAt(
                             worldObj, 0, 255, 0))
             {
-                LogHelper.debug(idArr[currentBlock]);
                 worldObj.destroyBlock(xStart + xArr[currentBlock], yCoord - 1
                         + yArr[currentBlock], zStart + zArr[currentBlock], true);
                 worldObj.setBlock(xStart + xArr[currentBlock], yCoord - 1
@@ -135,6 +141,9 @@ public class TilePortableHouseDeployer extends TileEntity
                 worldObj.spawnEntityInWorld(entityItem);
                 
                 noDrop = true;
+                PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord,
+                        64D, worldObj.provider.dimensionId, PacketTypeHandler
+                                .populatePacket(new PacketSoundCullEvent(xCoord, yCoord, zCoord)));
                 worldObj.destroyBlock(xCoord, yCoord, zCoord, false);
             }
         }
@@ -146,43 +155,10 @@ public class TilePortableHouseDeployer extends TileEntity
         {
             return;
         }
+        PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord,
+                64D, worldObj.provider.dimensionId, PacketTypeHandler
+                        .populatePacket(new PacketSoundEvent(Resources.MOD_ID + ":ambience", xCoord , yCoord, zCoord, 1.0F, 1.0F)));
         startDeploy = true;
-        /*
-         * World world = this.getWorldObj();
-         * 
-         * if (clearArea) { for (byte x = 0; x < size; x++) { int xTrans =
-         * xCoord - (size - 1) / 2 + x;
-         * 
-         * for (byte y = 0; y < height; y++) { int yTrans = yCoord - 1 + y;
-         * 
-         * for (byte z = 0; z < size; z++) { int zTrans = zCoord - (size - 1) /
-         * 2 + z;
-         * 
-         * if (xTrans == xCoord && yTrans == yCoord && zTrans == zCoord) {
-         * 
-         * } else { world.destroyBlock(xTrans, yTrans, zTrans, true); } } } } }
-         * 
-         * int xStart = xCoord - (size - 1) / 2; int zStart = zCoord - (size -
-         * 1) / 2; for (int i = 0; i < idArr.length; i++) {
-         * 
-         * if (idArr[i] != 0) { world.destroyBlock(xStart + xArr[i], yCoord - 1
-         * + yArr[i], zStart + zArr[i], true); world.setBlock(xStart + xArr[i],
-         * yCoord - 1 + yArr[i], zStart + zArr[i], idArr[i], metaArr[i], 2); if
-         * (hasTag[i] == 1) { TileEntity TE = world.getBlockTileEntity(xStart +
-         * xArr[i], yCoord - 1 + yArr[i], zStart + zArr[i]);
-         * 
-         * NBTTagList nbttaglist = tag.getTagList(Integer.toString(i));
-         * NBTTagCompound nbt = (NBTTagCompound) nbttaglist.tagAt(0);
-         * nbt.setInteger("x", xStart + xArr[i]); nbt.setInteger("y", yCoord - 1
-         * + yArr[i]); nbt.setInteger("z", zStart + zArr[i]);
-         * TE.readFromNBT(nbt); } } }
-         * 
-         * ItemStack stack = new ItemStack(this.getBlockType(), 1, 0);
-         * EntityItem entityItem = new EntityItem(world, xCoord, yCoord, zCoord,
-         * stack); world.spawnEntityInWorld(entityItem);
-         * 
-         * noDrop = true; world.destroyBlock(xCoord, yCoord, zCoord, false);
-         */
     }
     
     @Override
@@ -219,5 +195,18 @@ public class TilePortableHouseDeployer extends TileEntity
         {
             name = nbt.getString("name");
         }
+    }
+    
+    @Override
+    public void cullSound()
+    {
+        CustomSoundManager.playSound(Resources.MOD_ID + ":explosion", xCoord , yCoord, zCoord, 1.0F, 1.0F);
+        CustomSoundManager.cullSound(soundsource);
+    }
+
+    @Override
+    public void setCullSoundSource(String cullSoundSource)
+    {
+        soundsource = cullSoundSource;
     }
 }

@@ -7,23 +7,32 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import redmennl.mods.efm.client.audio.CustomSoundManager;
+import redmennl.mods.efm.client.audio.ICulledSoundPlayer;
+import redmennl.mods.efm.lib.Resources;
+import redmennl.mods.efm.network.PacketTypeHandler;
+import redmennl.mods.efm.network.packet.PacketSoundCullEvent;
+import redmennl.mods.efm.network.packet.PacketSoundEvent;
+import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class TilePortableHouse extends TileEntity
+public class TilePortableHouse extends TileEntity implements ICulledSoundPlayer
 {
     public int size = 3;
     public int height = 2;
     public String name = "";
     public boolean noDrop = false;
     private boolean breakBlocks;
-    int x, y, z;
+    private int x, y, z;
     
-    int[] idArr;
-    byte[] metaArr;
-    int[] xArr;
-    int[] yArr;
-    int[] zArr;
-    int idNum;
-    ItemStack stack;
+    private int[] idArr;
+    private byte[] metaArr;
+    private int[] xArr;
+    private int[] yArr;
+    private int[] zArr;
+    private int idNum;
+    private ItemStack stack;
+    
+    private String soundsource;
     
     @Override
     public void updateEntity()
@@ -66,6 +75,9 @@ public class TilePortableHouse extends TileEntity
                         worldObj.spawnEntityInWorld(entityItem);
                         
                         noDrop = true;
+                        PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord,
+                                64D, worldObj.provider.dimensionId, PacketTypeHandler
+                                        .populatePacket(new PacketSoundCullEvent(xCoord, yCoord, zCoord)));
                         worldObj.destroyBlock(xCoord, yCoord, zCoord, false);
                     }
                 }
@@ -76,6 +88,13 @@ public class TilePortableHouse extends TileEntity
     public void saveBlocks()
     {
         World world = this.getWorldObj();
+        if (world.isRemote)
+        {
+            return;
+        }
+        PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord,
+                64D, worldObj.provider.dimensionId, PacketTypeHandler
+                        .populatePacket(new PacketSoundEvent(Resources.MOD_ID + ":ambience", xCoord , yCoord, zCoord, 1.0F, 1.0F)));
         
         stack = new ItemStack(this.getBlockType(), 1, 1);
         stack.setTagCompound(new NBTTagCompound());
@@ -115,32 +134,6 @@ public class TilePortableHouse extends TileEntity
         }
         
         breakBlocks = true;
-        /*
-         * for (byte x = 0; x < size; x++) { int xTrans = xCoord - (size - 1) /
-         * 2 + x;
-         * 
-         * for (byte y = 0; y < height; y++) { int yTrans = yCoord - 1 + y;
-         * 
-         * for (byte z = 0; z < size; z++) { int zTrans = zCoord - (size - 1) /
-         * 2 + z;
-         * 
-         * if (xTrans != xCoord || yTrans != yCoord || zTrans != zCoord) {
-         * writeBlock(xTrans, yTrans, zTrans, x, y, z); } } } }
-         * 
-         * saveStackInfo();
-         * 
-         * world.playSoundEffect(xCoord + 0.5D, yCoord + 0.5D, zCoord + 0.5D,
-         * Resources.MOD_ID + ":saveblocks", 1.0F, 1.0F);
-         * 
-         * Random rand = new Random(); float rx = rand.nextFloat() * 0.4F +
-         * 0.1F; float ry = rand.nextFloat() * 0.4F + 0.1F; float rz =
-         * rand.nextFloat() * 0.4F + 0.1F;
-         * 
-         * EntityItem entityItem = new EntityItem(world, xCoord + rx, yCoord +
-         * ry, zCoord + rz, stack); world.spawnEntityInWorld(entityItem);
-         * 
-         * noDrop = true; world.setBlockToAir(xCoord, yCoord, zCoord);
-         */
     }
     
     private void writeBlock(int xTrans, int yTrans, int zTrans, int x, int y,
@@ -178,13 +171,6 @@ public class TilePortableHouse extends TileEntity
             idNum++;
             
             worldObj.destroyBlock(xTrans, yTrans, zTrans, false);
-            
-            /*
-             * try { Block.blocksList[id].getClass() .getDeclaredMethod(
-             * "canPlaceBlockAt", new Class[] { World.class, int.class,
-             * int.class, int.class }); world.destroyBlock(xTrans, yTrans,
-             * zTrans, false); } catch (Exception e) { }
-             */
         }
     }
     
@@ -218,5 +204,19 @@ public class TilePortableHouse extends TileEntity
     {
         super.readFromNBT(nbt);
         name = nbt.getString("name");
+    }
+    
+    
+    @Override
+    public void cullSound()
+    {
+        CustomSoundManager.playSound(Resources.MOD_ID + ":explosion", xCoord , yCoord, zCoord, 1.0F, 1.0F);
+        CustomSoundManager.cullSound(soundsource);
+    }
+
+    @Override
+    public void setCullSoundSource(String cullSoundSource)
+    {
+        soundsource = cullSoundSource;
     }
 }

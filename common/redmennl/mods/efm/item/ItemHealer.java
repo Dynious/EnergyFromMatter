@@ -16,7 +16,7 @@ import com.pahimar.ee3.emc.EmcValue;
 
 public class ItemHealer extends ItemPortableEmcCapacitor
 {
-    public static int timePerHealing = 10;
+    private static int timePerHealing = 10;
     
     public ItemHealer(int id)
     {

@@ -80,7 +80,7 @@ public class GuiPortableHouse extends GuiScreen
         drawDefaultBackground();
         drawContainerBackground();
         
-        if (tile instanceof TilePortableHouse)
+        if (tile instanceof TilePortableHouse && name != null)
         {
             name.drawTextBox();
         }

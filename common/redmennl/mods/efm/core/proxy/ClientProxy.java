@@ -2,6 +2,7 @@ package redmennl.mods.efm.core.proxy;
 
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
+import redmennl.mods.efm.client.audio.CustomSoundManager;
 import redmennl.mods.efm.client.audio.SoundHandler;
 import redmennl.mods.efm.client.renderer.item.ItemEnergyCondenserRenderer;
 import redmennl.mods.efm.client.renderer.item.ItemPortableHouseRenderer;
@@ -46,6 +47,7 @@ public class ClientProxy extends CommonProxy
     @Override
     public void registerSoundHandler()
     {
+        CustomSoundManager.init();
         MinecraftForge.EVENT_BUS.register(new SoundHandler());
     }
 }

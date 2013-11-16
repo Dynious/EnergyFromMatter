@@ -5,13 +5,14 @@ import net.minecraftforge.event.world.WorldEvent.Load;
 import redmennl.mods.efm.block.ModBlocks;
 import redmennl.mods.efm.client.gui.inventory.GuiMatterCreator;
 import codechicken.nei.api.API;
+import cpw.mods.fml.common.Loader;
 
 public class WorldEventHandler
 {
     @ForgeSubscribe
     public void onWorldLoaded(Load event)
     {
-        if (event.world.isRemote)
+        if (event.world.isRemote && Loader.isModLoaded("NotEnoughItems"));
         {
             API.registerGuiOverlayHandler(GuiMatterCreator.class, new NEIOverlayHandler(), "crafting");
             API.setMaxDamageException(ModBlocks.matterDistillery.blockID, 0);

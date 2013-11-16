@@ -8,12 +8,16 @@ import net.minecraft.network.packet.Packet250CustomPayload;
 import redmennl.mods.efm.lib.Reference;
 import redmennl.mods.efm.network.packet.PacketEFM;
 import redmennl.mods.efm.network.packet.PacketEmcValue;
+import redmennl.mods.efm.network.packet.PacketSoundCullEvent;
+import redmennl.mods.efm.network.packet.PacketSoundEvent;
 import redmennl.mods.efm.network.packet.PacketSpawnEmcParticle;
 
 public enum PacketTypeHandler
 {
     EMCVALUE(PacketEmcValue.class), SPAWN_EMC_PARTICLE(
-            PacketSpawnEmcParticle.class);
+            PacketSpawnEmcParticle.class),
+            SOUND_EVENT(PacketSoundEvent.class),
+            SOUND_CULL_EVENT(PacketSoundCullEvent.class);
     private Class<? extends PacketEFM> clazz;
     
     PacketTypeHandler(Class<? extends PacketEFM> clazz)
