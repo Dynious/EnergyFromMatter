@@ -12,9 +12,11 @@ public class WorldEventHandler
     @ForgeSubscribe
     public void onWorldLoaded(Load event)
     {
-        if (event.world.isRemote && Loader.isModLoaded("NotEnoughItems"));
+        if (event.world.isRemote && Loader.isModLoaded("NotEnoughItems"))
+            ;
         {
-            API.registerGuiOverlayHandler(GuiMatterCreator.class, new NEIOverlayHandler(), "crafting");
+            API.registerGuiOverlayHandler(GuiMatterCreator.class,
+                    new NEIOverlayHandler(), "crafting");
             API.setMaxDamageException(ModBlocks.matterDistillery.blockID, 0);
             API.setMaxDamageException(ModBlocks.cropRipener.blockID, 0);
             API.setMaxDamageException(ModBlocks.cropRipener.blockID, 0);

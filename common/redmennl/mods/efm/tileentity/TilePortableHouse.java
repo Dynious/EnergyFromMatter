@@ -75,9 +75,16 @@ public class TilePortableHouse extends TileEntity implements ICulledSoundPlayer
                         worldObj.spawnEntityInWorld(entityItem);
                         
                         noDrop = true;
-                        PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord,
-                                64D, worldObj.provider.dimensionId, PacketTypeHandler
-                                        .populatePacket(new PacketSoundCullEvent(xCoord, yCoord, zCoord)));
+                        PacketDispatcher
+                                .sendPacketToAllAround(
+                                        xCoord,
+                                        yCoord,
+                                        zCoord,
+                                        64D,
+                                        worldObj.provider.dimensionId,
+                                        PacketTypeHandler
+                                                .populatePacket(new PacketSoundCullEvent(
+                                                        xCoord, yCoord, zCoord)));
                         worldObj.destroyBlock(xCoord, yCoord, zCoord, false);
                     }
                 }
@@ -92,9 +99,11 @@ public class TilePortableHouse extends TileEntity implements ICulledSoundPlayer
         {
             return;
         }
-        PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord,
-                64D, worldObj.provider.dimensionId, PacketTypeHandler
-                        .populatePacket(new PacketSoundEvent(Resources.MOD_ID + ":ambience", xCoord , yCoord, zCoord, 1.0F, 1.0F)));
+        PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 64D,
+                worldObj.provider.dimensionId, PacketTypeHandler
+                        .populatePacket(new PacketSoundEvent(Resources.MOD_ID
+                                + ":ambience", xCoord, yCoord, zCoord, 1.0F,
+                                1.0F)));
         
         stack = new ItemStack(this.getBlockType(), 1, 1);
         stack.setTagCompound(new NBTTagCompound());
@@ -206,14 +215,14 @@ public class TilePortableHouse extends TileEntity implements ICulledSoundPlayer
         name = nbt.getString("name");
     }
     
-    
     @Override
     public void cullSound()
     {
-        CustomSoundManager.playSound(Resources.MOD_ID + ":explosion", xCoord , yCoord, zCoord, 1.0F, 1.0F);
+        CustomSoundManager.playSound(Resources.MOD_ID + ":explosion", xCoord,
+                yCoord, zCoord, 1.0F, 1.0F);
         CustomSoundManager.cullSound(soundsource);
     }
-
+    
     @Override
     public void setCullSoundSource(String cullSoundSource)
     {

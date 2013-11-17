@@ -102,8 +102,7 @@ public class ItemGravityDefyer extends ItemPortableEmcCapacitor
                         ep.capabilities.isFlying = false;
                     }
                 }
-            }
-            else if (ep != null)
+            } else if (ep != null)
             {
                 stack.getTagCompound().setBoolean("isEnabled", false);
                 ep.capabilities.allowFlying = false;

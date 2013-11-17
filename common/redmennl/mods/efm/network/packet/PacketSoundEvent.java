@@ -12,19 +12,23 @@ import redmennl.mods.efm.client.audio.ICulledSoundPlayer;
 import redmennl.mods.efm.network.PacketTypeHandler;
 import cpw.mods.fml.common.network.Player;
 
-public class PacketSoundEvent extends PacketEFM {
-
+public class PacketSoundEvent extends PacketEFM
+{
+    
     public String soundName;
     public int x, y, z;
     public float volume, pitch;
-
-    public PacketSoundEvent() {
-
+    
+    public PacketSoundEvent()
+    {
+        
         super(PacketTypeHandler.SOUND_EVENT, false);
     }
-
-    public PacketSoundEvent(String soundName, int x, int y, int z, float volume, float pitch) {
-
+    
+    public PacketSoundEvent(String soundName, int x, int y, int z,
+            float volume, float pitch)
+    {
+        
         super(PacketTypeHandler.SOUND_EVENT, false);
         this.soundName = soundName;
         this.x = x;
@@ -33,10 +37,11 @@ public class PacketSoundEvent extends PacketEFM {
         this.volume = volume;
         this.pitch = pitch;
     }
-
+    
     @Override
-    public void writeData(DataOutputStream data) throws IOException {
-
+    public void writeData(DataOutputStream data) throws IOException
+    {
+        
         data.writeUTF(soundName);
         data.writeInt(x);
         data.writeInt(y);
@@ -44,10 +49,11 @@ public class PacketSoundEvent extends PacketEFM {
         data.writeFloat(volume);
         data.writeFloat(pitch);
     }
-
+    
     @Override
-    public void readData(DataInputStream data) throws IOException {
-
+    public void readData(DataInputStream data) throws IOException
+    {
+        
         soundName = data.readUTF();
         x = data.readInt();
         y = data.readInt();
@@ -55,13 +61,17 @@ public class PacketSoundEvent extends PacketEFM {
         volume = data.readFloat();
         pitch = data.readFloat();
     }
-
+    
     @Override
-    public void execute(INetworkManager manager, Player player) {
-        TileEntity tile = ((EntityPlayer)player).worldObj.getBlockTileEntity(x, y, z);
+    public void execute(INetworkManager manager, Player player)
+    {
+        TileEntity tile = ((EntityPlayer) player).worldObj.getBlockTileEntity(
+                x, y, z);
         if (tile instanceof ICulledSoundPlayer)
         {
-            ((ICulledSoundPlayer)tile).setCullSoundSource(CustomSoundManager.playSound(soundName, x + 0.5F, y + 0.5F, z + 0.5F, volume, pitch));
+            ((ICulledSoundPlayer) tile).setCullSoundSource(CustomSoundManager
+                    .playSound(soundName, x + 0.5F, y + 0.5F, z + 0.5F, volume,
+                            pitch));
         }
     }
 }

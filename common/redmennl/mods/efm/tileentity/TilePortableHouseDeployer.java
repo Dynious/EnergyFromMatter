@@ -14,7 +14,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-public class TilePortableHouseDeployer extends TileEntity implements ICulledSoundPlayer
+public class TilePortableHouseDeployer extends TileEntity implements
+        ICulledSoundPlayer
 {
     public int[] idArr = new int[9 * 2 * 5];
     public byte[] metaArr = new byte[9 * 2 * 5];
@@ -143,7 +144,8 @@ public class TilePortableHouseDeployer extends TileEntity implements ICulledSoun
                 noDrop = true;
                 PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord,
                         64D, worldObj.provider.dimensionId, PacketTypeHandler
-                                .populatePacket(new PacketSoundCullEvent(xCoord, yCoord, zCoord)));
+                                .populatePacket(new PacketSoundCullEvent(
+                                        xCoord, yCoord, zCoord)));
                 worldObj.destroyBlock(xCoord, yCoord, zCoord, false);
             }
         }
@@ -155,9 +157,11 @@ public class TilePortableHouseDeployer extends TileEntity implements ICulledSoun
         {
             return;
         }
-        PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord,
-                64D, worldObj.provider.dimensionId, PacketTypeHandler
-                        .populatePacket(new PacketSoundEvent(Resources.MOD_ID + ":ambience", xCoord , yCoord, zCoord, 1.0F, 1.0F)));
+        PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 64D,
+                worldObj.provider.dimensionId, PacketTypeHandler
+                        .populatePacket(new PacketSoundEvent(Resources.MOD_ID
+                                + ":ambience", xCoord, yCoord, zCoord, 1.0F,
+                                1.0F)));
         startDeploy = true;
     }
     
@@ -200,10 +204,11 @@ public class TilePortableHouseDeployer extends TileEntity implements ICulledSoun
     @Override
     public void cullSound()
     {
-        CustomSoundManager.playSound(Resources.MOD_ID + ":explosion", xCoord , yCoord, zCoord, 1.0F, 1.0F);
+        CustomSoundManager.playSound(Resources.MOD_ID + ":explosion", xCoord,
+                yCoord, zCoord, 1.0F, 1.0F);
         CustomSoundManager.cullSound(soundsource);
     }
-
+    
     @Override
     public void setCullSoundSource(String cullSoundSource)
     {

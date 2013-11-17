@@ -78,8 +78,8 @@ public class ModBlocks
                 's', Block.sapling, 'e', Item.enderPearl, 'w', Item.seeds, 'b',
                 new ItemStack(Item.dyePowder.itemID, 1, 15), 'p', Item.potato,
                 'c', Item.carrot);
-        GameRegistry.addRecipe(new ItemStack(matterCreator), "oeo", "ede", "oeo",
-                'o', Block.obsidian, 'e', Item.enderPearl, 'd',
+        GameRegistry.addRecipe(new ItemStack(matterCreator), "oeo", "ede",
+                "oeo", 'o', Block.obsidian, 'e', Item.enderPearl, 'd',
                 Block.blockDiamond);
         GameRegistry.addRecipe(new ItemStack(portableHouse), "ded", "ege",
                 "ded", 'd', Item.diamond, 'e', Item.enderPearl, 'g',
