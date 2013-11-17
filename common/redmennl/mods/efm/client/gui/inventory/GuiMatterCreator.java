@@ -18,12 +18,15 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiMatterCreator extends GuiContainer
 {
+    public TileMatterCreator tile;
+    
     public GuiMatterCreator(InventoryPlayer inventoryPlayer,
-            TileMatterCreator tileCondenser)
+            TileMatterCreator tile)
     {
-        super(new ContainerMatterCreator(inventoryPlayer, tileCondenser));
+        super(new ContainerMatterCreator(inventoryPlayer, tile));
         xSize = 248;
         ySize = 195;
+        this.tile = tile;
     }
     
     @Override

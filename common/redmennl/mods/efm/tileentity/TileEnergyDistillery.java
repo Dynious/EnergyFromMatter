@@ -11,6 +11,7 @@ import net.minecraftforge.common.MinecraftForge;
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler;
 import buildcraft.api.power.PowerHandler.PerditionCalculator;
+import cofh.api.energy.IEnergyHandler;
 
 import com.pahimar.ee3.emc.EmcType;
 import com.pahimar.ee3.emc.EmcValue;
@@ -21,12 +22,14 @@ import cpw.mods.fml.common.Optional.Method;
 
 @InterfaceList(value = {
         @Interface(iface = "buildcraft.api.power.IPowerReceptor", modid = "BuildCraft|Energy"),
-        @Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2") })
+        @Interface(iface = "ic2.api.energy.tile.IEnergySink", modid = "IC2"),
+        @Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore") })
 public class TileEnergyDistillery extends TileEmc implements IEnergySink,
-        IPowerReceptor
+        IPowerReceptor, IEnergyHandler
 {
     public static final int emcMjConversionSize = 250;
     public static final int emcEuConversionSize = 625;
+    public static final int emcRfConversionSize = 5000;
     private float distilledEmc = 0F;
     private int spawParticleTime = 0;
     
@@ -217,4 +220,66 @@ public class TileEnergyDistillery extends TileEmc implements IEnergySink,
         super.onChunkUnload();
     }
     
+    @Method(modid = "CoFHCore")
+    @Override
+    public boolean canInterface(ForgeDirection direction)
+    {
+        return true;
+    }
+    
+    @Method(modid = "CoFHCore")
+    @Override
+    public int extractEnergy(ForgeDirection direction, int amount,
+            boolean simulate)
+    {
+        return 0;
+    }
+    
+    @Method(modid = "CoFHCore")
+    @Override
+    public int getEnergyStored(ForgeDirection direction)
+    {
+        return Integer.MAX_VALUE;
+    }
+    
+    @Method(modid = "CoFHCore")
+    @Override
+    public int getMaxEnergyStored(ForgeDirection direction)
+    {
+        return Integer.MAX_VALUE;
+    }
+    
+    @Method(modid = "CoFHCore")
+    @Override
+    public int receiveEnergy(ForgeDirection direction, int amount,
+            boolean simulate)
+    {
+        TileEmcCapacitor emcCap = getEmcCapacitor();
+        if (emcCap != null)
+        {
+            int recievedRF;
+            if (emcCap.neededEmc(EmcType.KINETIC) * emcRfConversionSize < amount)
+            {
+                recievedRF = (int) emcCap.neededEmc(EmcType.KINETIC)
+                        * emcRfConversionSize;
+            } else
+            {
+                recievedRF = amount;
+            }
+            if (recievedRF != 0)
+            {
+                if (simulate)
+                {
+                    return recievedRF;
+                }
+                if (emcCap.addEmc(new EmcValue((float) recievedRF
+                        / emcRfConversionSize, EmcType.KINETIC)))
+                {
+                    distilledEmc += (float) recievedRF / emcRfConversionSize;
+                    return recievedRF;
+                }
+            }
+        }
+        return 0;
+    }
 }

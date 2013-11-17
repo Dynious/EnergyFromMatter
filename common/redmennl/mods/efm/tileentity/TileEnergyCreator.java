@@ -12,6 +12,7 @@ import buildcraft.api.power.IPowerEmitter;
 import buildcraft.api.power.IPowerReceptor;
 import buildcraft.api.power.PowerHandler.PowerReceiver;
 import buildcraft.api.power.PowerHandler.Type;
+import cofh.api.energy.IEnergyHandler;
 
 import com.pahimar.ee3.emc.EmcType;
 import com.pahimar.ee3.emc.EmcValue;
@@ -22,12 +23,14 @@ import cpw.mods.fml.common.Optional.Method;
 
 @InterfaceList(value = {
         @Interface(iface = "buildcraft.api.power.IPowerEmitter", modid = "BuildCraft|Energy"),
-        @Interface(iface = "ic2.api.energy.tile.IEnergyEmitter", modid = "IC2") })
+        @Interface(iface = "ic2.api.energy.tile.IEnergyEmitter", modid = "IC2"),
+        @Interface(iface = "cofh.api.energy.IEnergyHandler", modid = "CoFHCore") })
 public class TileEnergyCreator extends TileEmc implements IPowerEmitter,
-        IEnergyEmitter
+        IEnergyEmitter, IEnergyHandler
 {
     public static final int emcMjConversionSize = 250;
     public static final int emcEuConversionSize = 625;
+    public static final int emcRfConversionSize = 5000;
     private TileEntity[] tiles;
     private boolean firstUpdate = true;
     private float usedEMC = 0F;
@@ -141,6 +144,50 @@ public class TileEnergyCreator extends TileEmc implements IPowerEmitter,
                                 }
                             }
                         }
+                    } else if (EnergyFromMatter.hasCoFH
+                            && tile instanceof IEnergyHandler)
+                    {
+                        IEnergyHandler handler = (IEnergyHandler) tile;
+                        if (handler != null
+                                & handler.canInterface(ForgeDirection
+                                        .getOrientation(i).getOpposite()))
+                        {
+                            if (emcCap != null)
+                            {
+                                int usedRF;
+                                if (emcCap.getStoredEmc(EmcType.KINETIC)
+                                        * emcRfConversionSize < handler
+                                            .receiveEnergy(ForgeDirection
+                                                    .getOrientation(i)
+                                                    .getOpposite(),
+                                                    Integer.MAX_VALUE, true))
+                                {
+                                    usedRF = (int) emcCap
+                                            .getStoredEmc(EmcType.KINETIC)
+                                            * emcRfConversionSize;
+                                } else
+                                {
+                                    usedRF = handler.receiveEnergy(
+                                            ForgeDirection.getOrientation(i)
+                                                    .getOpposite(),
+                                            Integer.MAX_VALUE, true);
+                                }
+                                if (usedRF != 0)
+                                {
+                                    if (emcCap.useEmc(new EmcValue(
+                                            (float) usedRF
+                                                    / emcRfConversionSize,
+                                            EmcType.KINETIC)))
+                                    {
+                                        usedEMC += (float) usedRF
+                                                / emcRfConversionSize;
+                                        handler.receiveEnergy(ForgeDirection
+                                                .getOrientation(i)
+                                                .getOpposite(), usedRF, false);
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -234,5 +281,68 @@ public class TileEnergyCreator extends TileEmc implements IPowerEmitter,
         }
         
         super.onChunkUnload();
+    }
+    
+    @Method(modid = "CoFHCore")
+    @Override
+    public boolean canInterface(ForgeDirection direction)
+    {
+        return true;
+    }
+    
+    @Method(modid = "CoFHCore")
+    @Override
+    public int extractEnergy(ForgeDirection direction, int amount,
+            boolean simulate)
+    {
+        TileEmcCapacitor emcCap = getEmcCapacitor();
+        if (emcCap != null)
+        {
+            int usedRF;
+            if (emcCap.getStoredEmc(EmcType.KINETIC) * emcRfConversionSize < amount)
+            {
+                usedRF = (int) emcCap.getStoredEmc(EmcType.KINETIC)
+                        * emcRfConversionSize;
+            } else
+            {
+                usedRF = amount;
+            }
+            if (usedRF != 0)
+            {
+                if (simulate)
+                {
+                    return usedRF;
+                }
+                if (emcCap.useEmc(new EmcValue((float) usedRF
+                        / emcRfConversionSize, EmcType.KINETIC)))
+                {
+                    usedEMC += (float) usedRF / emcRfConversionSize;
+                    return usedRF;
+                }
+            }
+        }
+        return 0;
+    }
+    
+    @Method(modid = "CoFHCore")
+    @Override
+    public int getEnergyStored(ForgeDirection direction)
+    {
+        return Integer.MAX_VALUE;
+    }
+    
+    @Method(modid = "CoFHCore")
+    @Override
+    public int getMaxEnergyStored(ForgeDirection direction)
+    {
+        return Integer.MAX_VALUE;
+    }
+    
+    @Method(modid = "CoFHCore")
+    @Override
+    public int receiveEnergy(ForgeDirection direction, int amount,
+            boolean simulate)
+    {
+        return 0;
     }
 }
