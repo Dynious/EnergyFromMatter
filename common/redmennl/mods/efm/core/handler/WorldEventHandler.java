@@ -13,7 +13,6 @@ public class WorldEventHandler
     public void onWorldLoaded(Load event)
     {
         if (event.world.isRemote && Loader.isModLoaded("NotEnoughItems"))
-            ;
         {
             API.registerGuiOverlayHandler(GuiMatterCreator.class,
                     new NEIOverlayHandler(), "crafting");

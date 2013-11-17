@@ -1,11 +1,16 @@
 package redmennl.mods.efm.block;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import redmennl.mods.efm.EnergyFromMatter;
+import redmennl.mods.efm.lib.Resources;
 import redmennl.mods.efm.lib.Strings;
 import redmennl.mods.efm.tileentity.TileEnergyCreator;
 
@@ -69,5 +74,37 @@ public class BlockEnergyCreator extends BlockEmc
     {
         super.onBlockAdded(world, x, y, z);
         ((TileEnergyCreator) world.getBlockTileEntity(x, y, z)).scanNeighbors();
+    }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IconRegister par1IconRegister)
+    {
+        icons = new Icon[3];
+        for (int i = 0; i < icons.length; i++)
+        {
+            icons[i] = par1IconRegister.registerIcon(Resources.MOD_ID + ":"
+                    + this.getUnlocalizedName().substring(9) + i);
+        }
+    }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public Icon getIcon(int par1, int par2)
+    {
+        if (par1 == 0 || par1 == 1)
+        {
+            return icons[2];
+        }
+        else
+        {
+            switch (par2)
+            {
+                case 0:
+                    return icons[0];
+                default:
+                    return icons[1];
+            }
+        }
     }
 }

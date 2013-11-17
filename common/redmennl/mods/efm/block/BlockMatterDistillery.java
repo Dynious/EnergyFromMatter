@@ -45,7 +45,7 @@ public class BlockMatterDistillery extends BlockEmc
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister)
     {
-        icons = new Icon[6];
+        icons = new Icon[8];
         for (int i = 0; i < icons.length; i++)
         {
             icons[i] = par1IconRegister.registerIcon(Resources.MOD_ID + ":"
@@ -75,13 +75,53 @@ public class BlockMatterDistillery extends BlockEmc
                     default:
                         return icons[1];
                 }
-            default:
+            case 2:
+            {
                 switch (par2)
                 {
                     case 0:
                         return icons[2];
                     default:
                         return icons[3];
+                }
+            }
+            case 3:
+            {
+                switch (par2)
+                {
+                    case 0:
+                        return icons[2];
+                    default:
+                        return icons[3];
+                }
+            }
+            case 4:
+            {
+                switch (par2)
+                {
+                    case 0:
+                        return icons[6];
+                    default:
+                        return icons[7];
+                }
+            }
+            case 5:
+            {
+                switch (par2)
+                {
+                    case 0:
+                        return icons[6];
+                    default:
+                        return icons[7];
+                }
+            }
+            default:
+                switch (par2)
+                {
+                    case 0:
+                        return icons[6];
+                    default:
+                        return icons[7];
                 }
         }
     }

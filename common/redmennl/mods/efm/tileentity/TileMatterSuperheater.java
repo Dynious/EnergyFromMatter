@@ -22,7 +22,7 @@ public class TileMatterSuperheater extends TileEmc implements IInventory,
     
     private int spawParticleTime = 0;
     
-    private boolean enoughEMC = true;
+    private boolean enoughEMC = false;
     
     public TileMatterSuperheater()
     {
@@ -42,37 +42,40 @@ public class TileMatterSuperheater extends TileEmc implements IInventory,
         spawParticleTime++;
         
         TileEmcCapacitor emcCap = getEmcCapacitor();
-        if (spawParticleTime >= 20 && emcCap != null)
+        if (emcCap != null)
         {
-            emcCap.spawnEmcPartcle(new EmcValue(0.02F, EmcType.KINETIC),
-                    this.xCoord, this.yCoord, this.zCoord, false);
-            emcCap.spawnEmcPartcle(emcValue, this.xCoord, this.yCoord,
-                    this.zCoord, true);
-            emcValue = new EmcValue();
-            spawParticleTime = 0;
-        }
-        
-        if (!emcCap.useEmc(new EmcValue(0.001F, EmcType.KINETIC)))
-        {
-            enoughEMC = false;
-        } else
-        {
-            enoughEMC = true;
-        }
-        
-        if (getStackInSlot(0) != null && enoughEMC)
-        {
-            if (EmcRegistry.hasEmcValue(getStackInSlot(0)))
+            if (spawParticleTime >= 20)
             {
-                EmcValue addedValue = EmcRegistry
-                        .getEmcValue(getStackInSlot(0));
-                emcCap.addEmc(addedValue);
-                for (int i = 0; i < addedValue.components.length; i++)
-                {
-                    emcValue.components[i] += addedValue.components[i];
-                }
+                emcCap.spawnEmcPartcle(new EmcValue(0.02F, EmcType.KINETIC),
+                        this.xCoord, this.yCoord, this.zCoord, false);
+                emcCap.spawnEmcPartcle(emcValue, this.xCoord, this.yCoord,
+                        this.zCoord, true);
+                emcValue = new EmcValue();
+                spawParticleTime = 0;
             }
-            inventory[0] = null;
+            
+            if (!emcCap.useEmc(new EmcValue(0.001F, EmcType.KINETIC)))
+            {
+                enoughEMC = false;
+            } else
+            {
+                enoughEMC = true;
+            }
+            
+            if (getStackInSlot(0) != null && enoughEMC)
+            {
+                if (EmcRegistry.hasEmcValue(getStackInSlot(0)))
+                {
+                    EmcValue addedValue = EmcRegistry
+                            .getEmcValue(getStackInSlot(0));
+                    emcCap.addEmc(addedValue);
+                    for (int i = 0; i < addedValue.components.length; i++)
+                    {
+                        emcValue.components[i] += addedValue.components[i];
+                    }
+                }
+                inventory[0] = null;
+            }
         }
     }
     
@@ -138,17 +141,21 @@ public class TileMatterSuperheater extends TileEmc implements IInventory,
     {
         if (getStackInSlot(0) != null && enoughEMC)
         {
-            if (EmcRegistry.hasEmcValue(getStackInSlot(0)))
+            TileEmcCapacitor emcCap = getEmcCapacitor();
+            if (emcCap != null)
             {
-                EmcValue addedValue = EmcRegistry
-                        .getEmcValue(getStackInSlot(0));
-                getEmcCapacitor().addEmc(addedValue);
-                for (int i = 0; i < addedValue.components.length; i++)
+                if (EmcRegistry.hasEmcValue(getStackInSlot(0)))
                 {
+                    EmcValue addedValue = EmcRegistry
+                        .getEmcValue(getStackInSlot(0));
+                    emcCap.addEmc(addedValue);
+                    for (int i = 0; i < addedValue.components.length; i++)
+                    {
                     emcValue.components[i] += addedValue.components[i];
+                    }
                 }
+                inventory[0] = null;
             }
-            inventory[0] = null;
         }
         
         super.onInventoryChanged();
