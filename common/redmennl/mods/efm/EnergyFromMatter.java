@@ -38,6 +38,7 @@ public class EnergyFromMatter
     public static boolean hasBC;
     public static boolean hasIC2;
     public static boolean hasCoFH;
+    public static boolean hasAE2;
     
     @EventHandler
     public void invalidFingerprint(FMLFingerprintViolationEvent event)
@@ -56,10 +57,11 @@ public class EnergyFromMatter
     @EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
-        // Checks if IC2 and Buildcraft are present
+        // Checks if other mods are present
         hasBC = Loader.isModLoaded("BuildCraft|Energy");
         hasIC2 = Loader.isModLoaded("IC2");
         hasCoFH = Loader.isModLoaded("CoFHCore");
+        hasAE2 = Loader.isModLoaded("appliedenergistics2");
         
         // Initialize the log helper
         LogHelper.init();

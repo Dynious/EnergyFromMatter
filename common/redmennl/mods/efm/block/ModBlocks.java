@@ -24,6 +24,8 @@ public class ModBlocks
     public static Block fluidCreator;
     public static Block matterSuperheater;
     public static Block energyDistillery;
+    public static Block creatorInterface;
+    public static Block matterCondenser;
     
     public static void init()
     {
@@ -36,6 +38,7 @@ public class ModBlocks
         fluidCreator = new BlockFluidCreator(BlockIds.FLUID_CREATOR);
         matterSuperheater = new BlockMatterSuperheater(
                 BlockIds.MATTER_SUPERHEATER);
+        matterCondenser = new BlockMatterCondenser(BlockIds.MATTER_CONDENSER);
         
         if (EnergyFromMatter.hasBC || EnergyFromMatter.hasIC2)
         {
@@ -47,6 +50,14 @@ public class ModBlocks
                     Strings.ENERGY_CREATOR_NAME);
             GameRegistry.registerBlock(energyDistillery,
                     Strings.ENERGY_DISTILLERY_NAME);
+        }
+        
+        if (EnergyFromMatter.hasAE2)
+        {
+            creatorInterface = new BlockCreatorInterface(
+                    BlockIds.CREATOR_INTERFACE);
+            GameRegistry.registerBlock(creatorInterface,
+                    Strings.CREATOR_INTERFACE_NAME);
         }
         
         GameRegistry.registerBlock(matterDistillery,
@@ -61,6 +72,8 @@ public class ModBlocks
         GameRegistry.registerBlock(fluidCreator, Strings.FLUID_CREATOR_NAME);
         GameRegistry.registerBlock(matterSuperheater,
                 Strings.MATTER_SUPERHEATER_NAME);
+        GameRegistry.registerBlock(matterCondenser,
+                Strings.MATTER_CONDENSER_NAME);
         
         initBlockRecipes();
     }

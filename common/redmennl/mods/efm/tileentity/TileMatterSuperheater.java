@@ -147,11 +147,11 @@ public class TileMatterSuperheater extends TileEmc implements IInventory,
                 if (EmcRegistry.hasEmcValue(getStackInSlot(0)))
                 {
                     EmcValue addedValue = EmcRegistry
-                        .getEmcValue(getStackInSlot(0));
+                            .getEmcValue(getStackInSlot(0));
                     emcCap.addEmc(addedValue);
                     for (int i = 0; i < addedValue.components.length; i++)
                     {
-                    emcValue.components[i] += addedValue.components[i];
+                        emcValue.components[i] += addedValue.components[i];
                     }
                 }
                 inventory[0] = null;

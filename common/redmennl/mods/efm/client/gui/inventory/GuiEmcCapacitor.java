@@ -83,10 +83,4 @@ public class GuiEmcCapacitor extends GuiContainer
                     166, 19, 67);
         }
     }
-    
-    @Override
-    protected void mouseMovedOrUp(int x, int y, int type)
-    {
-        super.mouseMovedOrUp(x, y, type);
-    }
 }

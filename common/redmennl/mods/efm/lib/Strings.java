@@ -25,6 +25,8 @@ public class Strings
     public static final String FLUID_CREATOR_NAME = "fluidCreator";
     public static final String MATTER_SUPERHEATER_NAME = "matterSuperheater";
     public static final String ENERGY_DISTILLERY_NAME = "energyDistillery";
+    public static final String CREATOR_INTERFACE_NAME = "creatorInterface";
+    public static final String MATTER_CONDENSER_NAME = "matterCondenser";
     
     public static final String LINKER_NAME = "linker";
     public static final String PORTABLE_EMC_CAPACITOR_NAME = "portableEmcCapacitor";

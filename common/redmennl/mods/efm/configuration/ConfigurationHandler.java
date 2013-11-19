@@ -56,6 +56,14 @@ public class ConfigurationHandler
                     Strings.ENERGY_DISTILLERY_NAME,
                     BlockIds.ENERGY_DISTILLERY_DEFAULT).getInt(
                     BlockIds.ENERGY_DISTILLERY_DEFAULT);
+            BlockIds.CREATOR_INTERFACE = configuration.getBlock(
+                    Strings.CREATOR_INTERFACE_NAME,
+                    BlockIds.CREATOR_INTERFACE_DEFAULT).getInt(
+                    BlockIds.CREATOR_INTERFACE_DEFAULT);
+            BlockIds.MATTER_CONDENSER = configuration.getBlock(
+                    Strings.MATTER_CONDENSER_NAME,
+                    BlockIds.MATTER_CONDENSER_DEFAULT).getInt(
+                    BlockIds.MATTER_CONDENSER_DEFAULT);
             
             ItemIds.LINKER = configuration.getItem(Strings.LINKER_NAME,
                     ItemIds.LINKER_DEFAULT).getInt(ItemIds.LINKER_DEFAULT);

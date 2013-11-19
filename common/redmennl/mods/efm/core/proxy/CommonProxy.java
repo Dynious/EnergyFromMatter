@@ -4,28 +4,28 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import redmennl.mods.efm.EnergyFromMatter;
-import redmennl.mods.efm.client.gui.inventory.GuiMatterCreator;
 import redmennl.mods.efm.client.gui.inventory.GuiCropRipener;
 import redmennl.mods.efm.client.gui.inventory.GuiEmcCapacitor;
+import redmennl.mods.efm.client.gui.inventory.GuiMatterCreator;
 import redmennl.mods.efm.client.gui.inventory.GuiMatterDistillery;
 import redmennl.mods.efm.client.gui.inventory.GuiPortableHouse;
-import redmennl.mods.efm.inventory.ContainerMatterCreator;
 import redmennl.mods.efm.inventory.ContainerCropRipener;
 import redmennl.mods.efm.inventory.ContainerEmcCapacitor;
+import redmennl.mods.efm.inventory.ContainerMatterCreator;
 import redmennl.mods.efm.inventory.ContainerMatterDistillery;
 import redmennl.mods.efm.lib.GuiIds;
 import redmennl.mods.efm.lib.Strings;
-import redmennl.mods.efm.tileentity.TileEnergyDistillery;
-import redmennl.mods.efm.tileentity.TileMatterCreator;
 import redmennl.mods.efm.tileentity.TileCropRipener;
 import redmennl.mods.efm.tileentity.TileEmcCapacitor;
+import redmennl.mods.efm.tileentity.TileEnergyCreator;
+import redmennl.mods.efm.tileentity.TileEnergyDistillery;
 import redmennl.mods.efm.tileentity.TileFluidCreator;
 import redmennl.mods.efm.tileentity.TileFluidDistillery;
+import redmennl.mods.efm.tileentity.TileMatterCreator;
 import redmennl.mods.efm.tileentity.TileMatterDistillery;
 import redmennl.mods.efm.tileentity.TileMatterSuperheater;
 import redmennl.mods.efm.tileentity.TilePortableHouse;
 import redmennl.mods.efm.tileentity.TilePortableHouseDeployer;
-import redmennl.mods.efm.tileentity.TileEnergyCreator;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -62,6 +62,11 @@ public class CommonProxy implements IGuiHandler
                     Strings.ENERGY_CREATOR_NAME);
             GameRegistry.registerTileEntity(TileEnergyDistillery.class,
                     Strings.ENERGY_DISTILLERY_NAME);
+        }
+        if (EnergyFromMatter.hasAE2)
+        {
+            //GameRegistry.registerTileEntity(TileCreatorInterface.class,
+            //        Strings.CREATOR_INTERFACE_NAME);
         }
     }
     

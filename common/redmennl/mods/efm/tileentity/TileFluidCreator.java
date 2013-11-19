@@ -16,13 +16,14 @@ import com.pahimar.ee3.emc.EmcValue;
 public class TileFluidCreator extends TileEmc implements IFluidHandler
 {
     public int fluidID;
+    public boolean lockFluid = false;
     private EmcValue condensedEmc = new EmcValue();
     private int spawParticleTime = 0;
     
     public TileFluidCreator()
     {
         super();
-        fluidID = FluidRegistry.getFluidID("water");
+        fluidID = 0;
     }
     
     @Override
@@ -51,6 +52,7 @@ public class TileFluidCreator extends TileEmc implements IFluidHandler
     {
         super.readFromNBT(nbtTagCompound);
         fluidID = nbtTagCompound.getInteger("fluidID");
+        lockFluid = nbtTagCompound.getBoolean("lockFluid");
     }
     
     @Override
@@ -58,6 +60,7 @@ public class TileFluidCreator extends TileEmc implements IFluidHandler
     {
         super.writeToNBT(nbtTagCompound);
         nbtTagCompound.setInteger("fluidID", fluidID);
+        nbtTagCompound.setBoolean("lockFluid", lockFluid);
     }
     
     @Override
@@ -69,7 +72,8 @@ public class TileFluidCreator extends TileEmc implements IFluidHandler
     @Override
     public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain)
     {
-        if (worldObj.isRemote)
+        if (worldObj.isRemote || FluidRegistry.getFluid(fluidID) == null
+                || FluidRegistry.getFluid(fluidID).getBlockID() <= 0)
         {
             return null;
         }
@@ -131,7 +135,9 @@ public class TileFluidCreator extends TileEmc implements IFluidHandler
     public FluidStack drain(ForgeDirection from, FluidStack resource,
             boolean doDrain)
     {
-        if (worldObj.isRemote || resource.getFluid().getBlockID() <= 0)
+        if (worldObj.isRemote || FluidRegistry.getFluid(fluidID) == null
+                || resource.getFluid().getBlockID() <= 0
+                || (lockFluid && resource.fluidID != fluidID))
         {
             return null;
         }

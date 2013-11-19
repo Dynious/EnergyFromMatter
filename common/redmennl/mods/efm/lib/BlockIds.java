@@ -12,6 +12,8 @@ public class BlockIds
     public static int FLUID_CREATOR_DEFAULT = 1537;
     public static int MATTER_SUPERHEATER_DEFAULT = 1538;
     public static int ENERGY_DISTILLERY_DEFAULT = 1539;
+    public static int CREATOR_INTERFACE_DEFAULT = 1540;
+    public static int MATTER_CONDENSER_DEFAULT = 1541;
     
     public static int ENERGY_CONDENSER;
     public static int MATTER_DISTILLERY;
@@ -24,4 +26,6 @@ public class BlockIds
     public static int FLUID_CREATOR;
     public static int MATTER_SUPERHEATER;
     public static int ENERGY_DISTILLERY;
+    public static int CREATOR_INTERFACE;
+    public static int MATTER_CONDENSER;
 }

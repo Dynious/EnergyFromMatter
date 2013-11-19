@@ -67,8 +67,7 @@ public class BlockFluidCreator extends BlockEmc
         if (par1 == 0 || par1 == 1)
         {
             return icons[2];
-        }
-        else
+        } else
         {
             switch (par2)
             {
