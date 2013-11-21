@@ -1,18 +1,19 @@
 package redmennl.mods.efm.tileentity;
 
-import cpw.mods.fml.common.network.PacketDispatcher;
-import redmennl.mods.efm.client.audio.CustomSoundManager;
-import redmennl.mods.efm.client.audio.ICulledSoundPlayer;
-import redmennl.mods.efm.lib.Resources;
-import redmennl.mods.efm.network.PacketTypeHandler;
-import redmennl.mods.efm.network.packet.PacketSoundCullEvent;
-import redmennl.mods.efm.network.packet.PacketSoundEvent;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import redmennl.mods.efm.client.audio.CustomSoundManager;
+import redmennl.mods.efm.client.audio.ICulledSoundPlayer;
+import redmennl.mods.efm.lib.Resources;
+import redmennl.mods.efm.network.PacketTypeHandler;
+import redmennl.mods.efm.network.packet.PacketSetBlockContainer;
+import redmennl.mods.efm.network.packet.PacketSoundCullEvent;
+import redmennl.mods.efm.network.packet.PacketSoundEvent;
+import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class TilePortableHouseDeployer extends TileEntity implements
         ICulledSoundPlayer
@@ -95,7 +96,7 @@ public class TilePortableHouseDeployer extends TileEntity implements
                         + yArr[currentBlock], zStart + zArr[currentBlock], true);
                 worldObj.setBlock(xStart + xArr[currentBlock], yCoord - 1
                         + yArr[currentBlock], zStart + zArr[currentBlock],
-                        idArr[currentBlock], metaArr[currentBlock], 2);
+                        idArr[currentBlock], metaArr[currentBlock], 0);
                 
                 TileEntity TE = worldObj.getBlockTileEntity(xStart
                         + xArr[currentBlock], yCoord - 1 + yArr[currentBlock],
@@ -112,6 +113,21 @@ public class TilePortableHouseDeployer extends TileEntity implements
                         nbt.setInteger("y", yCoord - 1 + yArr[currentBlock]);
                         nbt.setInteger("z", zStart + zArr[currentBlock]);
                         TE.readFromNBT(nbt);
+                        PacketDispatcher
+                                .sendPacketToAllAround(
+                                        TE.xCoord,
+                                        TE.yCoord,
+                                        TE.zCoord,
+                                        64D,
+                                        worldObj.provider.dimensionId,
+                                        PacketTypeHandler
+                                                .populatePacket(new PacketSetBlockContainer(
+                                                        TE.xCoord,
+                                                        TE.yCoord,
+                                                        TE.zCoord,
+                                                        TE.getBlockType().blockID,
+                                                        TE.getBlockMetadata(),
+                                                        nbt)));
                     }
                 }
             }

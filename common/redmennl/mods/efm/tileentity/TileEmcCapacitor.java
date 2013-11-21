@@ -11,6 +11,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import redmennl.mods.efm.emc.IEmcHolder;
 import redmennl.mods.efm.emc.IPortableEmcHolder;
+import redmennl.mods.efm.item.ItemPortableEmcCapacitor;
 import redmennl.mods.efm.lib.EmcRGBValues;
 import redmennl.mods.efm.lib.RGBValue;
 import redmennl.mods.efm.network.PacketTypeHandler;
@@ -292,6 +293,13 @@ public class TileEmcCapacitor extends TileEntity implements IInventory,
                 if (gettingStack.useEmc(emcAdded, getStackInSlot(1)))
                 {
                     addEmc(emcAdded);
+                }
+            }
+            if (gettingStack instanceof ItemPortableEmcCapacitor)
+            {
+                for (EmcType type : EmcType.values())
+                {
+                    addEmc(new EmcValue(neededEmc(type), type));
                 }
             }
         }

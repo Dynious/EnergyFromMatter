@@ -102,10 +102,9 @@ public class PacketSlotChange extends PacketEFM
     {
         TileEntity tile = ((EntityPlayer) player).worldObj.getBlockTileEntity(
                 x, y, z);
-        if (tile instanceof IInventory)
+        if (tile != null && tile instanceof IInventory)
         {
             ((IInventory) tile).setInventorySlotContents(slot, stack);
-            ;
         }
     }
 }

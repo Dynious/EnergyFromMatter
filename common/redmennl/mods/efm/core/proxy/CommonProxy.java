@@ -4,12 +4,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import redmennl.mods.efm.EnergyFromMatter;
-import redmennl.mods.efm.client.gui.inventory.GuiCropRipener;
 import redmennl.mods.efm.client.gui.inventory.GuiEmcCapacitor;
 import redmennl.mods.efm.client.gui.inventory.GuiMatterCreator;
 import redmennl.mods.efm.client.gui.inventory.GuiMatterDistillery;
 import redmennl.mods.efm.client.gui.inventory.GuiPortableHouse;
-import redmennl.mods.efm.inventory.ContainerCropRipener;
 import redmennl.mods.efm.inventory.ContainerEmcCapacitor;
 import redmennl.mods.efm.inventory.ContainerMatterCreator;
 import redmennl.mods.efm.inventory.ContainerMatterDistillery;
@@ -21,6 +19,7 @@ import redmennl.mods.efm.tileentity.TileEnergyCreator;
 import redmennl.mods.efm.tileentity.TileEnergyDistillery;
 import redmennl.mods.efm.tileentity.TileFluidCreator;
 import redmennl.mods.efm.tileentity.TileFluidDistillery;
+import redmennl.mods.efm.tileentity.TileMatterCondenser;
 import redmennl.mods.efm.tileentity.TileMatterCreator;
 import redmennl.mods.efm.tileentity.TileMatterDistillery;
 import redmennl.mods.efm.tileentity.TileMatterSuperheater;
@@ -55,6 +54,8 @@ public class CommonProxy implements IGuiHandler
                 Strings.FLUID_CREATOR_NAME);
         GameRegistry.registerTileEntity(TileMatterSuperheater.class,
                 Strings.MATTER_SUPERHEATER_NAME);
+        GameRegistry.registerTileEntity(TileMatterCondenser.class,
+                Strings.MATTER_CONDENSER_NAME);
         
         if (EnergyFromMatter.hasBC || EnergyFromMatter.hasIC2)
         {
@@ -92,11 +93,6 @@ public class CommonProxy implements IGuiHandler
             TileEmcCapacitor tile = (TileEmcCapacitor) world
                     .getBlockTileEntity(x, y, z);
             return new ContainerEmcCapacitor(player.inventory, tile);
-        } else if (ID == GuiIds.CROP_RIPENER)
-        {
-            TileCropRipener tile = (TileCropRipener) world.getBlockTileEntity(
-                    x, y, z);
-            return new ContainerCropRipener(player.inventory, tile);
         } else if (ID == GuiIds.MATTER_CREATOR)
         {
             TileMatterCreator tile = (TileMatterCreator) world
@@ -120,11 +116,6 @@ public class CommonProxy implements IGuiHandler
             TileEmcCapacitor tile = (TileEmcCapacitor) world
                     .getBlockTileEntity(x, y, z);
             return new GuiEmcCapacitor(player.inventory, tile);
-        } else if (ID == GuiIds.CROP_RIPENER)
-        {
-            TileCropRipener tile = (TileCropRipener) world.getBlockTileEntity(
-                    x, y, z);
-            return new GuiCropRipener(player.inventory, tile);
         } else if (ID == GuiIds.MATTER_CREATOR)
         {
             TileMatterCreator tile = (TileMatterCreator) world
