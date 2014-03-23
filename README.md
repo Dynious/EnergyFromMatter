@@ -1,6 +1,8 @@
 Energy From Matter
 ================
 
+###THIS PROJECT HAS BEEN DISCONTINUED
+
 This is the official GitHub page for Energy From Matter!
 
 [Minecraft Forums page](http://www.minecraftforum.net/topic/2087313-164ee3-addonenergy-from-matter-use-emc-for-more-than-just-transmutation)
